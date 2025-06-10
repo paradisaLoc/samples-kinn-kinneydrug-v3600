@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html class="ChildFix" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/sms_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_info.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_cube.css" type="text/css" />
+<script src="../../Images/sms.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+@DBHOT(REG,SET,USER@USER/Cube/cub_KDLOC_daily_dept_sales*)
+
+function SmsLoad() 
+{
+  VariableInit('@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','Http:/Scripts/trs.exe');
+  top.BodyLoad(document);
+  top.CursorSetFocus(document,"@wizget(CS)","@wizget(CP)");
+}
+
+function ReadCubeKey(oWin)
+{
+  if (oWin.event.keyCode==33)
+    oWin.document.all("BtnPrev").click();
+  else if (oWin.event.keyCode==34)
+    oWin.document.all("BtnNext").click();
+}
+
+function GoUrl(sUrl)
+{
+  document.location='Http:/Scripts/Trs.exe?TN=@TER&amp;CN=@CNC&amp;'+sUrl;
+}
+</script>
+
+    <title>Daily Sales - Department</title>
+  </head>
+
+  <body class="InfoRpt" onkeydown="ReadCubeKey(window)" onload="SmsLoad()">
+    <object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <td class="HdrCel">Daily Department Sales</td>
+
+          <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="window.print()" type="button" value="Print" /></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="HideTxt">
+	
+	@wizrpl(DPTOBJ=&lt;select class="EntList" smsattrib="@ATTRIB(S,sql=Script/cub_KDLOC_daily_dept_sales&amp;DATE=@wizget(DATE)&amp;TARGET=@wizget(TARGET))" style="WIDTH: 130px" size="1" name="F03" truevalue="@wizget(F03)"&gt;&lt;option value="ALL"&gt;All&lt;/option&gt;)<br />
+	@dbTABLE(Q3,SELECT RPT.F03,DPT.F238 FROM RPT_DPT RPT JOIN DEPT_TAB DPT ON RPT.F03=DPT.F03 GROUP BY RPT.F03,DPT.F238) 
+	<pre>
+	@wizrpl(DPTOBJ=@wizget(DPTOBJ)&lt;option value="@dbROW(Q3,F03,#)"&gt;@dbROW(Q3,F03,#) - @dbROW(Q3,F238,L)&lt;/option&gt;)
+	</pre>
+	@wizrpl(DPTOBJ=@wizget(DPTOBJ)&lt;/select&gt;)
+	@FMT(CMP,@WIZGET(F03)=ALL,,'®WIZRPL(F03_COND=AND F03=®WIZGET(F03))')
+    </div>
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+				<tr>
+					<td class="EntCap">Date</td>
+
+					<td class="EntInp"><input class="EntBtn" style="WIDTH: 20px" datasrc="@ATTRIB(B)" onclick="GoUrl('SQL=Script/cub_KDLOC_daily_dept_sales&amp;DATE=@DATE(@wizget(DATE),DSD-M1F)&amp;FORM=@WIZGET(FORM)&amp;F03=@wizget(F03)&amp;TARGET=@WIZGET(TARGET)')" type="button" value="&lt;&lt;" name="BtnPrev" /> <input class="EntDat" style="WIDTH: 70px" datasrc="@ATTRIB(E:date,SQL=Script/cub_KDLOC_daily_dept_sales&amp;FORM=@WIZGET(FORM)&amp;F03=@wizget(F03)&amp;TARGET=@WIZGET(TARGET))" value="@DATE(@WIZGET(DATE),DWMF)" name="DATE$DW2S" /> <input class="EntBtn" style="WIDTH: 20px" datasrc="@ATTRIB(B)" onclick="GoUrl('SQL=Script/cub_KDLOC_daily_dept_sales&amp;DATE=@DATE(@wizget(DATE),DSD+M1F)&amp;FORM=@WIZGET(FORM)&amp;F03=@wizget(F03)&amp;TARGET=@WIZGET(TARGET)')" type="button" value="&gt;&gt;" name="BtnNext" /></td>
+				</tr>
+              </tbody>
+            </table>
+          </td>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+				<tr>
+					<td class="EntCap">Target</td>
+					<td class="EntInp"><input class="EntGridTxt" style="WIDTH: 40px" value="@WIZGET(TARGET)" name="TARGET" smsattrib="@ATTRIB(E:txt:F1000_RPT,sql=Script/cub_KDLOC_daily_dept_sales&amp;DATE=@WIZGET(DATE)&amp;FORM=@WIZGET(FORM)&amp;F03=@wizget(F03))" /></td>
+					<td class="EntVal"><input class="EntValTxt" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT F1018 FROM STO_TAB WHERE F1000='@WIZGET(TARGET)')" /></td>
+				</tr>
+              </tbody>
+            </table>
+          </td>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+				 <tr>
+					<td class="EntCap">Dpt</td>
+					<td class="EntInp">@wizget(DPTOBJ)</td>
+				</tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+	
+	
+	<div class="HideTxt">
+		@dbTable(Q1,BEGIN
+	DECLARE @DATE_FROM DATETIME, @DATE_TO DATETIME,@TARGET VARCHAR(10)
+	SET @DATE_FROM = '@DATE(@WIZGET(DATE),DSMD)'
+	SET @DATE_TO = '@DATE(@WIZGET(DATE),DSMF)'
+	SET @TARGET='@WIZGET(TARGET)';
+	WITH DATES AS(
+		SELECT @DATE_FROM AS F254
+		UNION ALL
+		SELECT DATEADD(D,1,F254) FROM DATES WHERE F254<@DATE_TO
+	)
+	SELECT TMP.F254,ISNULL(TYS.F65,0) AS F1301,ISNULL(TYC.F65,0) AS F1302,ISNULL(LYS.F65,0) AS F1303,ISNULL(LYC.F65,0) AS F1304
+	FROM DATES TMP
+	LEFT OUTER JOIN (SELECT F254,SUM(F65) AS F65 FROM RPT_DPT WHERE F1034=3 AND F254 BETWEEN @DATE_FROM AND @DATE_TO AND F1056 IN (SELECT DISTINCT F1056 FROM LNK_TAB WHERE F1000=@TARGET) AND F1031='D' @WIZGET(F03_COND) GROUP BY F254) TYS ON TYS.F254=TMP.F254
+	LEFT OUTER JOIN (SELECT F254,SUM(F65) AS F65 FROM RPT_DPT WHERE F1034=8101 AND F254 BETWEEN @DATE_FROM AND @DATE_TO AND F1056 IN (SELECT DISTINCT F1056 FROM LNK_TAB WHERE F1000=@TARGET) AND F1031='D' @WIZGET(F03_COND) GROUP BY F254) TYC ON TYC.F254=TMP.F254
+	LEFT OUTER JOIN (SELECT F254,SUM(F65) AS F65 FROM RPT_DPT WHERE F1034=3 AND F254 BETWEEN DATEADD(YY,-1,@DATE_FROM) AND DATEADD(YY,-1,@DATE_TO) AND F1056 IN (SELECT DISTINCT F1056 FROM LNK_TAB WHERE F1000=@TARGET) AND F1031='D' @WIZGET(F03_COND) GROUP BY F254) LYS ON LYS.F254=DATEADD(YY,-1,TMP.F254)
+	LEFT OUTER JOIN (SELECT F254,SUM(F65) AS F65 FROM RPT_DPT WHERE F1034=8101 AND F254 BETWEEN DATEADD(YY,-1,@DATE_FROM) AND DATEADD(YY,-1,@DATE_TO) AND F1056 IN (SELECT DISTINCT F1056 FROM LNK_TAB WHERE F1000=@TARGET) AND F1031='D' @WIZGET(F03_COND) GROUP BY F254) LYC ON LYC.F254=DATEADD(YY,-1,TMP.F254)
+END)
+	</div>
+@RPTCLR(TSTY,TSLY,TCTY,TCLY,TPTY,TPLY)
+    <table class="FrmTab" style="MARGIN-TOP: 15px">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="RptTab">
+              <tbody>
+				<tr>
+					<th class="RptCap" style="WIDTH: 80px"></th>
+					<th class="RptCap" colspan="3">$ Sales</th>
+					<th class="RptCap" colspan="2">$ Cost</th>
+					<th class="RptCap" colspan="2">$ Profit</th>
+					<th class="RptCap" colspan="2">GM %</th>
+					
+				</tr>
+				<tr>
+					<th class="RptCap" style="WIDTH: 80px">@DATE(@WIZGET(DATE),LTR,M)</th>
+					<th class="RptCap" style="WIDTH: 80px">TY</th>
+					<th class="RptCap" style="WIDTH: 80px">LY</th>
+					<th class="RptCap" style="WIDTH: 80px">%</th>
+					<th class="RptCap" style="WIDTH: 80px">TY</th>
+					<th class="RptCap" style="WIDTH: 80px">LY</th>
+					<th class="RptCap" style="WIDTH: 80px">TY</th>
+					<th class="RptCap" style="WIDTH: 80px">LY</th>
+					<th class="RptCap" style="WIDTH: 80px">TY</th>
+					<th class="RptCap" style="WIDTH: 80px">LY</th>
+				</tr>
+				<tr>
+@RPTCLR(STY,SLY,CTY,CLY)
+					<td class="RptCap" style="WIDTH: 80px">@DBROW(Q1,F254,DDDF)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@DBROW(Q1,F1301,#:2,STY;TSTY)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@DBROW(Q1,F1302,#:2,SLY;TSLY)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(@RPTTTL(STY-SLY,#)*100/@FMT(CMP,'@RPTTTL(SLY,#)=0',1,'®RPTTTL(SLY,#)'),#:2)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@DBROW(Q1,F1303,#:2,CTY;TCTY)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@DBROW(Q1,F1304,#:2,CLY;TCLY)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(STY-CTY,#:2,TPTY)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(SLY-CLY,#:2,TPLY)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(@RPTTTL(STY-CTY,#)*100/@FMT(CMP,'@RPTTTL(CTY,#)=0',1,'®RPTTTL(CTY,#)'),#:2)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(@RPTTTL(SLY-CLY,#)*100/@FMT(CMP,'@RPTTTL(CLY,#)=0',1,'®RPTTTL(CLY,#)'),#:2)</td>
+				</tr>
+				<tr>
+					<th class="RptCap" style="WIDTH: 80px">MTD</th>
+					<th class="RptCap" style="WIDTH: 80px">@RPTTTL(TSTY,#:2)</th>
+					<th class="RptCap" style="WIDTH: 80px">@RPTTTL(TSLY,#:2)</th>
+					<th class="RptCap" style="WIDTH: 80px">@RPTTTL(@RPTTTL(TSTY-TSLY,#)*100/@FMT(CMP,'@RPTTTL(TSLY,#)=0',1,'®RPTTTL(TSLY,#)'),#:2)</th>
+					<th class="RptCap" style="WIDTH: 80px">@RPTTTL(TCTY,#:2)</th>
+					<th class="RptCap" style="WIDTH: 80px">@RPTTTL(TCLY,#:2)</th>
+					<th class="RptCap" style="WIDTH: 80px">@RPTTTL(TPTY,#:2)</th>
+					<th class="RptCap" style="WIDTH: 80px">@RPTTTL(TPLY,#:2)</th>
+					<th class="RptCap" style="WIDTH: 80px">@RPTTTL(@RPTTTL(TSTY-TCTY,#)*100/@FMT(CMP,'@RPTTTL(TCTY,#)=0',1,'®RPTTTL(TCTY,#)'),#:2)</th>
+					<th class="RptCap" style="WIDTH: 80px">@RPTTTL(@RPTTTL(TSLY-TCLY,#)*100/@FMT(CMP,'@RPTTTL(TSLY,#)=0',1,'®RPTTTL(TSLY,#)'),#:2)</th>
+				</tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

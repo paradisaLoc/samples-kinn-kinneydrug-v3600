@@ -1,0 +1,105 @@
+{
+    "type": "Ext.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "cls": [
+            "sms-view-item"
+        ],
+        "designer|userAlias": "itmhost",
+        "designer|userClassName": "Itm.Host",
+        "layout": "fit"
+    },
+    "designerId": "b55b0a4c-11a1-4491-92db-33a4b012ddbb",
+    "cn": [
+        {
+            "type": "Ext.Toolbar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "sms-desktop-tool"
+                ],
+                "defaults": null,
+                "docked": "bottom",
+                "height": null,
+                "itemId": null,
+                "scrollable": "horizontal",
+                "style": null,
+                "ui": null
+            },
+            "name": "MyToolbar20",
+            "designerId": "eca4655b-9d7d-4c8a-b9f6-b58efb902eab",
+            "cn": [
+                {
+                    "type": "Ext.SegmentedButton",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowDepress": true,
+                        "itemId": "tools"
+                    },
+                    "name": "MySegmentedButton1",
+                    "designerId": "4f2a81c4-b0a3-4482-adf4-5be25cb50312"
+                }
+            ]
+        },
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "container|animation": null,
+                "itemId": "cards",
+                "layout": "card"
+            },
+            "name": "MyContainer217",
+            "designerId": "35efc8c1-8ec3-44cb-88a3-1e86648f301d"
+        },
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "container|pack": "center",
+                "docked": "bottom",
+                "layout": "hbox",
+                "margin": "0 0 5 0"
+            },
+            "name": "MyContainer6",
+            "designerId": "b75b5c2b-54f8-447d-bdca-84faa9444582",
+            "cn": [
+                {
+                    "type": "Ext.Img",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "height": 20,
+                        "src": "resources/images/KinneyDrugs.png",
+                        "width": 57
+                    },
+                    "name": "MyImg",
+                    "designerId": "80983e4f-a15d-459d-919f-2915059fe9e8"
+                }
+            ]
+        }
+    ]
+}

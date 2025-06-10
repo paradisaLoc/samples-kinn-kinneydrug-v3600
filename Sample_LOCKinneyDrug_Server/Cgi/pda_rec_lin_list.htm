@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>pda_rec_lin_list.htm</title>
+    <meta name="curhdr" content="pda" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/pda.css" type="text/css" />
+<script type="text/javascript" src="../../Images/pda.js">
+</script>
+  </head>
+
+  <body>
+    <table>
+      <tbody>
+        <tr>
+          <td class="HdrCelTitle">LIST LINE ITEMS</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide">
+      @WIZSET(MIN=1);<br />
+       @WIZSET(MAX=7);<br />
+       @WIZRPL(ADD=@RPTTTL(@WIZGET(MAX)-@WIZGET(MIN)+1,#));<br />
+       @RPTCLR(iCnt);<br />
+       @dbTable(Q1,SELECT F1101,F01,F03,F04,F64,F65,F70,F1003,F270,F1067 FROM REC_REG WHERE F1032=@dbHot(REC_HDR,F1032,#) and F1067 IN('ITEM','DEPT','SUBD'))
+    </div>
+
+    <table class="@FMT(CMP,@DBrow(Q1,RECORD_COUNT)&lt;&gt;0,,Hide)">
+      <tbody>
+        <tr>
+          <th class="EntCap">Code</th>
+
+          <th class="EntCap">Quantity</th>
+
+          <th class="EntCap">Amount</th>
+        </tr>
+
+        <tr>
+          <td>
+            <div class="Hide">
+              @WizRpl(TYPE_DEPT=@FMT(CMP,'@dbRow(Q1,F1067)=DEPT','Dept. @DBROW(Q1,F03,#)')@FMT(CMP,'@dbRow(Q1,F1067)=SUBD','Sub Dept. @DBROW(Q1,F04,#)'));
+            </div>
+            <input style="WIDTH: 90px" class="BntGeneral" type="button" value="@RPTTTL(1,,iCnt)@FMT(CMP,@DBROW(Q1,F01)&lt;&gt;,'®DBROW(Q1,F01)','®WizGet(TYPE_DEPT)')" onclick="document.location='http:/scripts/trs.exe?FCT=3652&amp;ENTRY=@dbRow(Q1,F1101,#)&amp;HOT_URL_BACK=pda_rec_lin_list&amp;CP=1:0&amp;CN=@CNC&amp;TN=@TER&amp;DN=pda&amp;HOT_IDX_F03=@dbRow(Q1,F03,#)'" /> 
+          </td>
+
+          <td class="EntVal"><input class="EntValNumList" readonly="readonly" style="WIDTH: 55px" value="@FMT(CMP,@dbRow(Q1,F270,#)&gt;0,'®FMT(Z#5:0,®dbRow(Q1,F270,#))W','®FMT(CMP,@dbRow(Q1,F1003,#)&lt;&gt;0,@dbRow(Q1,F1003,#)C)')@FMT(CMP,@dbRow(Q1,F1067)=ITEM,'®FMT(CMP,®dbRow(Q1,F70,#)&lt;&gt;0,&nbsp;®dbRow(Q1,F70,#)U)','&nbsp;®dbRow(Q1,F64,#)U')" /></td>
+
+          <td class="EntVal"><input class="EntValNumList" readonly="readonly" style="WIDTH: 60px" value="@dbRow(Q1,F65,#:2)" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide">
+      @WIZRPL(maxCnt=@FMT(CMP,@FMT(!0:10,@DBrow(Q1,RECORD_COUNT))&gt;@FMT(!0:10,@WIZGET(MAX)),1,0)@FMT(CMP,@RPTTTL(iCnt,#)=7,1,0));
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><input class="BntSubMenu" type="button" value="BACK" onclick="document.location='http:/scripts/trs.exe?cgi=pda_rec_menu&amp;CN=@CNC&amp;tn=@TER&amp;dn=pda&CP=@DBHOT(HOT_URL,MARK)&amp;HOT_URL_MARK='"/></td>
+
+          <td><input class="@FMT(CMP,@WIZGET(MIN)&gt;1,BntGeneral,BntDisabled)" type="button" value="PREV" onclick="@FMT(CMP,@WIZGET(MIN)&gt;1,,//)document.location='http:/scripts/trs.exe?CGI=pda_rec_lin_list&amp;CN=@CNC&amp;TN=@TER&amp;DN=pda&amp;MIN=@rptttl(@wizget(MIN)-@wizget(add),#)&amp;MAX=@rptttl(@wizget(MAX)-@wizget(add),#)'" /></td>
+
+          <td><input class="@FMT(CMP,@WIZGET(maxCnt)=11,BntGeneral,BntDisabled)" type="button" value="NEXT" onclick="@FMT(CMP,@WIZGET(maxCnt)=11,,//)document.location='http:/scripts/trs.exe?CGI=pda_rec_lin_list&amp;CN=@CNC&amp;TN=@TER&amp;DN=pda&amp;MIN=@rptttl(@wizget(MIN)+@wizget(add),#)&amp;MAX=@rptttl(@wizget(MAX)+@wizget(add),#)'" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>pda_rec_itm_search.htm</title>
+    <meta name="curhdr" content="pda" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/pda.css" type="text/css" />
+<script type="text/javascript" src="../../Images/pda.js">
+</script>
+<script type="text/javascript">
+
+function SmsLoad() {
+  @WIZSET(hotKey=@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYLEFT),@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYUP),@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYRIGHT),@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYDOWN));
+  VariableInit(@FMT(CMP,'@WIZGET(hotKey)&lt;&gt;,,,','®WIZGET(hotKey)'));
+  BodyLoad('@WIZGET(CP)');
+}
+
+</script>
+  </head>
+
+  <body onload="SmsLoad();">
+    <table>
+      <tbody>
+        <tr>
+          <td class="HdrCelTitle">ITEMS FROM VENDOR @DBHOT(HOT_IDX,F27)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="EntCap">Query&nbsp;</td>
+
+          <td class="EntVal">
+            <form action="http:/scripts/trs.exe" method="get">
+              <input onblur="EntBlur(this)" onfocus="EntFocus(this)" onkeydown="EntKeyDown(this)" class="CODE" name="LIKE" /><input class="submit" type="submit" value="GO" name="BtnGo" /><input class="Hide" type="hidden" value="@CNC" name="CN" /><input class="Hide" type="hidden" value="@TER" name="TN" /><input class="Hide" type="hidden" value="pda" name="DN" /><input class="Hide" type="hidden" value="pda_rec_itm_search" name="CGI" /><input class="Hide" type="hidden" value="@FMT(CMP,@WIZGET(CP)&lt;&gt;,@WIZGET(CP),0:0:1)" name="CP" />
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide">
+      @WIZSET(MIN=1);<br />
+       @WIZSET(MAX=4);<br />
+       @WIZRPL(ADD=@RPTTTL(@WIZGET(MAX)-@WIZGET(MIN)+1,#));<br />
+       @RPTCLR(iCnt);
+    </div>
+
+    <div class="Hide">
+      @IF(@WIZGET(UPCCODE)&lt;&gt;);<br />
+       @DBTABLE(Q1,SELECT COS.F01,POS.F02,COS.F1184,COS.F27,COS.F1887 FROM POS_TAB POS JOIN COST_TAB COS ON POS.F01=COS.F01 WHERE COS.F01='@DBHOT(HOT_IDX,F01)' AND COS.F27=RTrim('@DBHOT(HOT_IDX,F27,L)'));<br />
+       @ELSE<br />
+	   @FMT(CMP,@DBHOT(HOT_IDX,F27)=ZZZ,®WIZRPL(VENDID=1));<br />
+	   @FMT(CMP,@DBHOT(HOT_IDX,F27)=ANY,®WIZRPL(VENDID=1));<br />
+       @DBTABLE(Q1,SELECT COS.F01,POS.F02,COS.F1184,COS.F27,COS.F1887 FROM POS_TAB POS JOIN COST_TAB COS ON POS.F01=COS.F01 WHERE @FMT(CMP,@WIZGET(VENDID)&lt;&gt;1,COS.F27='@DBHOT(HOT_IDX,F27)' AND) UPPER(POS.F02) LIKE '%@FMT(UPPER,@WIZGET(LIKE))%' ORDER BY POS.F02);<br />
+       @ENDIF
+    </div>
+
+    <table class="@FMT(CMP,@DBrow(Q1,RECORD_COUNT)&lt;&gt;0,,Hide)">
+      <tbody>
+        <tr>
+          <td class="Title">&nbsp;@dbRow(Q1,F02)&nbsp;(@dbROW(Q1,F1184))</td>
+        </tr>
+
+        <tr>
+          <td>
+            <div class="Hide">
+              @IF(@WIZGET(unitQty)&lt;&gt;);<br />
+              @FMT(CMP,@FMT(POS,C,@dbROW(Q1,F1887))&gt;0,®WIZRPL(TQTY=&amp;CASE=),®WIZRPL(TQTY=&amp;UNIT=));
+            </div>
+
+            <div class="Hide">
+              @FMT(CMP,@dbROW(Q1,F1887)=,®WIZRPL(TQTY=&amp;CASE=));<br />
+               @WIZRPL(TQTY=@WIZGET(TQTY)@WIZGET(unitQty));<br />
+               @ENDIF;
+            </div>
+            <input class="BntDrilList" type="button" value="@RPTTTL(1+iCnt,,=iCnt)@dbRow(Q1,F01)" onclick="document.location='http:/scripts/trs.exe?FCT=3510&amp;HOT_IDX_F01=@DBROW(Q1,F01)&amp;HOT_IDX_F1184=@dbROW(Q1,F1184)&amp;HOT_IDX_F27=@dbROW(Q1,F27)&amp;HOT=1&amp;CN=@CNC&amp;TN=@TER&amp;DN=pda@WIZGET(TQTY)&amp;CP=@FMT(CMP,@WIZGET(CP)&lt;&gt;,®WIZGET(CP),0:0:1)@FMT(CMP,@WIZGET(GOTOEXIST)&lt;&gt;,&amp;GOTOEXIST=®WIZGET(GOTOEXIST))'" /> 
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide">
+      @WIZRPL(maxCnt=@FMT(CMP,@FMT(!0:10,@DBrow(Q1,RECORD_COUNT))&gt;@FMT(!0:10,@WIZGET(MAX)),1,0)@FMT(CMP,@RPTTTL(iCnt,#)=4,1,0));
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><input class="BntSubMenu" type="button" value="BACK" onclick="document.location='http:/scripts/trs.exe?cgi=@FMT(CMP,@WIZGET(HOT_URL_BACK)&lt;&gt;,@WIZGET(HOT_URL_BACK),pda_rec_menu)&amp;CN=@CNC&amp;tn=@TER&amp;dn=pda&CP=@DBHOT(HOT_URL,MARK)&amp;HOT_URL_MARK='"/></td>
+
+          <td><input class="@FMT(CMP,@WIZGET(MIN)&gt;1,BntGeneral,BntDisabled)" type="button" value="PREV" onclick="@FMT(CMP,@WIZGET(MIN)&gt;1,,//)document.location='http:/scripts/trs.exe?CGI=pda_rec_itm_search&amp;HOT_URL_BACK=@WIZGET(HOT_URL_BACK)&amp;LIKE=@WIZGET(LIKE)&amp;RETPAGE=@WIZGET(RETPAGE)&amp;CN=@CNC&amp;TN=@TER&amp;DN=pda&amp;GOTOEXIST=@WIZGET(GOTOEXIST)&amp;unitQty=@WIZGET(unitQty)&amp;CP=@FMT(CMP,@WIZGET(CP)&lt;&gt;,®WIZGET(CP),0:0:1)&amp;MIN=@rptttl(@wizget(MIN)-@wizget(add),#)&amp;MAX=@rptttl(@wizget(MAX)-@wizget(add),#)'" /></td>
+
+          <td><input class="@FMT(CMP,@WIZGET(maxCnt)=11,BntGeneral,BntDisabled)" type="button" value="NEXT" onclick="@FMT(CMP,@WIZGET(maxCnt)=11,,//)document.location='http:/scripts/trs.exe?CGI=pda_rec_itm_search&amp;HOT_URL_BACK=@WIZGET(HOT_URL_BACK)&amp;LIKE=@WIZGET(LIKE)&amp;RETPAGE=@WIZGET(RETPAGE)&amp;CN=@CNC&amp;TN=@TER&amp;DN=pda&amp;GOTOEXIST=@WIZGET(GOTOEXIST)&amp;unitQty=@WIZGET(unitQty)&amp;CP=@FMT(CMP,@WIZGET(CP)&lt;&gt;,®WIZGET(CP),0:0:1)&amp;MIN=@rptttl(@wizget(MIN)+@wizget(add),#)&amp;MAX=@rptttl(@wizget(MAX)+@wizget(add),#)'" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

@@ -1,0 +1,239 @@
+
+object frmLabel: TFrmLabel
+   Width:5.00
+   Height:3.00
+   Orientation:
+   Weight Unit:LB
+   Cent Sign:¢
+   Horizontal Qty:1
+   Vertical Qty:1
+   Vertical Offset:3.23
+   Horizontal Offset:3.23
+   Page Size (W X H):5.00 X 3.00
+   Hor Print Margin:0.00
+   Ver Print Margin:0.00
+   Printer:
+   ZoomRate:2
+   Ppu:38
+   Metric:true
+   PrintFF:@PRINT(FF,,)
+   FFModified:false
+end
+
+object Text1 : TField
+  Left = 228
+  Top = 15
+  Width = 84
+  Height = 24
+  FontName = 'Arial'
+  FontSize = '8'
+  Caption = 'YOU PAY'
+  Rotation = '0'
+  FontStyle = 'l'
+  Layer = '1'
+  Order = '000'
+end
+
+object Text2 : TField
+  Left = 50
+  Top = 15
+  Width = 88
+  Height = 24
+  FontName = 'Arial'
+  FontSize = '8'
+  Caption = 'Unit Price'
+  Rotation = '0'
+  FontStyle = 'l'
+  Layer = '1'
+  Order = '000'
+end
+
+object DBField1 : TDBField
+  Left = 36
+  Top = 83
+  Width = 124
+  Height = 24
+  FontName = 'Arial'
+  FontSize = '8'
+  Caption = 'PER POUND'
+  DBField = '@WIZSET(PDA=1)@exec(sqi=KDLOC_trs_lbl_std_price)@Wizget(F1806)'
+  DBHot = '@WIZSET(PDA=1)@exec(sqi=KDLOC_trs_lbl_std_price)@Wizget(F1806)'
+  Rotation = '0'
+  FontStyle = 'l'
+  Layer = '1'
+  Order = '000'
+end
+
+object DBField2 : TDBField
+  Left = 296
+  Top = 146
+  Width = 60
+  Height = 24
+  FontName = 'Arial'
+  FontSize = '8'
+  Caption = '01/16'
+  DBField = '@DMDD/@D2DD'
+  DBHot = '@DMDD/@D2DD'
+  Rotation = '0'
+  FontStyle = 'r'
+  Layer = '1'
+  Order = '000'
+end
+
+object DBField3 : TDBField
+  Left = 128
+  Top = 168
+  Width = 64
+  Height = 19
+  FontName = 'Arial'
+  FontSize = '6'
+  Caption = 'SF'
+  DBField = '@dbHot(OBJ_TAB,OBJ_TAB[F23],L)'
+  DBHot = '@dbHot(OBJ_TAB,OBJ_TAB[F23],L)'
+  Rotation = '0'
+  FontStyle = 'bl'
+  Layer = '1'
+  Order = '000'
+end
+
+object DBField4 : TDBField
+  Left = 12
+  Top = 168
+  Width = 56
+  Height = 19
+  FontName = 'Arial'
+  FontSize = '6'
+  Caption = '44.000'
+  DBField = '@dbHot(OBJ_TAB,OBJ_TAB[F22],L)'
+  DBHot = '@dbHot(OBJ_TAB,OBJ_TAB[F22],L)'
+  Rotation = '0'
+  FontStyle = 'bl'
+  Layer = '1'
+  Order = '000'
+end
+
+object DBField5 : TDBField
+  Left = 214
+  Top = 118
+  Width = 50
+  Height = 24
+  FontName = 'Arial'
+  FontSize = '8'
+  Caption = '1'
+  DBField = '@dbHot(OBJ_TAB,OBJ_TAB[F21],Z#)'
+  DBHot = '@dbHot(OBJ_TAB,OBJ_TAB[F21],Z#)'
+  Rotation = '0'
+  FontStyle = 'l'
+  Layer = '1'
+  Order = '000'
+end
+
+object DBField6 : TDBField
+  Left = 268
+  Top = 118
+  Width = 50
+  Height = 24
+  FontName = 'Arial'
+  FontSize = '8'
+  Caption = '1659'
+  DBField = '@dbHot(OBJ_TAB,OBJ_TAB[F17],Z#)'
+  DBHot = '@dbHot(OBJ_TAB,OBJ_TAB[F17],Z#)'
+  Rotation = '0'
+  FontStyle = 'l'
+  Layer = '1'
+  Order = '000'
+end
+
+object DBField7 : TDBField
+  Left = 12
+  Top = 190
+  Width = 180
+  Height = 24
+  FontName = 'Arial'
+  FontSize = '8'
+  Caption = '1234567891234'
+  DBField = '@FMT(#,@dbHot(OBJ_TAB,OBJ_TAB[F01],L))'
+  DBHot = '@FMT(#,@dbHot(OBJ_TAB,OBJ_TAB[F01],L))'
+  Rotation = ''
+  FontStyle = 'l'
+  Layer = '1'
+  Order = '000'
+end
+
+object DBField8 : TDBField
+  Left = 12
+  Top = 144
+  Width = 268
+  Height = 24
+  FontName = 'Arial'
+  FontSize = '8'
+  Caption = 'STARTECH HUB RS232'
+  DBField = '@dbHot(POS_TAB,POS_TAB[F02],L)'
+  DBHot = '@dbHot(POS_TAB,POS_TAB[F02],L)'
+  Rotation = ''
+  FontStyle = 'bl'
+  Layer = '1'
+  Order = '000'
+end
+
+object DBField9 : TDBField
+  Left = 209
+  Top = 52
+  Width = 136
+  Height = 49
+  FontName = 'Arial'
+  FontSize = '16'
+  Caption = '$29.99'
+  DBField = '@rptttl(@dbhot(PRICE_TAB,F30,#)/@FMT(CMP,@dbhot(PRICE_TAB,F31,#)=,1,@dbhot(PRICE_TAB,F31,#)),$:2)'
+  DBHot = '@rptttl(@dbhot(PRICE_TAB,F30,#)/@FMT(CMP,@dbhot(PRICE_TAB,F31,#)=,1,@dbhot(PRICE_TAB,F31,#)),$:2)'
+  Rotation = ''
+  FontStyle = 'l'
+  Layer = '1'
+  Order = '000'
+end
+
+object DBField10 : TDBField
+  Left = 12
+  Top = 122
+  Width = 143
+  Height = 22
+  FontName = 'Arial'
+  FontSize = '7'
+  Caption = '0000000000123'
+  DBField = '@dbHot(ALT_LUP,ALT_TAB[F154],L)'
+  DBHot = '@dbHot(ALT_LUP,ALT_TAB[F154],L)'
+  Rotation = ''
+  FontStyle = 'l'
+  Layer = '1'
+  Order = '000'
+end
+
+object DBField11 : TDBField
+  Left = 42
+  Top = 44
+  Width = 141
+  Height = 37
+  FontName = 'Arial'
+  FontSize = '12'
+  Caption = '$15.00'
+  DBField = '@WIZSET(PDA=1)@exec(sqi=KDLOC_trs_lbl_std_price)@Wizget(PRICE)'
+  DBHot = '@WIZSET(PDA=1)@exec(sqi=KDLOC_trs_lbl_std_price)@Wizget(PRICE)'
+  Rotation = ''
+  FontStyle = 'bl'
+  Layer = '1'
+  Order = '000'
+end
+
+object BarCode1 : TBarCode
+  Left = 162
+  Top = 171
+  Width = 207
+  Height = 41
+  BCNum = '1'
+  BCType = '7'
+  CheckDig = '0'
+  DBField = '@FMT(!0:13,@dbHot(ALT_LUP,ALT_TAB[F154],L))'
+  Layer = '1'
+  Order = '000'
+end
+

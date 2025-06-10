@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+
+<html>
+
+  <head>
+    <desc>
+      <input type="hidden" class="HidParam" id="RPT_NAME" value="General Ledger Export All Stores" /> <input type="hidden" class="HidParam" id="RPT_FILENAME" value="trs_exp_list_gl_all_store" /> <input type="hidden" class="HidParam" id="RPT_PARENT" value="" /> <input type="hidden" class="HidParam" id="RPT_PRIORITY" value="" /> <input type="hidden" class="HidParam" id="RPT_DESC" value="" /> <input type="hidden" class="HidParam" id="RPT_GROUP" value="" /> <input type="hidden" class="HidParam" id="RPT_WIZARD" value="yes" />
+    </desc>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="CurHdr" content="ScreenRpt" />
+    <link rel="stylesheet" href="../../Images/sms_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_rpt.css" type="text/css" />
+<script type="text/javascript" src="../../Images/rpt.js">
+        
+</script>
+
+    <title></title>
+  </head>
+
+  <body class="Main" onload="@wizset(CURPOS=0)@WIZSET(F1057=961)InitRpt(document,@wizget(CURPOS),'@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','http:/scripts/trs.exe')">
+    <object class="ComDialog" id="cDialog" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+	@WIZSET(ONEFILE=@DBHOT(REG,TrsExpPostAll_OneFile,DWORD,0))
+	@FMT(CMP,@WIZGET(ONEFILE)=@DBHOT(REG,TrsExpPostAll_OneFile,DWORD,0),,'®DBHOT(REGSET,TrsExpPostAll_OneFile,DWORD,@WIZGET(ONEFILE))')
+	@WIZSET(INCLUDEPOSTED=@DBHOT(REG,TrsExpPostAll_INCLUDEPOSTED,DWORD,0))
+	@FMT(CMP,@WIZGET(INCLUDEPOSTED)=@DBHOT(REG,TrsExpPostAll_INCLUDEPOSTED,DWORD,0),,'®DBHOT(REGSET,TrsExpPostAll_INCLUDEPOSTED,DWORD,@WIZGET(INCLUDEPOSTED))')	
+	@WIZSET(ExcludeEmptyDay=@DBHOT(REG,TrsExpPostAll_ExcludeEmptyDay,DWORD,0))
+	@FMT(CMP,@WIZGET(ExcludeEmptyDay)=@DBHOT(REG,TrsExpPostAll_ExcludeEmptyDay,DWORD,0),,'®DBHOT(REGSET,TrsExpPostAll_ExcludeEmptyDay,DWORD,@WIZGET(ExcludeEmptyDay))')		
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <th class="HdrCel" id="RptTitle">General Ledger Export All Stores</th>
+
+          <th class="HdrBtnCel"><input class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" onfocus="ActivateField(this)" accesskey="Z" onclick="SubmitReport('@wizget(DN)','',parent.Work)" type="button" value="Launch" name="BtnSubmit" /></th>
+
+          <th class="HdrBtnCel"><input class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" onfocus="ActivateField(this)" onclick="ReportAddTo(this,'@wizget(DN)','T')" type="button" value="Add" name="BtnTask" /></th>
+
+          <th class="HdrBtnCel"><input class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" onfocus="ActivateField(this)" onclick="document.location='http:/scripts/trs.exe?htt=sqr\\' + RPT_FILENAME.value + '.rpt&amp;CN=@CNC&amp;TN=@TER';" type="button" value="Reset" name="BtnReset" /></th>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="EntTab" style="LEFT: 50px; POSITION: absolute; TOP: 70px">
+      <tbody>
+        <tr>
+          <th class="EntHdr" colspan="2">PERIOD</th>
+        </tr>
+
+        <tr>
+          <td class="EntPeriod" id="oPeriodSrc" detail_details="@dbhot(DETAIL_DETAILS)" detail_names="@dbhot(DETAIL_NAMES)" detail_periods="@dbhot(DETAIL_PERIODS)" initval="@wizset(DETAIL=0)@wizget(DETAIL)">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="EntTab" style="LEFT: 200px; POSITION: absolute; TOP: 70px">
+      <tbody>
+        <tr>
+          <th class="EntHdr" id="oDateSrc" colspan="4" initval="@wizset(REFRESH_DATE=1)@wizget(REFRESH_DATE)" initdatereg="@wizset(DATE=@DWDD)@wizget(DATE)" initweek="@dbHOT(WEEKSTART)" initformatsql="@dbHOT(REGIONAL,SQLDATEFORMAT)" initformat="@dbHOT(REGIONAL,SHORTDATEFORMAT)">DATE RANGE</th>
+          <td></td>
+        </tr>
+
+        <tr>
+          <th class="EntCap">Start</th>
+
+          <td class="EntInp"><input class="EntDat" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" ondblclick="ShowDateExt(window,this,'Select a date','D')" onfocus="SaveValue(this)" onchange="ValidateField(window,this,'date')" style="WIDTH: 90px" value="@wizget(START)" name="START" /></td>
+
+          <td class="EntVal" style="PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; WIDTH: 0px; PADDING-TOP: 0px" rowspan="2"><input class="EntBtn" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" style="WIDTH: 60px" onfocus="ActivateField(this)" onclick="GotoNextPreviousDate('-')" type="button" value="Past" name="BtnDatPas" /><br />
+          <input class="EntBtn" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" style="WIDTH: 60px" onfocus="ActivateField(this)" onclick="GotoNextPreviousDate('+')" type="button" value="Future" name="BtnDatFut" /> </td>
+        </tr>
+
+        <tr>
+          <th class="EntCap">Stop</th>
+
+          <td class="EntInp"><input class="EntDat" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" ondblclick="ShowDateExt(window,this,'Select a date','F')" onfocus="SaveValue(this)" onchange="ValidateField(window,this,'date')" style="WIDTH: 90px" value="@wizget(STOP)" name="STOP" /></td>
+        </tr>
+        
+        <tr>
+          <td class="EntVal" id="oDateDesc" colspan="4"></td>
+        </tr>
+      </tbody>
+    </table>
+    <input class="HidParam" type="hidden" value="export_gl_post_all_store" name="SQL" /> <input class="HidParam" type="hidden" value="trs_gl_list_sales" name="FILENAME" /> <input class="HidParam" type="hidden" value="@wizget(F1057)" name="F1057" /> <input class="HidParam" type="hidden" value="@CNC" name="CN" /> <input class="HidParam" type="hidden" value="@TER" name="TN" />
+    <table class="EntTab" style="LEFT: 430px; POSITION: absolute; TOP: 42px">
+      <tbody>
+        <tr>
+          <td class="EntHdr">INCLUDE STORE ALREADY EXPORTED?</td>
+		  <td class="EntHdr"><input class="EntChk" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" onfocus="ActivateField(this)" datasrc="@wizget(INCLUDEPOSTED)" onclick="SubmitCheckBox(window,this)" type="checkbox" name="INCLUDEPOSTED" /></td>
+        </tr>
+        <tr>
+          <td class="EntHdr">SINGLE FILE EXPORT?</td>   
+		  <td class="EntHdr"><input class="EntChk" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" onfocus="ActivateField(this)" datasrc="@wizget(ONEFILE)" onclick="SubmitCheckBox(window,this)" type="checkbox" name="ONEFILE" /></td>
+        </tr>	
+        <tr>
+          <td class="EntHdr">EXCLUDE EMPTY DAY?</td>   
+		  <td class="EntHdr"><input class="EntChk" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" onfocus="ActivateField(this)" datasrc="@wizget(ExcludeEmptyDay)" onclick="SubmitCheckBox(window,this)" type="checkbox" name="ExcludeEmptyDay" /></td>
+        </tr>		
+      </tbody>
+    </table>	
+  </body>
+</html>

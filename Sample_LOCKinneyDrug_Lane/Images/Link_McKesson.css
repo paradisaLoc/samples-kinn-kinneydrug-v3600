@@ -1,0 +1,213 @@
+﻿html, body {
+		height: 100%;
+		padding: 0px;
+		margin: 0px;
+		background-color: #BDCBEF;
+}
+
+table.Frm {
+	width: 95%;
+	border-collapse: collapse;
+	}
+
+/* ********** BUTTON *********** */
+	
+input.BtnAll {
+	height: 60px;
+	width: 100%;
+	background-color: #00FF00;
+	color: #ffffff;
+	font-family: Verdana;
+	font-weight: bold;
+	font-size: 12pt;
+	border-style: none;
+	}
+	
+input.BtnLook {
+	height: 60px;
+	width: 100%;
+	background-color: #ff0000;
+	color: #ffffff;
+	font-family: Verdana;
+	font-weight: bold;
+	font-size: 12pt;
+	border-style: none;
+	}
+	
+input.BtnDone {
+	height: 60px;
+	width: 100%;
+	background-color: #ff0000;
+	color: #ffffff;
+	font-family: Verdana;
+	font-weight: bold;
+	font-size: 12pt;
+	border-style: none;
+	}
+	
+input.BtnArrow {
+	height: 60px;
+	width: 100%;
+	background-color: #FFFF9A;
+	color: #000000;
+	font-family: Verdana;
+	font-weight: bold;
+	font-size: 22pt;
+	border-style: none;
+	}
+
+/* ********** PATIENT/FAMILY SCREEN ********** */
+
+div.PatHdr {
+	width: 100%;
+	background-color: #3365FF;
+	color: #ffffff;
+	font-family: Verdana;
+	font-weight: normal;
+	font-size: 10pt;
+	text-align: center;
+	padding: 18px 0px;
+	}
+	
+div.PatErr {
+	color: #ff0000;
+	font-family: Verdana;
+	font-weight: bold;
+	font-size: 10pt;
+	}
+	
+div.PatTtl {
+	width: 100%;
+	background-color: #ffff00;
+	color: #000000;
+	font-family: Verdana;
+	font-weight: normal;
+	font-size: 10pt;
+	text-align: center;
+	padding: 5px 0px;
+	}
+
+/* ********** LOOK SCREEN ********** */
+table.Look{
+	width: 95%;
+	background-color: #3365FF;
+	border-collapse: collapse;
+	font-family: Verdana;
+	font-weight: normal;
+	font-size: 10pt;
+	color: #ffffff;
+	margin: 1px 0px;
+	}	
+
+table.Header{
+	width: 100%;
+	background-color: #3365FF;
+	border-collapse: collapse;
+	font-family: Verdana;
+	font-weight: normal;
+	font-size: 10pt;
+	color: #ffffff;
+	margin: 1px 0px;
+	}
+	
+table.Footer{
+	width: 100%;
+	background-color: #3365FF;
+	border-collapse: collapse;
+	font-family: Verdana;
+	font-weight: normal;
+	font-size: 10pt;
+	color: #ffffff;
+	margin: 1px 0px;
+	}	
+
+table.RxReady {
+	width: 100%;
+	background-color: #ff0000;
+	border-collapse: collapse;
+	font-family: Verdana;
+	font-weight: normal;
+	font-size: 10pt;
+	color: #ffffff;
+	margin: 1px 0px;
+	}
+
+table.RxIn-Process {
+	width: 100%;
+	background-color: #999999;
+	border-collapse: collapse;
+	font-family: Verdana;
+	font-weight: normal;
+	font-size: 10pt;
+	color: #ffffff;
+	margin: 1px 0px;
+	}
+	
+table.RxInTrs {
+	width: 100%;
+	background-color: #228B22;
+	border-collapse: collapse;
+	font-family: Verdana;
+	font-weight: normal;
+	font-size: 10pt;
+	color: #ffffff;
+	margin: 1px 0px;
+	}
+	
+td.LookRx {
+	color: #F2FF19;
+	}
+	
+td.LookAmt {
+	color: #F2FF19;
+	text-align: right;
+	white-space: nowrap;
+	}
+	
+td.LookClt {
+	}
+	
+td.LookDat {
+	text-align: right;
+	white-space: nowrap;
+	}
+	
+td.LookDesc {
+	color: #B0FDCC;
+	}
+	
+td.LookStatus {
+	text-align: right;
+	}
+
+td.RxInTrs {
+	color: #FFFFFF;
+	font-weight: bold;
+	}
+	
+div.StatusPartial {
+	width: 80px;
+	background-color: #FFFF9A;
+	font-family: Verdana;
+	font-weight: normal;
+	font-size: 9pt;
+	color: #000000;
+	text-align: center;
+	padding: 3px 0px;
+	}
+	
+div.StatusNO {
+	width: 80px;
+	background-color: #ff0000;
+	font-family: Verdana;
+	font-weight: normal;
+	font-size: 9pt;
+	color: #ffffff;
+	text-align: center;
+	padding: 3px 0px;
+	}
+	
+div.LookDesc {
+	white-space: nowrap;
+	overflow: hidden;
+	}

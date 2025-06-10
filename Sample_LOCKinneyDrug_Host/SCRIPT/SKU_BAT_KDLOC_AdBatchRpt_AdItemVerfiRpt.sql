@@ -1,0 +1,23 @@
+/* Ad Batch Report: Item Verification Report */
+
+@WIZINIT;
+@WIZEDIT(DITTO,SELECT A DITTO NUMBER);
+@WIZTARGET(TARGET=RAL,SELECT F1000,F1018 FROM STO_TAB WHERE F1180='1' ORDER BY F1000);
+@WIZDISPLAY;
+
+@WIZRPL(DATECREATED=@DSDF);
+@WIZRPL(TIMECREATED=@FMT(T6D,@NOW));
+
+/* Scan down report */
+@wizrpl(ExtGridUsp=Kinney_AdItemVerfiRpt_xls);
+@WIZSET(FILENAME=Kinney_AdItemVerfiRpt.xls);
+@WIZRPL(OUTPUT=@OFFICEDBT\@WIZGET(FILENAME))
+@EXEC(XLS=RTM\Kinney_AdItemVerfiRpt);
+@wizClr(OUTPUT);
+
+@WIZRPL(TITLE=SaveFile);
+@WIZRPL(FORM=SaveFile);
+@WIZRPL(width=1)
+@WIZRPL(height=1)
+@EXEC(HTT=script\SKU_BAT_KDLOC_save_xls);
+ 

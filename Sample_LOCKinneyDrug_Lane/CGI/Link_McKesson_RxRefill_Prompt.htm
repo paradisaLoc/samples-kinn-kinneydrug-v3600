@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>McKesson_DOB_Entry</title>
+    <meta name="CurHdr" content="ScreenPos" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="Pragma" content="no_cache" />
+    <link rel="stylesheet" href="../../Images/pos_entry.css" type="text/css" />
+	<style type="text/css">
+
+	</style>
+<script src="../../Images/sms.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+@wizset(CP=4)
+function SmsLoad() 
+{
+  top.BodyLoad(document);
+  top.CursorSetFocus(document,"@wizget(CS)","@wizget(CP)");
+  VariableInit('@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','Http:/Scripts/trs.exe');
+}
+
+function LocalKey()
+{
+  if(window.event.keyCode==27)
+    document.all("CLOSE").click();
+}
+
+function formClicked(btnClicked)
+{
+  document.getElementById("FORM_CLICKED").value = btnClicked;
+}
+
+function SubmitForm()
+{
+  if (document.getElementById("FORM_CLICKED").value!="DOB" && document.getElementById("FORM_CLICKED").value!="" )
+  {
+    return true;
+  }
+  else
+  {
+    var sMsgErr='';
+    var sDateOfBirth=document.getElementById("FORM_DOB").value;
+	
+    if(sDateOfBirth.length!==4 || !validateDate(sDateOfBirth))
+      sMsgErr='Date of Birth must be entered as MMDD\n';   
+
+    if(sMsgErr!='')
+    {
+      alert(sMsgErr);
+      return false;
+    }
+    else
+      return true;
+  }
+}
+
+// Validate date of birth
+function validateDate(inputText)
+{
+   // Extract the string into month and date
+   var mm = parseInt(inputText.substring(0,2),10);
+   var dd = parseInt(inputText.substring(2,4),10);
+
+   // Create list of days of a month
+   var ListofDays = [31,29,31,30,31,30,31,31,30,31,30,31];
+
+   if (dd==0)
+      return false;
+
+   // Verify that number of days in the month 
+   if (mm>=1 && mm<=12)
+   {
+     if (dd>ListofDays[mm-1])
+       return false;
+     else
+       return true;
+   }
+   else
+     return false;
+}
+</script>
+  </head>
+
+  <body class="InfoHdr" onselectstart="document.selection.empty();" onkeydown="LocalKey()" onload="SmsLoad()">
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+    </div>
+    <object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+    <form class="FrmDcl" action="Http:/Scripts/Trs.exe" method="get" id="McKesson" onsubmit="return SubmitForm()">
+      <table class="HdrTab">
+        <tbody>
+          <tr>
+            <td class="HdrCel" id="FORM_TITLE">&nbsp;</td>
+            <td class="HdrBtnCel" @FMT(CMP,@DBHOT(HOT_WIZ,GET,MCK_OVERRIDE)=1,style="display:none;")><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="formClicked('DOB')" type="submit" value="Submit" name="FORMBTN" /></td>
+            <td class="HdrBtnCel" @FMT(CMP,@DBHOT(HOT_WIZ,GET,MCK_OVERRIDE)=1,style="display:none;")><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="top.PopKeyboard(window)" type="button" value="Keyboard" /></td>
+            <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="formClicked('CANCEL')" type="submit" style="width: 100px" value="Cancel" name="CLOSE" /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="FrmTab">
+        <tbody>
+          <tr>
+            <td class="FrmCel">
+              <table class="EntTab">
+                <tbody>
+                  <tr>
+                    <td class="EntTtl" style="text-align: center;">@FMT(CMP,@DBHOT(HOT_WIZ,GET,MCK_OVERRIDE)=1,DOB (Entered mm/dd DOB) Does not Match,Enter Customer DOB (MMDD))</td>
+                  </tr>
+                  <tr @FMT(CMP,@DBHOT(HOT_WIZ,GET,MCK_OVERRIDE)=1,style="display:none;")>
+                    <td class="EntVal" style="text-align: center;"><input class="EntTxt" style="WIDTH: 200px;" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" size="4" name="FORM_DOB" id="FORM_DOB" value="" /></td>
+                  </tr>
+                  <tr>
+                    <td class="EntInp" style="text-align: center;">
+                      <input class="EntBtn" style="margin: 10px;" type="submit" datasrc="@ATTRIB(B5)" onclick="formClicked('MGR_OVERRIDE')" name="MGR_OVERRIDE" value="Manager Override">
+                      <input class="EntBtn" style="@FMT(CMP,@DBHOT(HOT_WIZ,GET,MCK_OVERRIDE)=1,display:none,margin: 10px);" type="submit" datasrc="@ATTRIB(B)" onclick="formClicked('PINPAD_PROMPT')" name="PINPAD_PROMPT" value="Prompt on Pinpad">
+                      <input class="EntBtn" style="margin: 10px;" type="submit" datasrc="@ATTRIB(B)" onclick="formClicked('DEL_OVERRIDE')" name="DEL_OVERRIDE" value="Delivery Override">
+                      <input type="hidden" name="FORM_CLICKED" value="">
+                    </td>
+                  <tr>
+                </tbody>
+              </table>
+              
+            </td>
+          </tr>		  
+        </tbody>
+      </table>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Link_McKesson_search_form</title>
+    <meta name="CurHdr" content="ScreenPos" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="Pragma" content="no_cache" />
+    <link rel="stylesheet" href="../../Images/pos_entry.css" type="text/css" />
+	<style type="text/css">
+
+	</style>
+<script src="../../Images/sms.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+@wizset(CP=4)
+function SmsLoad() 
+{
+  top.BodyLoad(document);
+  top.CursorSetFocus(document,"@wizget(CS)","@wizget(CP)");
+  VariableInit('@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','Http:/Scripts/trs.exe');
+  ChooseFilter('PhoneFilter');
+}
+
+function CloseForm(sAction,sUrl)
+{
+  if(sAction == 'Cancel')
+  {
+   document.location='Http:/Scripts/trs.exe?btn=close&FORM=@WIZGET(FORM)&BTNSUBMIT=CANCEL';
+   return false;
+  }
+  else
+   return true;
+}
+
+function ChooseFilter(sFilterType)
+{
+	if(sFilterType=="PhoneFilter")
+		{
+		document.getElementById("PhoneRow").style.display="";
+		document.getElementById("FirstNameRow").style.display="none";
+		document.getElementById("LastNameRow").style.display="none";
+		document.getElementById("DOBRow").style.display="none";
+		document.getElementById("StateRow").style.display="none";
+		document.getElementById("ZipRow").style.display="none";
+		document.getElementById("FirstName").tabIndex="-1";
+		document.getElementById("LastName").tabIndex="-1";
+		document.getElementById("DateOfBirth").tabIndex="-1";
+		document.getElementById("TState").tabIndex="-1";
+		document.getElementById("Zip").tabIndex="-1";
+		}
+	if(sFilterType=="LastNamePlusFilter")
+		{
+		document.getElementById("PhoneRow").style.display="";
+		document.getElementById("FirstNameRow").style.display="";
+		document.getElementById("LastNameRow").style.display="";
+		document.getElementById("DOBRow").style.display="";
+		document.getElementById("StateRow").style.display="";
+		document.getElementById("ZipRow").style.display="";
+		document.getElementById("FirstName").tabIndex="";
+		document.getElementById("LastName").tabIndex="";
+		document.getElementById("DateOfBirth").tabIndex="";
+		document.getElementById("TState").tabIndex="";
+		document.getElementById("Zip").tabIndex="";
+		}
+	document.getElementById("FilterType").value=sFilterType;
+}
+
+function SubmitForm()
+{
+    var sMsgErr='';
+	var sFirstName=document.getElementById("FirstName").value;
+	var sLastName=document.getElementById("LastName").value;
+	var sDateOfBirth=document.getElementById("DateOfBirth").value;
+	var sPhoneNumber=document.getElementById("PhoneNumber").value;	
+	var TState=document.getElementById("TState").value;	
+	var sZip=document.getElementById("Zip").value;	
+	var sFilterType;
+	
+// Phone filter (must be 10 digit number)
+  if(document.getElementById("FilterType").value=='PhoneFilter')
+  {
+  if(sPhoneNumber.length!=10)
+    sMsgErr+='Phone number must be 10 digits\n';  
+  document.getElementById("FirstNameRow").value="";
+  document.getElementById("LastNameRow").value="";
+  document.getElementById("DOBRow").value="";
+  document.getElementById("StateRow").value="";
+  document.getElementById("ZipRow").value="";
+  }
+  else
+  {
+  var iReq=0;
+  if(sLastName.length==0)
+    sMsgErr+='Last name is mandatory\n';    
+  if(sLastName.length<3)
+    sMsgErr+='Last name too short\n';  
+  if(sFirstName.length<3 && sFirstName.length!==0)
+    sMsgErr+='First name too short\n';
+  if(sPhoneNumber.length!==10 && sPhoneNumber.length!==0)
+    sMsgErr+='Phone number must be 10 digits\n';
+  if(sDateOfBirth.length!==8 && sDateOfBirth.length!==0)
+    sMsgErr+='Date of Birth must be entered as MMDDYYYY\n';   
+  else if(sDateOfBirth.length!==0 && !validateDate(sDateOfBirth))
+    sMsgErr+='Date of Birth must be entered as MMDDYYYY\n'; 
+  else if(sDateOfBirth.length!==0)iReq+=1
+  if(TState.length!==0)iReq+=1
+  if(sZip.length!==0)iReq+=1
+  if(iReq==0)
+   sMsgErr+='Last name lookup should contain at least one of the following:\n-date of birth\n-state\n-zip code';
+   }
+	
+  if(sMsgErr!=''){
+    alert('Cannot submit values because:\n\n'+sMsgErr);
+	return false;
+	}
+	return true;
+}
+
+// Validate date of birth
+function validateDate(inputText)
+{
+   // Extract the string into month, date and year
+   var mm = parseInt(inputText.substring(0,2),10);
+   var dd = parseInt(inputText.substring(2,4),10);
+   var yyyy = parseInt(inputText.substring(4,8),10);
+
+   // Create list of days of a month [assume there is no leap year by default]
+   var ListofDays = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+   if (dd==0)
+      return false;
+
+   // Check all months except for February
+   if (mm==1 || mm>2)
+   {
+      if (dd>ListofDays[mm-1])
+         return false;
+      else
+         if (yyyy < 1900)
+            return false;
+         else
+            return true;
+   }
+
+   // Check February and check for Leap Year
+   if (mm==2)
+   {
+      var lyear = false;
+      if ( (!(yyyy % 4) && yyyy % 100) || !(yyyy % 400)) 
+         lyear = true;
+
+       if ((lyear==false) && (dd>=29))
+         return false;
+      else
+         if (yyyy < 1900)
+            return false;
+         else
+            if (yyyy < 1900)
+               return false;
+            else
+               return true;
+
+      if ((lyear==true) && (dd>29))
+         return false;
+      else
+         if (yyyy < 1900)
+            return false;
+         else
+            return true;
+   }
+}
+
+</script>
+  </head>
+
+  <body class="InfoHdr" onselectstart="document.selection.empty();" onkeydown="if(event.keyCode==27)CloseForm('Cancel')" onload="SmsLoad()">
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+    </div>
+    <object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+    <form class="FrmDcl" action="Http:/Scripts/Trs.exe" method="get" id="McKesson" onsubmit="return SubmitForm()">
+      <table class="HdrTab">
+        <tbody>
+          <tr>
+            <td class="HdrCel" id="FORM_TITLE">&nbsp;</td>
+			<td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" type="submit" value="Submit" name="FORMBTN" /></td>
+			
+            <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="document.location='Http:/Scripts/trs.exe?btn=close&FORM=@WIZGET(FORM)&BTNSUBMIT=CANCEL'; return false" type="submit" value="Cancel" name="BTNSUBMIT" /></td>			
+
+            <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="top.PopKeyboard(window)" type="button" value="Keyboard" /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="FrmTab">
+        <tbody>
+          <tr>
+            <td class="FrmCel">
+              <table class="EntTab">
+                <tbody>
+                  <tr>
+                    <td class="EntCap">Search type</td>
+                    <td colspan="2"class="EntRad"><input class="EntRad" onclick="ChooseFilter('PhoneFilter')"  datasrc="@ATTRIB(R0A,'NOREFRESH')" type="radio" value="Phone" name="LookUp" truevalue="Phone"/>Phone&nbsp;&nbsp;&nbsp;<input class="EntRad" onclick="ChooseFilter('LastNamePlusFilter')" datasrc="@ATTRIB(R0A,'NOREFRESH')" type="radio" value="LastName" name="LookUp" truevalue="Phone"/>Last name</td>
+                  </tr>	
+                  <tr id="FirstNameRow" style="display:none;">
+                    <td class="EntCap">First Name</td>
+                    <td class="EntVal" colspan="2"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" size="32" name="FirstName" id="FirstName" value="@WIZGET(FirstName)" /> </td>
+                  </tr>
+                  <tr id="LastNameRow" style="display:none;">
+                    <td class="EntCap">Last Name</td>
+
+                    <td class="EntVal" colspan="2"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" size="32" name="LastName" id="LastName" value="@WIZGET(LastName)" /> </td>
+                  </tr>
+                  <tr id="DOBRow" style="display:none;">
+                    <td class="EntCap">Date Of Birth (MMDDYYYY)</td>
+                    <td class="EntVal" colspan="2"><input class="EntTxt" style="WIDTH: 220px" onkeydown="top.EntKeyDown(this,'NOREFRESH')" onblur="top.EntBlur(this)" ondblclick="top.PopDate(this,'date','Select a date','MMDDYYYY','',0)" size="32" name="DateOfBirth" id="DateOfBirth" value="@WIZGET(DateOfBirth)" /> </td>
+                  </tr>
+                  <tr id="StateRow" style="display:none;">
+                    <td class="EntCap">State</td>
+                    <td class="EntVal" colspan="2"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" size="32" name="TState" id="TState" value="@WIZGET(TSTATE)" /> </td>
+                  </tr>		
+                  <tr id="ZipRow" style="display:none;">
+                    <td class="EntCap">Zip</td>
+                    <td class="EntVal" colspan="2"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" size="32" name="Zip" id="Zip" value="@WIZGET(Zip)" /> </td>
+                  </tr>		
+                  <tr id="PhoneRow" style="display:none;">
+                    <td class="EntCap">Phone number</td>
+                    <td class="EntVal" ><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:num,'NOREFRESH')" size="32" name="PhoneNumber" id="PhoneNumber" value="@WIZGET(PhoneNumber)" /> </td>
+                  </tr>
+                 </tbody>
+              </table>
+            </td>
+          </tr>		  
+        </tbody>
+      </table>
+	  <input class="Hide" type="hidden" tabindex="-1" name="FilterType" />
+    </form>
+  </body>
+</html>
+

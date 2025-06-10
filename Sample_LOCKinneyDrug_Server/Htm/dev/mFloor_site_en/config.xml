@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget
+	id="com.locsoftware.mFloor" 
+	version="1.0.4" 
+	versionCode="17"
+	xmlns="http://www.w3.org/ns/widgets" 
+	xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>LOC Software mFloor</name>
+    <description>
+        This application is designed to work only with LOC Store Management Suite. It is used by store associates to manage operations from a portable device.
+    </description>
+    <author email="stephan.mercier@locsoftware.com" href="http://www.locsoftware.com">
+        LOC Team
+    </author>
+    
+    <feature name="http://api.phonegap.com/1.0/device" />
+
+    <preference name="phonegap-version" value="cli-6.5.0" />
+    <preference name="permissions" value="none" />
+    <preference name="orientation" value="portrait" />
+    <preference name="target-device" value="universal" />
+    <preference name="fullscreen" value="false" />
+    <preference name="webviewbounce" value="true" />
+    <preference name="prerendered-icon" value="true" />
+    <preference name="stay-in-webview" value="false" />
+    <preference name="ios-statusbarstyle" value="black-opaque" />
+    <preference name="detect-data-types" value="true" />
+    <preference name="exit-on-suspend" value="false" />
+    <preference name="show-splash-screen-spinner" value="true" />
+    <preference name="auto-hide-splash-screen" value="true" />
+    <preference name="disable-cursor" value="false" />
+    <preference name="android-minSdkVersion" value="16" />
+    <preference name="android-installLocation" value="auto" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+
+    <plugin name="cordova-plugin-splashscreen" />
+    <plugin name="cordova-plugin-camera" spec="4.0.0" />
+    <plugin name="cordova-plugin-device" spec="2.0.0" />
+    <plugin name="cordova-plugin-device-orientation" spec="2.0.0" />
+    <plugin name="cordova-plugin-dialogs" spec="2.0.0" />
+    <plugin name="cordova-plugin-geolocation" spec="4.0.0" />
+    <plugin name="cordova-plugin-splashscreen" spec="5.0.0" />
+    <plugin name="cordova-plugin-statusbar" spec="2.4.0" />
+    <plugin name="cordova-plugin-vibration" spec="3.0.0" />
+    <plugin name="cordova-plugin-whitelist" spec="1.3.3" />
+	<plugin name="phonegap-plugin-barcodescanner" spec="6.0.8" />
+	<plugin name="com-darryncampbell-cordova-plugin-intent" spec="https://github.com/LOCSoftwareDev/darryncampbell-cordova-plugin-intent" />	
+	
+	<icon src="icon.png" />
+	<splash src="Default-568h@2x~iphone.png" />
+	
+    <platform name="ios">
+    	<config-file platform="ios" parent="NSPhotoLibraryUsageDescription" overwrite="true">
+		  <string>Allow the app to use the camera to scan the barcode.</string>
+	    </config-file>
+	    <config-file platform="ios" parent="NSCameraUsageDescription" overwrite="true">
+		  <string>Allow the app to use the camera to scan the barcode.</string>
+	    </config-file>
+        <config-file platform="ios" parent="CFBundleShortVersionString" overwrite="true">
+          <string>3.4.17</string>
+        </config-file>
+    	<!-- iOS 8.0+ -->
+        <!-- iPhone 6 Plus  -->
+        <icon src="resources/icon/ios/icon-60@3x.png" width="180" height="180" />
+        <!-- iOS 7.0+ -->
+        <!-- iPhone / iPod Touch  -->
+        <icon src="resources/icon/ios/icon-60.png" width="60" height="60" />
+        <icon src="resources/icon/ios/icon-60@2x.png" width="120" height="120" />
+        <!-- iPad -->
+        <icon src="resources/icon/ios/icon-76.png" width="76" height="76" />
+        <icon src="resources/icon/ios/icon-76@2x.png" width="152" height="152" />
+        <!-- iOS 6.1 -->
+        <!-- Spotlight Icon -->
+        <icon src="resources/icon/ios/icon-40.png" width="40" height="40" />
+        <icon src="resources/icon/ios/icon-40@2x.png" width="80" height="80" />
+        <!-- iPhone / iPod Touch -->
+        <icon src="resources/icon/ios/icon.png" width="57" height="57" />
+        <icon src="resources/icon/ios/icon@2x.png" width="114" height="114" />
+        <!-- iPad -->
+        <icon src="resources/icon/ios/icon-72.png" width="72" height="72" />
+        <icon src="resources/icon/ios/icon-72@2x.png" width="144" height="144" />
+        <!-- iPhone Spotlight and Settings Icon -->
+        <icon src="resources/icon/ios/icon-small.png" width="29" height="29" />
+        <icon src="resources/icon/ios/icon-small@2x.png" width="58" height="58" />
+        <!-- iPad Spotlight and Settings Icon -->
+        <icon src="resources/icon/ios/icon-50.png" width="50" height="50" />
+        <icon src="resources/icon/ios/icon-50@2x.png" width="100" height="100" />
+        
+        <splash src="resources/splash/ios/Default~iphone.png"  width="320" height="480" />
+        <splash src="resources/splash/ios/Default@2x~iphone.png"  width="640" height="960" />
+        <splash src="resources/splash/ios/Default-Portrait~ipad.png"  width="768" height="1024" />
+        <splash src="resources/splash/ios/Default-Portrait@2x~ipad.png" width="1536"  height="2048" />
+        <splash src="resources/splash/ios/Default-Landscape~ipad.png"  width="1024" height="768" />
+        <splash src="resources/splash/ios/Default-Landscape@2x~ipad.png"  width="2048" height="1536" />
+        <splash src="resources/splash/ios/Default-568h@2x~iphone.png" width="640" height="1136"/>
+        <splash src="resources/splash/ios/Default-667h.png" width="750" height="1334" />
+        <splash src="resources/splash/ios/Default-736h.png" width="1242" height="2208" />
+        <splash src="resources/splash/ios/Default-Landscape-736h.png" width="2208" height="1242" />
+    </platform>
+    <platform name="android">
+        <icon  gap:density="ldpi" src="resources/icon/android/ldpi.png" />
+        <icon  gap:density="mdpi" src="resources/icon/android/mdpi.png" />
+        <icon  gap:density="hdpi" src="resources/icon/android/hdpi.png" />
+        <icon  gap:density="xhdpi" src="resources/icon/android/xhdpi.png" />
+        <icon  gap:density="xxhdpi" src="resources/icon/android/xxhdpi.png" />
+        <icon  gap:density="xxxhdpi" src="resources/icon/android/xxxhdpi.png" />
+        
+        <splash gap:density="hdpi"  src="resources/splash/android/hdpi-portrait.png" />
+        <splash gap:density="ldpi"  src="resources/splash/android/ldpi-portrait.png" />
+        <splash gap:density="mdpi"  src="resources/splash/android/mdpi-portrait.png" />
+        <splash gap:density="xhdpi"  src="resources/splash/android/xhdpi-portrait.png" />
+        <splash gap:density="xxhdpi"  src="resources/splash/android/xxhdpi-portrait.png" />
+        <splash gap:density="xxxhdpi"  src="resources/splash/android/xxxhdpi-portrait.png" />
+    </platform>
+    <platform name="webos">
+        <icon src="resources/icon/webos/icon-64.png" />
+    </platform>
+    <platform name="winphone">
+        <icon src="resources/icon/windows-phone/icon-48.png" />
+        <icon gap:role="background" src="resources/icon/windows-phone/icon-173.png" />
+        
+        <splash src="resources/splash/windows-phone/screen-portrait.jpg" />
+    </platform>
+    <platform name="blackberry">
+        <splash src="resources/splash/blackberry/screen-225.png" />
+    </platform>
+
+    <access origin="*" />
+    <access origin="http://127.0.0.1*" />
+    <allow-navigation href="*" />
+
+</widget>

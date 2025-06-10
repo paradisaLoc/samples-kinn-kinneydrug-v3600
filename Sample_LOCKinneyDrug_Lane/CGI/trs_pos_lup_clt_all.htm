@@ -1,0 +1,147 @@
+<html>
+<head>
+<meta name="sms-protected" content="true"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../Images/trs_look.css" type="text/css">
+
+@dbHot(REG,SET,@PROFILE/PosLupClt*)
+
+@dbVIEW(Q4,SELECT F1452,F1453,F1458 FROM RB_FIELDS)
+@dbTABLE(Q3,SELECT F1601,F1605 FROM DRIL_PAGE WHERE F1597='PosLupClt' AND @DBHOT(LEVELFIELD)&gt;0 ORDER BY F1598)
+<dbtable>            
+  @wizclr(TEXTOPTION)
+  @FMT(CMP,'@FMT(POS,'|@dbFIND(Q4,F1452;F1453,@TOOLS(PARAM,.,1,@dbROW(Q3,F1605));@TOOLS(PARAM,.,2,@dbROW(Q3,F1605)),F1458)|','|dtInteger|dtDouble|dtCurrency|')<>0','®WIZRPL(TMPQUERY=AND ®dbROW(Q3,F1605)=®FMT(#,®wizget(®dbROW(Q3,F1605))))','®wizrpl(TEXTOPTION=®dbHot(REG,@PROFILE/PosLupClt/TextType))')
+
+  @WIZRPL(JOIN_CLL=1);
+  @FMT(CMP,"@FMT(CMP,@dbROW(Q3,F1605)=CLT_TAB.F1148,1,0)@wizget(TEXTOPTION)=0CONTAIN",'®WIZRPL(TMPQUERY=AND ®dbROW(Q3,F1605) LIKE "%®wizget(®dbROW(Q3,F1605))%")')
+  @FMT(CMP,"@FMT(CMP,@dbROW(Q3,F1605)=CLT_TAB.F1148,1,0)@wizget(TEXTOPTION)=1CONTAIN",'®WIZRPL(TMPQUERY=AND (®dbROW(Q3,F1605) LIKE "%®wizget(®dbROW(Q3,F1605))%" OR (CLL_TAB.F1577 LIKE "%®wizget(®dbROW(Q3,F1605))%" AND CLL_TAB.F1578="PS")))')
+
+  @FMT(CMP,"@FMT(CMP,@dbROW(Q3,F1605)=CLT_TAB.F1148,1,0)@wizget(TEXTOPTION)=0START",'®WIZRPL(TMPQUERY=AND ®dbROW(Q3,F1605) LIKE "®wizget(®dbROW(Q3,F1605))%")')
+  @FMT(CMP,"@FMT(CMP,@dbROW(Q3,F1605)=CLT_TAB.F1148,1,0)@wizget(TEXTOPTION)=1START",'®WIZRPL(TMPQUERY=AND (®dbROW(Q3,F1605) LIKE "®wizget(®dbROW(Q3,F1605))%" OR (CLL_TAB.F1577 LIKE "®wizget(®dbROW(Q3,F1605))%" AND CLL_TAB.F1578="PS")))')
+
+  @FMT(CMP,"@FMT(CMP,@dbROW(Q3,F1605)=CLT_TAB.F1148,1,0)@wizget(TEXTOPTION)=0END",'®WIZRPL(TMPQUERY=AND ®dbROW(Q3,F1605) LIKE "%®wizget(®dbROW(Q3,F1605))")')
+  @FMT(CMP,"@FMT(CMP,@dbROW(Q3,F1605)=CLT_TAB.F1148,1,0)@wizget(TEXTOPTION)=1END",'®WIZRPL(TMPQUERY=AND (®dbROW(Q3,F1605) LIKE "%®wizget(®dbROW(Q3,F1605))" OR (CLL_TAB.F1577 LIKE "%®wizget(®dbROW(Q3,F1605))" AND CLL_TAB.F1578="PS")))')
+
+  @FMT(CMP,"@FMT(CMP,@dbROW(Q3,F1605)=CLT_TAB.F1148,1,0)@wizget(TEXTOPTION)=0EQUAL",'®WIZRPL(TMPQUERY=AND ®dbROW(Q3,F1605)="®wizget(®dbROW(Q3,F1605))")')
+  @FMT(CMP,"@FMT(CMP,@dbROW(Q3,F1605)=CLT_TAB.F1148,1,0)@wizget(TEXTOPTION)=1EQUAL",'®WIZRPL(TMPQUERY=AND (®dbROW(Q3,F1605)="®wizget(®dbROW(Q3,F1605))" OR (CLL_TAB.F1577="®wizget(®dbROW(Q3,F1605))" AND CLL_TAB.F1578="PS")))')
+
+  @FMT(CMP,'@dbFIND(Q4,F1452;F1453,@TOOLS(PARAM,.,1,@dbROW(Q3,F1605));@TOOLS(PARAM,.,2,@dbROW(Q3,F1605)),F1458)=dtDateTime','®WIZRPL(TMPQUERY=AND ®dbROW(Q3,F1605)=\"®wizget(®dbROW(Q3,F1605))\")')
+  @FMT(CMP,@wizget(@dbROW(Q3,F1605))<>,'®wizrpl(SQUERY=®wizget(SQUERY) ®wizget(TMPQUERY))')
+  @FMT(CMP,@FMT(POS,CLL_TAB,@dbROW(Q3,F1605))<>0,'®wizrpl(JOIN_CLL=1)')
+  @FMT(CMP,@FMT(POS,CLR_TAB,@dbROW(Q3,F1605))<>0,'®wizrpl(JOIN_CLR=1)')
+  @FMT(CMP,@FMT(POS,CLF_TAB,@dbROW(Q3,F1605))<>0,'®wizrpl(JOIN_CLF=1)')
+</dbtable>
+
+<script>
+
+@WIZSET(FILTER=@WIZGET(SQUERY));
+
+var sCI='@WIZGET(CI)';
+
+function SmsLoad()
+{
+ top.BodyLoad(document);
+ QueryExec();
+ top.GridResize(GridTable,'@PROFILE/PosDoc/LookSize','T');
+}
+
+function SmsGridRefresh(sCI,sRefreshType,sRefreshIdx,sRefreshKey)
+{
+ if (sCI.indexOf("G")!=-1)
+  SmsGrid.SMSGridSelect="ACTIVEFOCUS";
+ else
+ if (sCI.indexOf("L")==-1)
+  return true;
+}
+
+function SmsGridEvent()
+{
+ if (SmsGrid.SMSGridSelect=="") 
+ {
+  window.focus();
+  SmsGrid.SMSGridSelect="FOCUS";
+ }
+ else
+ if (SmsGrid.SMSGridSelect=="COMBOCHANGE") 
+  comdialog.SetRegistry('@PROFILE/PosLupClt/Order','',SmsGrid.GetField('COMBOORDER'));
+ else
+ if (SmsGrid.SMSGridSelect=="ENTER" && SmsGrid.GetField("Code") != '')
+//  document.location= 'http:/scripts/trs.exe?FRAME=&FCT=307&BTN=CLOSE&CN=@CNC&TN=@TER&ENTRY='+SmsGrid.GetField("Code");
+  document.location= 'http:/scripts/trs.exe?FRAME=&FCT=908&BTN=CLOSE&CN=@CNC&TN=@TER&CUSTOMER='+SmsGrid.GetField("Code");
+}
+
+var sGridFieldDef;
+var sGridFieldList='';
+
+function QueryExec()
+{
+ sGridFieldDef=comdialog.GetRegistry('@PROFILE/PosLupClt/Fields','CLT_TAB.F1149+\' \'+CLT_TAB.F1150 as Name,CLT_TAB.F1155 as CompanyName,CLT_TAB.F1158 as City');
+ SmsGrid.SqlQuery="SELECT DISTINCT ISNULL((SELECT TOP 1 F1577 FROM CLL_TAB WHERE F1148=CLT_TAB.F1148 AND F1578='PS' AND LEFT(F1577,2)='46' AND ISNULL(F1898,'0')='1'),CLT_TAB.F1148) as Code,"+top.GridFieldNormalize(sGridFieldDef)+" FROM CLT_TAB @FMT(CMP,@wizget(JOIN_CLL)=1,LEFT JOIN CLL_TAB ON CLT_TAB.F1148=CLL_TAB.F1148) @FMT(CMP,@wizget(JOIN_CLR)=1,LEFT JOIN CLR_TAB ON CLT_TAB.F1153=CLR_TAB.F1153) @FMT(CMP,@wizget(JOIN_CLF)=1,LEFT JOIN CLF_TAB ON CLT_TAB.F1152=CLF_TAB.F1152) WHERE 1=1 AND (CLT_TAB.F1950 NOT LIKE 'NA' OR CLT_TAB.F1950 IS NULL) @FMT(2JS,'@WIZGET(FILTER)') ORDER BY "+comdialog.GetRegistry('@PROFILE/PosLupClt/Order','Code');
+}
+
+function GridFldSet()
+{
+ if (!sGridFieldList) 
+ {
+  @dbTABLE(Q1,SELECT F1452+'.'+F1453+' as '+F2595 as F1401,F1454 = CASE WHEN RB.F1454=(SELECT TOP 1 F1454 FROM rb_fields WHERE F1454=RB.F1454 AND F1452<>RB.F1452 AND F2595<>'' AND (F1452='CLT_TAB' OR F1452='CLR_TAB')) THEN F1454+' ('+F1452+')' ELSE F1454 END FROM rb_fields RB WHERE F2595<>'' AND (F1452='CLT_TAB' OR F1452='CLR_TAB') ORDER BY F1454)
+  <dbtable>sGridFieldList+='@dbROW(Q1,F1401,RAW)=@FMT(2JS,'@dbROW(Q1,F1454)'),'</dbtable>
+ }
+ sGridFieldList=top.GridGetFieldList(sGridFieldDef,sGridFieldList);
+ var sFld=comdialog.get_choice(sGridFieldDef,sGridFieldList,"Select search criteria",3,2,500,400);
+ sFld=sFld.replace(/;/gi,',')
+ if (comdialog.okcancel()==1)
+ {
+  comdialog.SetRegistry('@PROFILE/PosLupClt/Order','','Code');
+  comdialog.SetRegistry('@PROFILE/PosLupClt/Fields','',sFld);
+  QueryExec();
+ }
+}
+
+function LocalKey()
+{
+ if(window.event.keyCode == 27)
+  top.Info.SetFocusOnLastEntry();
+}
+</script>
+
+<script LANGUAGE="JavaScript" FOR="SmsGrid" EVENT="SmsGridDone()">
+SmsGridEvent()
+</script>
+</head>
+
+<body class="Grid" onload="SmsLoad()" onResize="top.GridResize(GridTable,'@PROFILE/PosDoc/LookSize','TF')" onkeydown="LocalKey()">
+
+<object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+</object> 
+
+<table class="GridFrmTitle">
+	<tr>
+		<td class="GridFrmTitle">
+			<table class="Grid">
+				<tr>
+					<td class="GridTitle">Client that meets the requested criteria.</td>
+
+					<td class="GridEnt"><u>G</u>rid&nbsp;&nbsp;<input class="GridBtn" datasrc="@ATTRIB(BR)" type="Button" onclick="GridFldSet()" value="Fields" /></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+<table class="GridFrmGrid" accesskey="G" onfocus="SmsGrid.SMSGridSelect='ACTIVEFOCUS'" ID="GridTable" height="10px" width="100%">
+<tr><td class="GridFrmGrid">
+<object classid="clsid:7ABC48CB-63C0-4FDB-B020-593C6F39BFE0" id="SmsGrid" width="100%" height="100%">
+  <param name="DoNotNormalizeUpc" value="@dbHot(DoNotNormalizeUpc)">
+  <param name="AxBorderStyle" value="0">
+  <param name="DBAlias" value="@dbHot(DBALIAS,AliasClient)">
+  <param name="DBUserName" value="@dbHot(DBUSERNAME,AliasClient)">
+  <param name="DBPassword" value="@dbHot(DBPASSWORD,AliasClient)">
+  <param name="GridTitle" value="">
+  <param name="GridButtons" value="Select@wizget(BTNLIST)">
+  <param name="GridColumns" value="Registry:@PROFILE/PosLupClt">
+</object>
+</td></tr>
+</table>
+
+</body>
+</html>

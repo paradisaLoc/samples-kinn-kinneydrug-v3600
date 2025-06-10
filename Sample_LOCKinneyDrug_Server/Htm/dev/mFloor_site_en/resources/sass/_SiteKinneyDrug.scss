@@ -1,0 +1,27 @@
+$Kinney-Color-Blue: #2d467c !default;
+$Kinney-Color-Red: #bf4923 !default;
+$Kinney-Color-Black: $sms-color-black !default;
+
+
+.x-button.sms-start-btn-blue,
+.sms-login-btn,
+.x-toolbar .x-button.sms-title-print-act-btn {
+	background-color: $Kinney-Color-Blue !important;
+	background-image: none !important;
+}
+.x-toolbar .x-button.sms-title-back-btn,
+.x-toolbar .x-button.sms-title-logout-btn,
+.x-toolbar .x-button.sms-title-close-btn,
+.sms-popup-error>.x-dock {
+	background-color: $Kinney-Color-Red;
+}
+.x-button.sms-start-btn-green {
+	background-color: $Kinney-Color-Blue;
+	background-image: none;
+	border: none;
+	box-shadow: none;
+}
+.sms-login-text>.x-form-label,
+.sms-login2-checkbox .x-form-label {
+	color: $Kinney-Color-Black;
+}

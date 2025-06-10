@@ -1,0 +1,55 @@
+@DBTABLE(Q1,@WIZGET(SQLQUERY));
+<?xml version="1.0" encoding="utf-8"?>
+<Data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DataInfo>
+    <OwnerOrganization Code="KIN" />
+  </DataInfo>
+  <Details>
+    <Type>
+      <Promotions>
+<DBTABLE>
+@IF(@WIZGET(PromoCode)<>@DBROW(Q1,PromoCode,L)@DBROW(Q1,PromoType,L))
+@FMT(CMP,@WIZGET(PromoCode)<>,"              </Packages>
+            </PromotionGroup>
+          </PromotionGroups>
+        </Promotion>")
+	    <Promotion>
+          <PromotionCode Code="@DBROW(Q1,PromoCode,L)" />@WIZRPL(PromoCode=@DBROW(Q1,PromoCode,L)@DBROW(Q1,PromoType,L))@WIZCLR(PGPromoGroupType)
+          <Description>@DBROW(Q1,PromoDesc,L)</Description>
+          <PromotionType Code="@DBROW(Q1,PromoType,L)">
+            <DaxEventSubTypeCode Code="" />
+          </PromotionType>
+          <StartDate>@DBROW(Q1,PromoStartDte,DXDF)T00:00:00</StartDate>
+          <EndDate>@DBROW(Q1,PromoEndDte,DXDF)T23:59:00</EndDate>
+          @FMT(CMP,@DBROW(Q1,FixedPrice,#)=0,'<FixedPrice xsi:nil="True"></FixedPrice>','<FixedPrice>@DBROW(Q1,FixedPrice,#:2)</FixedPrice>')
+          <IsDeleted>@DBROW(Q1,IsDeleted,L)</IsDeleted>
+		  <DaysToShipInAdvance>4</DaysToShipInAdvance>
+          <Stores>
+            @DBROW(Q1,STORES,XML)
+          </Stores>
+          <FactorManualLifts />
+          <PromotionGroups>
+@ENDIF
+@FMT(CMP,@WIZGET(PGPromoGroupType)<>@WIZGET(PromoCode)@DBROW(Q1,PGGroupType,L),'®FMT(CMP,®WIZGET(PGPromoGroupType)<>,            </PromotionGroup>)®WIZRPL(PGPromoGroupType=®WIZGET(PromoCode)®DBROW(Q1,PGGroupType,L))
+            <PromotionGroup GroupType="®DBROW(Q1,PGGroupType,L)" InternalGroupCode="®DBROW(Q1,IntGrpCode,#)" NonPromoRepresentingPrice="®DBROW(Q1,NonPromoRepPrice,#)" Quantity="®DBROW(Q1,PGQty,#)" PromoRepresentingPrice="®DBROW(Q1,PromoRepPrice,#)" DiscountPercent="®DBROW(Q1,PGPcOff,#)" AmountOff="®DBROW(Q1,PGAmtOff,#)">
+              <Packages>')
+                <Package>
+                  <MinDisplay>
+                    <MinDisplayValue xsi:nil="true" />
+                    <Stores />
+                  </MinDisplay>
+                  <OrderableCode Code="" />
+                  <Supplier Code="" />
+                  <MainCode Code="@DBROW(Q1,MainCode,L)" />
+                  @FMT(CMP,@DBROW(Q1,PromoPrice,#)=0,'<PromoPrice xsi:nil="True"/>','<PromoPrice>@DBROW(Q1,PromoPrice,#:2)</PromoPrice>')
+                  @FMT(CMP,@DBROW(Q1,NonPromoPrice,#)=0,'<NonPromoPrice xsi:nil="True"/>','<NonPromoPrice>@DBROW(Q1,NonPromoPrice,#:2)</NonPromoPrice>')
+                </Package>
+</DBTABLE>
+              </Packages>
+            </PromotionGroup>
+          </PromotionGroups>
+        </Promotion>
+      </Promotions>
+    </Type>
+  </Details>
+</Data>

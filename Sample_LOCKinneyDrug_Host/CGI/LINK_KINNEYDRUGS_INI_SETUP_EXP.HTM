@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/sms_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_info.css" type="text/css" />
+<script type="text/javascript">
+function SmsLoad() 
+{
+  top.BodyLoad(document);
+  top.CursorSetFocus(document,'@wizget(CS)','@wizget(CP)');
+}
+
+function GoUrl(Url) 
+{
+   document.location="Http:/Scripts/Trs.exe?TN=@TER&CN=@CNC&"+Url;
+}
+
+
+</script>
+
+<style>
+.EntBtn{
+  padding: 0 8px; 
+  }
+</style>
+
+<title>Kinney Drugs Configuration</title>
+</head>
+
+  <body onload="SmsLoad()" class="InfoHdr" onresize="ResizeWin()">
+    <object style="POSITION: absolute; VISIBILITY: hidden; TOP: -200px" id="comdialog" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A" width="100" height="10">
+    </object> 
+
+    <div style="POSITION: absolute; BACKGROUND-COLOR: white; VISIBILITY: hidden; TOP: -200px" id="gen_sets">
+      @dbHot(Link_KinneyDrugs.INI,SET,Link_KinneyDrugs.INI[*)<br />
+    </div>
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <td class="HdrCel">Kinney Drugs Configuration</td>
+
+          <td class="HdrBtnCel">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <th class="EntHdr" colspan="4">General Setup</th>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Location of the files to import</td>
+                  <td class="EntInp"><input style="WIDTH: 277px; HEIGHT: 15px" id="DIR2" datasrc="@attrib(E:txt:dir)" class="EntGridTxt" name="Link_KinneyDrugs.ini[EXPORT]OUTBOX" value="@DBHOT(INI,@OFFICELink_KinneyDrugs.INI,EXPORT,OUTBOX)" size="29" width:="width:" height:="height:" /></td>
+                </tr>
+
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <br />
+    <br />
+  </body>
+</html>
+

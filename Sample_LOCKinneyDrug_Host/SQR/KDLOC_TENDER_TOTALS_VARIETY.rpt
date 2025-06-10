@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<html>
+
+  <head>
+    <desc>
+      <input type="hidden" class="HidParam" id="RPT_NAME" value="Tender Totals by Variety" /> <input type="hidden" class="HidParam" id="RPT_FILENAME" value="KDLOC_Tender_Totals_Variety" /> <input type="hidden" class="HidParam" id="RPT_PARENT" value="rpt_fin" /> <input type="hidden" class="HidParam" id="RPT_PRIORITY" value="1" /> <input type="hidden" class="HidParam" id="RPT_DESC" value="Display totalizers with reversal amounts. CRITERIA: Period and Target." /> <input type="hidden" class="HidParam" id="RPT_GROUP" value="2.Accounting" /> <input type="hidden" class="HidParam" id="RPT_WIZARD" value="yes" />
+    </desc>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="CurHdr" content="ScreenRpt" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="PRAGMA" content="No_Cache" />
+    <link rel="stylesheet" href="../../Images/sms_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_rpt.css" type="text/css" />
+<script type="text/javascript" src="../../Images/rpt.js">
+        
+</script>
+
+    <title></title>
+  </head>
+
+  <body class="Main" onload="@wizset(CURPOS=0)InitRpt(document,@wizget(CURPOS),'@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','http:/scripts/trs.exe')">
+    <object id="cDialog" class="ComDialog" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <th id="RptTitle" class="HdrCel">Tender Totals by Variety</th>
+
+          <th class="HdrBtnCel"><input onclick="SubmitReport('@wizget(DN)')" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" accesskey="Z" type="button" value="Launch" name="BtnSubmit" /></th>
+
+          <th class="HdrBtnCel"><input onclick="PrintReport('@wizget(DN)')" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" type="button" value="Print" name="BtnPrint" /></th>
+
+          <th class="HdrBtnCel"><input onclick="ReportAddTo(this,'@wizget(DN)','T')" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" type="button" value="Add" name="BtnTask" /></th>
+
+          <th class="HdrBtnCel"><input onclick="document.location='http:/scripts/trs.exe?htt=sqr\\' + RPT_FILENAME.value + '.rpt&amp;CN=@CNC&amp;TN=@TER';" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" type="button" value="Reset" name="BtnReset" /></th>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="EntTab" style="POSITION: absolute; LEFT: 50px; TOP: 70px">
+      <tbody>
+        <tr>
+          <th class="EntHdr" colspan="2">PERIOD</th>
+        </tr>
+
+        <tr>
+          <td id="oPeriodSrc" class="EntPeriod" initval="@wizset(DETAIL=0)@wizget(DETAIL)" detail_details="@dbhot(DETAIL_DETAILS)" detail_names="@dbhot(DETAIL_NAMES)" detail_periods="@dbhot(DETAIL_PERIODS)">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="EntTab" style="POSITION: absolute; LEFT: 200px; TOP: 70px">
+      <tbody>
+        <tr>
+          <th id="oDateSrc" class="EntHdr" colspan="4" initval="@wizset(REFRESH_DATE=1)@wizget(REFRESH_DATE)" initdatereg="@wizset(DATE=@DWDD)@wizget(DATE)" initweek="@dbHOT(WEEKSTART)" initformatsql="@dbHOT(REGIONAL,SQLDATEFORMAT)" initformat="@dbHOT(REGIONAL,SHORTDATEFORMAT)">DATE RANGE</th>
+
+          <td>
+          </td>
+        </tr>
+
+        <tr>
+          <th class="EntCap">Start</th>
+
+          <td class="EntInp"><input onchange="ValidateField(window,this,'date')" ondblclick="ShowDateExt(window,this,'Select a date','D')" onfocus="SaveValue(this)" onblur="LeaveField(this)" class="EntDat" onkeydown="ReadKeyStroke(window,this)" style="WIDTH: 90px" value="@wizget(START)" name="START" /></td>
+
+          <td class="EntVal" style="WIDTH: 0%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px" rowspan="2"><input onclick="GotoNextPreviousDate('-')" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="EntBtn" onkeydown="ReadKeyStroke(window,this)" style="WIDTH: 60px" type="button" value="Past" name="BtnDatPas" /><br />
+          <input onclick="GotoNextPreviousDate('+')" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="EntBtn" onkeydown="ReadKeyStroke(window,this)" style="WIDTH: 60px" type="button" value="Future" name="BtnDatFut" /> </td>
+        </tr>
+
+        <tr>
+          <th class="EntCap">Stop</th>
+
+          <td class="EntInp"><input onchange="ValidateField(window,this,'date')" ondblclick="ShowDateExt(window,this,'Select a date','F')" onfocus="SaveValue(this)" onblur="LeaveField(this)" class="EntDat" onkeydown="ReadKeyStroke(window,this)" style="WIDTH: 90px" value="@wizget(STOP)" name="STOP" /></td>
+        </tr>
+
+        <tr>
+          <td id="oDateDesc" class="EntVal" colspan="4">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <input class="HidParam" type="hidden" value="KDLOC_Tender_Totals_Variety" name="SQR" /><input class="HidParam" type="hidden" value="@CNC" name="CN" /><input class="HidParam" type="hidden" value="@TER" name="TN" />
+
+    <table class="EntTab" style="POSITION: absolute; LEFT: 200px; TOP: 150px">
+      <tbody>
+        <tr>
+          <th class="EntHdr" colspan="2">TARGET</th>
+        </tr>
+
+        <tr>
+          <td class="EntInp"><input onchange="@TOOLS(ValidateField,txt,F1000_RPT)" ondblclick="@TOOLS(ShowGrid,F1000_RPT)" onfocus="SaveValue(this)" datasrc="@wizset(TARGET=@TOOLS(PopupDefault,F1000_RPT,FIRST,RAL))" onblur="LeaveField(this)" class="EntGrid" onkeydown="ReadKeyStroke(window,this)" style="WIDTH: 70px" value="@wizget(TARGET)" name="TARGET" /></td>
+
+          <td class="EntVal"><input tabindex="-1" class="EntValTxt" readonly="readonly" value="@dbSELECT(SELECT F1018 FROM STO_TAB WHERE F1000='@wizget(TARGET)')" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

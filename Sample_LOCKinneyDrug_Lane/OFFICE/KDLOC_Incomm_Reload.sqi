@@ -1,0 +1,22 @@
+/* START TRANSACTION TO PREVENT PINPAD OUT OF SYNC */
+@TOOLS(AUTO_START);
+
+/* SET PAYTRANCODE */
+@wizRpl(PAYTRANCODE=200);
+
+/* Prompt for MSR swipe */
+@FMT(CMP,@WIZEXIST(PAYTRACK)@DBHOT(HOT_MEM,TRSPROMPT)=00,"®EXEC(MSG='~Waiting for card swipe')®exec(XCH=MSRSWIPE)");
+@FMT(CMP,@WIZGET(MSRSWIPE)=0,"®EXEC(MSG='!Swipe error')®FMT(CHR,27)");
+
+/* GET PLU FROM INCOMM BIN TABLE, SUPPORTS 6-, 7- AND 8-DIGIT BIN. 7-DIGIT BIN SUPPORT MAY BE REMOVED BY ADJUSTING THE IN CLAUSE */
+@wizRpl(INCOMM_PLU=@dbSelect(select top (1) F01 from KDLOC_INCOMM_BIN where F1401 in (left('@wizGet(PAYTRACK)',6),left('@wizGet(PAYTRACK)',7),left('@wizGet(PAYTRACK)',8)) order by len(F1401) desc));
+@FMT(CMP,@WIZGET(INCOMM_PLU)=,"®EXEC(MSG='!Card not found')®FMT(CHR,27)");
+
+/* Check to see if the INCOMM PLU is an alternate id */
+@WIZRPL(ALT_ID_F01=@DBSELECT(SELECT F01 FROM ALT_TAB WHERE RIGHT(REPLICATE('0', 13) + F154, 13) = '@WIZGET(INCOMM_PLU)'));
+
+/* Set the item to the PLU for the alternate id or the INCOMM PLU */
+@WIZRPL(ITM=@FMT(CMP,@WIZGET(ALT_ID_F01)=,'®WIZGET(INCOMM_PLU)','®WIZGET(ALT_ID_F01)'));
+
+/* Add InComm PLU to the transaction */
+@EXEC(FCT=710);

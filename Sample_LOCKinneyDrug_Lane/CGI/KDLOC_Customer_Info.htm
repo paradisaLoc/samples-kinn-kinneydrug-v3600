@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>trs_pos_edit_clt_info</title>
+    <meta name="CurHdr" content="ScreenPos" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/pos_entry.css" type="text/css" />
+<script src="../../Images/sms.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+
+@WIZSET(F1148=@dbHOT(HOT_IDX,F1148));
+
+@WIZRPL(ENTRYNUMBER=@WIZGET(F1148));
+@WIZRPL(STUB=0);
+@WIZRPL(EXPIRY=0);
+@WIZRPL(PAYTRANCODE=6);
+@WIZRPL(PAYFUNCTION=190);
+@EXEC(XCH=PAYUTIL);
+
+@EXEC(HOT_IDX_F1148=@WIZGET(F1148));
+
+@WIZRPL(THRIVE_CUSTOMER=@DBSELECT(SELECT CASE 
+	WHEN (SELECT TOP 1 F1577 FROM CLL_TAB WHERE F1148='@dbHot(CLT_TAB,CLT_TAB[F1148],L)' AND F1578='PS' AND LEFT(F1577,2)='46' AND ISNULL(F1898,'0')='1') IS NOT NULL 
+		THEN (SELECT TOP 1 F1577 FROM CLL_TAB WHERE F1148='@dbHot(CLT_TAB,CLT_TAB[F1148],L)' AND F1578='PS' AND LEFT(F1577,2)='46' AND ISNULL(F1898,'0')='1') 
+	WHEN (SELECT F1148 FROM CLT_TAB WHERE F1148='@dbHot(CLT_TAB,CLT_TAB[F1148],L)' AND LEFT(F1148,2)='46') IS NOT NULL 
+		THEN (SELECT F1148 FROM CLT_TAB WHERE F1148='@dbHot(CLT_TAB,CLT_TAB[F1148],L)' AND LEFT(F1148,2)='46')
+	ELSE '' END));
+
+@wizset(CP=4)
+function SmsLoad() 
+{
+  top.BodyLoad(document);
+  top.CursorSetFocus(document,"@wizget(CS)","@wizget(CP)");
+}
+
+</script>
+  </head>
+
+  <body class="InfoHdr" onselectstart="document.selection.empty();" onkeydown="if(event.keyCode==27)CANCEL.click()" onload="SmsLoad()">
+    <object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+    </div>
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <td class="HdrCel">CUSTOMER #@FMT(CMP,@WIZGET(THRIVE_CUSTOMER)=,"®dbHot(CLT_TAB,CLT_TAB[F1148],L)","®WIZGET(THRIVE_CUSTOMER)")</td>
+
+          <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="document.location='http:/scripts/trs.exe?BTN=CLOSE'" type="submit" value="Close" name="CANCEL" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <th class="EntHdr" colspan="4">CUSTOMER INFORMATION</th>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">First Name: </td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 250px" tabindex="-1" readonly="readonly" value="@dbHot(CLT_TAB,CLT_TAB[F1149],L)" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Last Name: </td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 250px" tabindex="-1" readonly="readonly" value="@dbHot(CLT_TAB,CLT_TAB[F1150],L)" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Email: </td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 250px" tabindex="-1" readonly="readonly" value="@dbHot(CLT_TAB,CLT_TAB[F1573],L)" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Phone: </td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 250px" tabindex="-1" readonly="readonly" value="@dbHot(CLT_TAB,CLT_TAB[F1172],L)" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Point Balance: </td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 250px" tabindex="-1" readonly="readonly" value="@FMT(#,@WIZGET(PAYPOINT1_BALANCE))" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Shopper Level: </td>
+
+@FMT(CMP,@FMT(CMP,@FMT(POS,',@dbHot(CLT_TAB,CLT_TAB[F1152],#),',',2,3,4,5,')>0,1,0)@FMT(CMP,@FMT(POS,',@dbHot(CLT_TAB,CLT_TAB[F1152],#),',',@DBHOT(INI,KinneyDrug.ini,THRIVE,SHOPLEVEL),')>0,1,0)=11,'®WIZRPL(THRIVE_TYPE=BASIC)');
+@FMT(CMP,@FMT(CMP,@FMT(POS,',@dbHot(CLT_TAB,CLT_TAB[F1152],#),',',12,13,14,15,')>0,1,0)@FMT(CMP,@FMT(POS,',@dbHot(CLT_TAB,CLT_TAB[F1152],#),',',@DBHOT(INI,KinneyDrug.ini,THRIVE,SHOPLEVEL),')>0,1,0)=11,'®WIZRPL(THRIVE_TYPE=PLATINUM)');
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 250px" tabindex="-1" readonly="readonly" value="@WIZGET(THRIVE_TYPE)" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+ 
+  </body>
+</html>
+

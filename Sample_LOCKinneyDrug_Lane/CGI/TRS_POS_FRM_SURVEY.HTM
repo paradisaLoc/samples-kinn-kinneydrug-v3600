@@ -1,0 +1,33 @@
+<html>
+<body>
+<p>@dbview(Q1,SELECT OBJ.F01,OBJ.F214,OBJ.F29,OBJ.F1962,DATEADD(DD,ISNULL(REG.F1803,30),REG.F254) AS F1846 
+FROM SAL_REG REG JOIN OBJ_TAB OBJ ON OBJ.F01=REG.F01 WHERE REG.F1101='@dbHot(SAL_REG,F1101,#)' AND REG.F1032='@dbHot(SAL_REG,F1032,#)')</p>
+<pre align="center">
+* * * * * * * * * * * * * * * * * * * 
+<big>How are we doing?</big>
+<center><big>Let us know at:</big></center>
+<center><big><b>www.kinney-cares.com</b></big></center>
+</pre>
+&nbsp;
+<pre align="center">
+<big><u></u></big>
+</pre>
+&nbsp;
+<pre align="center">
+</pre>
+&nbsp;
+<pre align="center">
+@FMT(L30,'@DBHOT(SAL_HDR,F254,DLDF)')@FMT(R10,@FMT(T4D,@DBHOT(SAL_HDR,F1036,L)))
+</pre>
+&nbsp;
+&nbsp;
+</pre>
+
+<pre align="center">
+&nbsp;
+* * * * * * * * * * * * * * * * * * * 
+</pre align="center">
+</pre>
+</body>
+</html>
+

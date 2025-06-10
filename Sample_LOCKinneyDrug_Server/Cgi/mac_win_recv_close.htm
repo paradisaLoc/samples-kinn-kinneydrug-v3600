@@ -1,0 +1,14 @@
+<html>
+<body>
+<p>@dbTable(Q1,SELECT GETDATE() as F1411,<br />
+F1032,F91,F27,F334,F1067,F76,F2655 FROM REC_HDR WHERE F1067<>'CLOSE' AND F1068='RECV' AND F2655<>'');</p>
+
+<pre>
+@IF(@dbRow(Q1,F1411,DIDF)@dbRow(Q1,F1411,DHDF)>@dbRow(Q1,F76,DIDF)@dbRow(Q1,F2655))
+@WINMAIL(\\*\MailSlot\PUBLIC,®EXEC(MSG_TYPE=DOC,MSG_ID=0,MSG=-));
+@WINMAIL(\\*\MailSlot\PUBLIC,®EXEC(CGI=MAC_TRS_REC_DOC_CLOSE,F1032=@dbRow(Q1,F1032,#)));
+@ENDIF
+</pre>
+
+</body>
+</html>

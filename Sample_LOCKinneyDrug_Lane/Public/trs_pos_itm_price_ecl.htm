@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html class="InfoPrice" style="overflow-x:hidden;overflow-y:scroll" onkeydown="LocalKey()" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/pos_entry.css" type="text/css" />
+<script src="../../Images/sms.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+function SmsLoad() 
+{
+  @wizSet(CP=2)
+  top.BodyLoad(document);
+  top.CursorSetFocus(document,'@wizget(CS)','@wizget(CP)');
+}
+
+function LocalKey()
+{
+  if(window.event.keyCode==27)
+    document.all("CLOSE").click();
+}
+
+function MoreKey(type,itm)
+{
+
+  document.location='http:/scripts/trs.exe?htt=Public\\trs_pos_itm_price_ecl&Action=MORE&F01=@wizGet(F01)&type='+type+'&code='+itm;
+}
+
+function SellKey(type,itm)
+{
+  if (itm.substring(0,3)=='002' && itm.length==13) {
+    var price = prompt('Please enter price','');
+    if (price) {
+      if (price.indexOf('.')!=-1) price = String(price*100);
+      price = '00000'+price;
+      itm = itm.substr(0,8)+price.substring(price.length-5);
+    }
+  }
+
+  var addtoUrl='';
+  if ('@wizGet(ACTION)'=='MORE')
+    addtoUrl='&prevAction=@wizGet(ACTION)&prevCode=@wizGet(code)&prevType=@wizGet(type)';
+
+  if ('@wizGet(ACTION)'=='SELL' && '@wizGet(prevAction)'=='MORE')
+    addtoUrl='&prevAction=@wizGet(prevAction)&prevCode=@wizGet(prevCode)&prevType=@wizGet(prevType)';
+
+  document.location='http:/scripts/trs.exe?htt=Public\\trs_pos_itm_price_ecl&Action=SELL&F01=@wizGet(F01)&type='+type+'&code='+itm+addtoUrl;
+}
+
+@IF(@wizGet(ACTION)=SELL)
+ @wizRpl(ENTRY=@wizGet(code))
+ @fmt(CMP,@wizGet(type)=PID,®exec(FCT=710))
+ @fmt(CMP,@wizGet(type)=ITM,®exec(FCT=710))
+ @fmt(CMP,@wizGet(type)=SUB,®exec(FCT=715))
+ @fmt(CMP,@wizGet(type)=DPT,®exec(FCT=716))
+ @fmt(CMP,@wizExist(MESSAGE)=1,'®exec(BTN=CLOSE&Form=Coupons)®fmt(CHR,27)')
+ @fmt(CMP,@wizGet(prevAction)=MORE,'®WIZRPL(ACTION=MORE)®WIZRPL(code=®WIZGET(prevCode))®WIZRPL(type=®WIZGET(prevType))')
+@ENDIF
+
+</script>
+
+    <title></title>
+  </head>
+
+  <body class="Info" onselectstart="document.selection.empty();" onload="SmsLoad()">
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+    </div>
+
+    <div class="HideTxt">
+      @wizrpl(FORM=Coupons)<br />
+      @wizset(STATE=STAYONTOP)<br />
+      @wizset(OPTIONS=BI0)<br />
+      @wizset(TOP=50)<br />
+      @wizset(LEFT=100)<br />
+      @wizset(WIDTH=780)<br />
+      @wizset(HEIGHT=650)<br />
+      @wizset(TITLE=Coupon #@wizget(F01))<br />
+    </div>
+
+    <div class="HideTxt">
+      @FMT(CMP,@wizget(F126)=,'®wizrpl(F126=1)')<br />
+      @dbVIEW(Q1,SELECT POS.F01,POS.F02 FROM POS_TAB POS LEFT OUTER JOIN ALT_TAB ALT ON POS.F01=ALT.F01 WHERE (POS.F01='@FMT(UPC,@wizget(F01))' or ALT.F154='@wizget(F01)'))<br />
+    </div>
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <td class="HdrCel">@dbRow(Q1,F02)</td>
+
+          <td class="HdrBtnCel"><input class="HdrBtnNew" style="WIDTH: 80px" datasrc="@ATTRIB(B)" onclick="document.location='http:/scripts/trs.exe?BTN=CLOSE&amp;CN=PUBLIC'" type="button" value="Close" name="CLOSE" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <div class="HideTxt">
+              @dbTable(Q2,SELECT <br/>
+               ECL.F1033,<br/>
+               ECL.F01 as F164,<br/>
+               F01=CASE<br/>
+                WHEN ECL.F1033='ITM' THEN ECL.F01<br/>
+                WHEN ECL.F1033='PID' THEN ISNULL((SELECT TOP 1 F01 FROM POS_TAB WHERE ';'+REPLACE(ISNULL(F383,''),',',';')+';' like '%;'+ECL.F01+';%'),ECL.F01)<br/>
+                ELSE ECL.F01 END,<br/>
+               F02=CASE<br/>
+                WHEN ECL.F1033='ITM' THEN ISNULL((SELECT TOP 1 F02 FROM POS_TAB WHERE F01=ECL.F01),'Not found!')<br/>
+                WHEN ECL.F1033='PID' THEN ISNULL((SELECT TOP 1 F02 FROM POS_TAB WHERE ';'+REPLACE(ISNULL(F383,''),',',';')+';' like '%;'+ECL.F01+';%'),'Not found!')<br/>
+                WHEN ECL.F1033='SUB' THEN ISNULL((SELECT TOP 1 F1022 FROM SDP_TAB WHERE F04=CAST(ECL.F01 as INTEGER)),'Not found!')<br/>
+                WHEN ECL.F1033='DPT' THEN ISNULL((SELECT TOP 1 F238 FROM DEPT_TAB WHERE F03=CAST(ECL.F01 as INTEGER)),'Not found!')<br/>
+                WHEN ECL.F1033='TTL' THEN 'TOTAL: '+(SELECT F1039 FROM TLZ_TAB WHERE F1034=ECL.F1034)<br/>
+                WHEN ECL.F1033='CLF' THEN 'Shopper: '+ ISNULL((SELECT F1174 FROM CLF_TAB WHERE F1152=CAST(ECL.F01 as INTEGER)),'Not found!')<br/>
+                WHEN ECL.F1033='CNF' THEN 'Not shopper: '+ ISNULL((SELECT F1174 FROM CLF_TAB WHERE F1152=CAST(ECL.F01 as INTEGER)),'Not found!')<br/>
+                WHEN ECL.F1033='CLG' THEN 'Customer group: '+ ECL.F01<br/>
+                WHEN ECL.F1033='CG2' THEN 'Customer group 2: '+ ECL.F01<br/>
+                WHEN ECL.F1033='CLT' THEN 'Customer id: '+ ECL.F01<br/>
+                WHEN ECL.F1033='CNT' THEN 'Every '+ECL.F01+' transactions'<br/>
+                WHEN ECL.F1033='RND' THEN 'Random with one chance out of '+ECL.F01<br/>
+                WHEN ECL.F1033='PTS' THEN 'Minimum points balance in program '+ECL.F01<br/>
+                ELSE ECL.F01 END,<br/>
+               qty=CASE<br/>
+                WHEN ECL.F1033='PTS' THEN CAST(ECL.F64 as VARCHAR)+' points'<br/>
+                WHEN ECL.F64 IS NOT NULL THEN CAST(ECL.F64 as VARCHAR)+' items'<br/>
+                WHEN ECL.F65 IS NOT NULL THEN CAST(ECL.F65 as VARCHAR)+' @dbHot('System.ini',[CLIENT]UnitCurrency)'<br/>
+                WHEN ECL.F67 IS NOT NULL THEN CAST(ECL.F67 as VARCHAR)+' @dbHot('System.ini',[CLIENT]UnitWeight)'<br/>
+                ELSE '' END
+               FROM ECL_TAB ECL<br/>
+               WHERE ECL.F164='@wizget(F01)' AND ISNULL(F33,'') NOT LIKE '%X%')
+            </div>
+
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <th class="EntHdr" colspan="5">CRITERIA</th>
+                </tr>
+
+                <tr>
+                  <th class="EntCap">Type</th>
+
+                  <th class="EntCap">Code</th>
+
+                  <th class="EntCap">Description</th>
+
+                  <th class="EntCap">Minimum</th>
+
+                  <th class="EntCap" colspan="2">Action</th>
+                </tr>
+
+                <tr>
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 40px" tabindex="-1" readonly="readonly" value="@dbRow(Q2,F1033)" /></td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 110px" tabindex="-1" readonly="readonly" value="@dbRow(Q2,F01)" /></td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 300px" tabindex="-1" readonly="readonly" value="@dbRow(Q2,F02)" /></td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 100px" tabindex="-1" readonly="readonly" value="@dbRow(Q2,qty)" /></td>
+
+                  <td class="EntVal"><input class="EntBtn@fmt(CMP,@fmt(POS,@dbRow(Q2,F1033),PID;DPT;SUB)=0, Hide)@fmt(CMP,@dbRow(Q2,F02)=NOT FOUND!, Hide)" style="WIDTH: 60px" datasrc="@ATTRIB(B)" onclick="MoreKey('@dbRow(Q2,F1033)','@dbRow(Q2,F164)')" type="button" value="All" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+@IF(@wizGet(ACTION)=MORE)
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <div class="HideTxt">
+             @fmt(CMP,@wizGet(type)=PID,"®wizRpl(CRIT=WHERE ';'+REPLACE(ISNULL(F383,''),',',';')+';' like '%;®wizget(code);%')")
+             @fmt(CMP,@wizGet(type)=SUB,"®wizRpl(CRIT=WHERE POS.F04=®wizget(code))")
+             @fmt(CMP,@wizGet(type)=DPT,"®wizRpl(CRIT=WHERE POS.F04 IN (SELECT F04 FROM SDP_TAB WHERE F03=®wizget(code)))")
+             @dbTable(Q3,SELECT POS.F01,POS.F02 FROM POS_TAB POS @wizGet(CRIT));
+            </div>
+
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <th class="EntHdr" colspan="5">@wizGet(type) @wizGet(code)</th>
+                </tr>
+
+                <tr>
+                  <th class="EntCap">Code</th>
+
+                  <th class="EntCap">Description</th>
+
+                </tr>
+
+                <tr>
+                  <td class="EntVal"><input class="EntValNum" style="WIDTH: 120px" tabindex="-1" readonly="readonly" value="@dbRow(Q3,F01)" /></td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 350px" tabindex="-1" readonly="readonly" value="@dbRow(Q3,F02)" /></td>
+
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+@ENDIF
+
+  </body>
+</html>
+

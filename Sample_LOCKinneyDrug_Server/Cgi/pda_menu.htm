@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>pda_menu.htm</title>
+    <meta name="curhdr" content="pda" />
+    <link rel="stylesheet" href="../../Images/pda.css" type="text/css" />
+<script type="text/javascript" src="../../Images/pda.js">
+</script>
+  </head>
+
+  <body>
+    <div class="Hide">
+      @EXEC(BTN=SUSPEND);<br />
+       @DBHOT(REGSET,@PROFILE\pda\MODEURL,,);<br />
+       @DBHOT(REGSET,@PROFILE\pda\MODEDSC,,);<br />
+       @FMT(CMP,@DBHOT(REG,@PROFILE\pda\INV_ITM_CP)=,'®DBHOT(REGSET,@PROFILE\pda\INV_ITM_CP,,1)');<br />
+       @FMT(CMP,@DBHOT(REG,@PROFILE\pda\INV_BACK_CP)=,'®DBHOT(REGSET,@PROFILE\pda\INV_BACK_CP,,2)');<br />
+       @FMT(CMP,@DBHOT(HOT_IDX,F902)&lt;&gt;,®EXEC(HOT_IDX_F902=));<br />
+       @FMT(CMP,@DBHOT(REG,@PROFILE\pda\BATCH_F902)&lt;&gt;,'®WIZRPL(@PROFILE\pda\BATCH_F902=)®DBHOT(REG,SET,@PROFILE\pda\BATCH_*)');<br />
+       @FMT(CMP,@WIZGET(TDEPLOY)=DEPLOY,®EXEC(SQM=exe_deploy_chg));<br />
+      @FMT(CMP,'@dbHot(HOT_MEM,TRSSTEP)@dbHot(HOT_MEM,TRSMODE)=2MAN','®EXEC(FCT=297&amp;ENTRY=1&amp;HOOKSKIP=ALL)');
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="HdrCelTitle">@DBSELECT(SELECT F1606 FROM DRIL_FILE WHERE F1597='pdaMENU'): @username</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="@FMT(CMP,@wizget(TDEPLOY)&lt;&gt;DEPLOY,Hide)">
+      <tbody>
+        <tr>
+          <td class="Warning">..Deploy change request sent..&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide">
+      @WIZSET(MENUPAGE=1);<br />
+       @dbTable(Q1,SELECT * FROM Dril_page WHERE F1597='pdaMENU' AND (F1603=@WIZGET(MENUPAGE) or F1603 is NULL) AND @DBHOT(LEVELFIELD)&gt;0 ORDER BY F1598);
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><input class="BntDrilList" type="button" value="@DBROW(Q1,F1601)" onclick="document.location='Http:/Scripts/trs.exe?DRL=@DBROW(Q1,F1597):@DBROW(Q1,F1598,#)&amp;HOT_URL_BACK=pda_MENU&amp;CN=@CNC&amp;TN=@TER&amp;DN=pda@FMT(CMP,@FMT(POS,HOSTFORM,'@DBROW(Q1,F1605)')&gt;0,&amp;HOSTFORM=Pos)'" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+<pre class="Hide" id="SmsData">
+    CNCURRENT=@DBHOT(CNCURRENT);
+</pre>
+  </body>
+</html>
+

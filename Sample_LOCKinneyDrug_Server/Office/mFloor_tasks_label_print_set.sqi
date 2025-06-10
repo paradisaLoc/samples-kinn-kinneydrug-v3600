@@ -1,0 +1,13 @@
+@dbHot(HOT_WIZ,RPLT,mFloorOUTPUT,@WIZGET(OUTPUT));
+
+@FMT(CMP,@WIZGET(PRINTED)=,'®WIZRPL(PRINTED=0)');
+
+@EXEC(HOT_IDX_F1148=PAL);
+@WIZRPL(F94=@wizGet(LabelQuantity));
+
+@FMT(CMP,@WIZGET(PRINTED)<>@WIZGET(F94),'®EXEC(SQI=mFloor_tasks_label_print)');
+
+@WIZRPL(OUTPUT=@dbHot(HOT_WIZ,GET,mFloorOUTPUT));
+@dbHot(HOT_WIZ,CLR,mFloorOUTPUT);
+
+@EXEC(CGI=mFloor_tasks_label_instant.xml);

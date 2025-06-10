@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>trs_pos_edit_clt</title>
+    <meta name="CurHdr" content="ScreenPos" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/pos_entry.css" type="text/css" />
+<script src="../../Images/sms.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+@FMT(CMP,@wizget(TCREATE)=1,'®EXEC(HOT_ADD=CLT_TAB)®wizrpl(CLT_TAB[F1152]=2)®wizrpl(CLT_TAB[F1153]=1)')
+
+@WIZSET(F1148=@dbHOT(HOT_IDX,F1148));
+@FMT(CMP,"@dbHot(HOT_WIZ,GET,THRIVE_ORIG_F1148)<>","®WIZSET(THRIVE_ORIG_F1148=®dbHot(HOT_WIZ,GET,THRIVE_ORIG_F1148))","®WIZSET(THRIVE_ORIG_F1148=®WIZGET(F1148))");
+@WIZRPL(F1148=@WIZGET(THRIVE_ORIG_F1148));
+@EXEC(HOT_IDX_F1148=@WIZGET(F1148));
+
+@WIZSET(NEW_THRIVE_CARD=0)
+@WIZSET(UPDATE_THRIVE_ACCOUNT=0)
+@FMT(CMP,"@dbHot(HOT_WIZ,GET,THRIVE_NEW_ACCOUNT)=1","®WIZRPL(NEW_THRIVE_CARD=1)®WIZRPL(UPDATE_THRIVE_ACCOUNT=1)")
+@FMT(CMP,"@dbHot(HOT_WIZ,GET,THRIVE_NEW_CARD)=1","®WIZRPL(NEW_THRIVE_CARD=1)®WIZRPL(UPDATE_THRIVE_ACCOUNT=1)")
+@FMT(CMP,"@dbHot(HOT_WIZ,GET,THRIVE_UPDATE_ACCOUNT)=1","®WIZRPL(UPDATE_THRIVE_ACCOUNT=1)")
+
+@IF(@wizget(F1950_MAILRCT)<>)
+  @FMT(CMP,@wizget(F1950_MAILRCT)=R,"®wizrpl(CLT_TAB[F1950]=®dbHot(CLT_TAB,CLT_TAB[F1950],L)R)","®wizrpl(CLT_TAB[F1950]=®dbSELECT(R,SELECT REPLACE('®FMT(2QUOT,'®dbHot(CLT_TAB,CLT_TAB[F1950],L)')','R','')))") 
+@ENDIF
+
+@WIZSET(MAIN_F1148=@DBSELECT(SELECT ISNULL(CLL.F1577,CLT.F1148) as F1148 FROM CLT_TAB CLT LEFT OUTER JOIN CLL_TAB CLL ON CLT.F1148=CLL.F1148 AND CLL.F1578='PS' AND ISNULL(CLL.F1898,'0')='1' AND LEFT(CLL.F1577,2)='46' WHERE CLT.F1148='@WIZGET(F1148)'))
+
+@wizset(CP=4)
+function SmsLoad() 
+{
+  top.BodyLoad(document);
+  if("@dbHot('CLT_TAB',CLT_TAB[F1148],L)"=="n/a" && "@WIZGET(F1148)"!="")
+  {
+    if ("@WIZGET(NEW_THRIVE_CARD)"==1)
+    {
+      document.location= 'Http:/Scripts/Trs.exe?TN=@TER&amp;CN=@CNC&amp;htt=trs_pos_edit_clt&amp;F1148=@WIZGET(F1148)&amp;TCREATE=1';
+    }
+    else
+    {
+      alert("THRIVE CARD NOT ON FILE");
+      CANCEL.click();
+    }
+  }
+  top.CursorSetFocus(document,"@wizget(CS)","@wizget(CP)");
+}
+
+function SearchCustomer()
+{
+document.location='http:/scripts/trs.exe?HTT=trs_pos_edit_clt&amp;F1148=@WIZGET(F1148)&amp;CN=@CNC&amp;TN=@TER&amp;HOT_RPL_THRIVE_ORIG_F1148=&amp;HOT_RPL_THRIVE_CUSTOMER=&amp;HOT_RPL_THRIVE_NEW_ACCOUNT=&amp;HOT_RPL_THRIVE_NEW_CARD=&amp;HOT_RPL_THRIVE_ADD_TO_CLL=&amp;HOT_RPL_THRIVE_UPDATE_ACCOUNT=';
+  document.location= 'http:/scripts/trs.exe?FCT=930';
+  FormClose();
+}
+
+function UpdateLater()
+{
+  FormClose();
+  document.location= 'http:/scripts/trs.exe?SQI=KDLOC_THRIVE_UPDATE&amp;CN=@CNC&amp;TN=@TER&amp;UPDATE_LATER=1&amp;THRIVE_ORIG_F1148=@WIZGET(F1148)';
+}
+
+function FormSave()
+{
+  if ("@WIZGET(UPDATE_THRIVE_ACCOUNT)"=="1")
+  {
+    FormClose();
+    document.location= 'http:/scripts/trs.exe?SQI=KDLOC_THRIVE_PINPAD&amp;CN=@CNC&amp;TN=@TER&amp;THRIVE_ORIG_F1148=@WIZGET(F1148)';
+  }
+  else
+  {
+    document.location='http:/scripts/trs.exe?FCT=307&amp;ENTRY=@WIZGET(F1148)&amp;RECALCULATE=1&amp;CN=@CNC&amp;TN=@TER';
+    FormClose();
+  }
+}
+
+function FormClose()
+{
+  document.location= 'http:/scripts/trs.exe?CN=@CNC&SQM=CLT_RSP_MAN';
+  document.location= 'http:/scripts/trs.exe?BTN=CLOSE&CN=@CNC&SQM=CLL_RSP_MAN';
+}
+
+</script>
+  </head>
+
+  <body class="InfoHdr" onselectstart="document.selection.empty();" onkeydown="if(event.keyCode==27)CANCEL.click()" onload="SmsLoad()">
+    <object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+      @dbHot(CLT_TAB,SET,CLT_TAB[*)<br />
+    </div>
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <td class="HdrCel">CUSTOMER #@FMT(CMP,@WIZGET(MAIN_F1148)=,"®WIZGET(F1148)","®WIZGET(MAIN_F1148)")</td>
+
+          <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="FormSave();" type="submit" value="Save" /></td>
+
+	  <td class="HdrBtnCel" style="@FMT(CMP,@WIZGET(UPDATE_THRIVE_ACCOUNT)=0,display:none;)"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="UpdateLater();" type="submit" value="Update Later" /></td>
+
+          <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="top.PopKeyboard(window)" tabindex="-1" type="button" value="Keyboard" /></td>
+
+          <td class="HdrBtnCel" style="@FMT(CMP,@WIZGET(UPDATE_THRIVE_ACCOUNT)=1,display:none;)"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="document.location='http:/scripts/trs.exe?HTT=trs_pos_edit_clt_alt&amp;F1148=@WIZGET(F1148)&amp;CN=@CNC&amp;TN=@TER';" type="button" value="Alt. Code" /></td>
+
+	  <td class="HdrBtnCel" style="@FMT(CMP,@WIZGET(UPDATE_THRIVE_ACCOUNT)=0,display:none;)"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="SearchCustomer();" type="submit" value="Customer Search" /> </td>
+
+          <td class="HdrBtnCel" style="@FMT(CMP,@WIZGET(UPDATE_THRIVE_ACCOUNT)=1,display:none;)@FMT(CMP,@WIZGET(UPDATE_THRIVE_ACCOUNT)=1,display:none;)"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="FormClose();" type="submit" value="Close" name="CANCEL" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <th class="EntHdr" colspan="4">CUSTOMER INFORMATION</th>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Company name</td>
+
+                  <td class="EntInp"><input class="EntTxt" style="WIDTH: 200px" datasrc="@ATTRIB(E:txt,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" value="@dbHot(CLT_TAB,CLT_TAB[F1155],L)" name="CLT_TAB[F1155]" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">First name</td>
+
+                  <td class="EntInp"><input class="EntTxt" style="WIDTH: 200px" datasrc="@ATTRIB(E:txt,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" value="@dbHot(CLT_TAB,CLT_TAB[F1149],L)" name="CLT_TAB[F1149]" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Last name</td>
+
+                  <td class="EntInp"><input class="EntTxt" style="WIDTH: 200px" datasrc="@ATTRIB(E:txt,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" value="@dbHot(CLT_TAB,CLT_TAB[F1150],L)" name="CLT_TAB[F1150]" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Comment</td>
+
+                  <td class="EntInp"><input class="EntTxt" style="WIDTH: 200px" datasrc="@ATTRIB(E:txt,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" value="@dbHot(CLT_TAB,CLT_TAB[F1151],L)" name="CLT_TAB[F1151]" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <th class="EntHdr" colspan="3">CLASSIFICATION</th>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Risk level</td>
+
+                  <td class="EntInp"><input class="EntGrid" style="WIDTH: 30px" datasrc="@ATTRIB(E3:num:F1153,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" size="4" value="@dbHot('CLT_TAB',CLT_TAB[F1153],Z#)" name="CLT_TAB[F1153]" /> </td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 160px" tabindex="-1" readonly="readonly" value="@dbHot('CLR_TAB',CLR_TAB[F1175],L)" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Cust. level</td>
+
+                  <td class="EntInp"><input class="EntGrid" style="WIDTH: 30px" datasrc="@ATTRIB(E3:num:F1152,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" size="5" value="@dbHot('CLT_TAB',CLT_TAB[F1152],Z#)" name="CLT_TAB[F1152]" /> </td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 160px" tabindex="-1" readonly="readonly" size="41" value="@dbHot(CLF_TAB,CLF_TAB[F1174],L)" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Cust. group</td>
+
+                  <td class="EntInp"><input class="EntGrid" style="WIDTH: 30px" datasrc="@ATTRIB(E:txt:F1154,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" size="5" value="@dbHot(CLT_TAB,CLT_TAB[F1154],L)" name="CLT_TAB[F1154]" /> </td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 160px" tabindex="-1" readonly="readonly" size="41" value="@dbHot(CLG_TAB,CLG_TAB[F1268],L)" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Cust. group 2</td>
+
+                  <td class="EntInp"><input class="EntGrid" style="WIDTH: 30px" datasrc="@ATTRIB(E:txt:F1777,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" size="5" value="@dbHot(CLT_TAB,CLT_TAB[F1777],L)" name="CLT_TAB[F1777]" /> </td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 160px" tabindex="-1" readonly="readonly" size="41" value="@dbSELECT(SELECT F1268 FROM CLG_TAB WHERE F1154='@dbHot('CLT_TAB',CLT_TAB[F1777],L)')" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <th class="EntHdr" colspan="4">ADDRESS</th>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Address 1</td>
+
+                  <td class="EntInp"><input class="EntTxt" style="WIDTH: 200px" datasrc="@ATTRIB(E:txt,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" value="@dbHot(CLT_TAB,CLT_TAB[F1156],L)" name="CLT_TAB[F1156]" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Address 2</td>
+
+                  <td class="EntInp"><input class="EntTxt" style="WIDTH: 200px" datasrc="@ATTRIB(E:txt,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" value="@dbHot(CLT_TAB,CLT_TAB[F1157],L)" name="CLT_TAB[F1157]" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">City</td>
+
+                  <td class="EntInp"><input class="EntTxt" style="WIDTH: 200px" datasrc="@ATTRIB(E:txt,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" value="@dbHot(CLT_TAB,CLT_TAB[F1158],L)" name="CLT_TAB[F1158]" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">State</td>
+
+                  <td class="EntInp"><input class="EntGridTxt" style="WIDTH: 200px" datasrc="@ATTRIB(E:txt:F1170,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" value="@dbHot(CLT_TAB,CLT_TAB[F1170],L)" name="CLT_TAB[F1170]" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Country</td>
+
+                  <td class="EntInp"><input class="EntGridTxt" style="WIDTH: 200px" datasrc="@ATTRIB(E:txt:F1171,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" value="@dbHot(CLT_TAB,CLT_TAB[F1171],L)" name="CLT_TAB[F1171]" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Zip Code</td>
+
+                  <td class="EntInp"><input class="EntTxt" style="WIDTH: 200px" datasrc="@ATTRIB(E:txt,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" value="@dbHot(CLT_TAB,CLT_TAB[F1159],L)" name="CLT_TAB[F1159]" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Phone</td>
+
+                  <td class="EntInp"><input class="EntTxt" style="WIDTH: 200px" datasrc="@ATTRIB(E:txt,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" value="@dbHot(CLT_TAB,CLT_TAB[F1172],L)" name="CLT_TAB[F1172]" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Fax</td>
+
+                  <td class="EntInp"><input class="EntTxt" style="WIDTH: 200px" datasrc="@ATTRIB(E:txt,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" value="@dbHot(CLT_TAB,CLT_TAB[F1173],L)" name="CLT_TAB[F1173]" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Email</td>
+
+                  <td class="EntInp"><input class="EntTxt" style="WIDTH: 200px" datasrc="@ATTRIB(E:txt,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" value="@dbHot(CLT_TAB,CLT_TAB[F1573],L)" name="CLT_TAB[F1573]" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <th class="EntHdr" colspan="4">IDENTIFICATION</th>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">PIN Number</td>
+
+                  <td class="EntInp"><input class="EntTxt" datasrc="@ATTRIB(E:txt,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" type="password" value="@dbHot(CLT_TAB,CLT_TAB[F1581],L)" name="CLT_TAB[F1581]" /></td>
+                </tr>
+              </tbody>
+            </table>
+            &nbsp; 
+
+            <table class="EntTab" style="VISIBILITY: hidden">
+              <tbody>
+                <tr>
+                  <th class="EntHdr">CUSTOMER PICTURE</th>
+                </tr>
+
+                <tr>
+                  <td class="EntInp"><input class="EntBtn" style="WIDTH: 240px" datasrc="@ATTRIB(B)" onclick="document.location='http:/scripts/trs.exe?sqi=TRS_POS_EDIT_CARD&amp;F1148=@WIZGET(F1148)'" type="button" value="Scan ID Card on Printer" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntInp"><input class="EntBtn" style="WIDTH: 240px" datasrc="@ATTRIB(B)" onclick="document.location='http:/scripts/trs.exe?sqi=TRS_POS_EDIT_CAM&amp;F1148=@WIZGET(F1148)'" type="button" value="Take Picture with Webcam" /></td>
+                </tr>
+              </tbody>
+            </table>
+            &nbsp; 
+
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <th class="EntHdr" colspan="2">ELECTRONIC RECEIPT</th>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Do not send</td>
+
+                  <td class="EntInp"><input class="EntChk" datasrc="@ATTRIB(C,HTT=TRS_POS_EDIT_CLT&amp;F1148=@WIZGET(F1148))" type="checkbox" name="F1950_MAILRCT" value="R" truevalue="@FMT(CMP,@FMT(POS,R,@dbHot('CLT_TAB',CLT_TAB[F1950],L))&lt;&gt;0,1)" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

@@ -1,0 +1,88 @@
+<html>
+<head>
+<meta name="sms-protected" content="true"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../Images/trs_look.css" type="text/css">
+<title>trs_man_lup_dwr</title>
+<script>
+function SmsLoad()
+{
+ top.BodyLoad(document);
+}
+
+function SmsGridEvent()
+{
+ if (SmsGrid.SMSGridSelect=="") 
+ {
+  SmsGrid.SMSGridSelect="FIND,OperCode,"+comdialog.GetRegistry('@PROFILE/ManDwrLup/RefreshValues','');
+  if(SmsGrid.GetField("OperCode") != '')
+   parent.Info.location="Http:/Scripts/trs.exe?TN=@TER&CN=@CNC&FCT=205&CI=G&Entry="+SmsGrid.GetField("OperCode");
+ }
+ else
+ if (SmsGrid.SMSGridSelect=="ERROR") 
+  document.writeln(SmsGrid.GridTitle);
+ else
+ if (SmsGrid.SMSGridSelect=="Loan") 
+  parent.Info.location="Http:/Scripts/trs.exe?TN=@TER&CN=@CNC&FCT=210";
+ else
+ if (SmsGrid.SMSGridSelect=="Pickup") 
+  parent.Info.location="Http:/Scripts/trs.exe?TN=@TER&CN=@CNC&FCT=220";
+ else
+ if (SmsGrid.SMSGridSelect=="Declare") 
+  parent.Info.location="Http:/Scripts/trs.exe?TN=@TER&CN=@CNC&FCT=230";
+ else
+ if (SmsGrid.SMSGridSelect=="AFTERSCROLL") 
+  parent.Info.location="Http:/Scripts/trs.exe?TN=@TER&CN=@CNC&FCT=205&CI=G&Entry="+SmsGrid.GetField("OperCode");
+ else
+ if (SmsGrid.SMSGridSelect=="ENTER") 
+  parent.Info.location="Http:/Scripts/trs.exe?TN=@TER&CN=@CNC&FCT=205&CI=F&Entry="+SmsGrid.GetField("OperCode");
+ else
+ if (SmsGrid.SMSGridSelect=="SCROLL") 
+  comdialog.SetRegistry('@PROFILE/ManDwrLup/RefreshValues','',SmsGrid.GetField("OperCode"));
+}
+</script>
+
+<script LANGUAGE="JavaScript" FOR="SmsGrid" EVENT="SmsGridDone()">
+SmsGridEvent()
+</script>
+</head>
+
+<body onload="SmsLoad()" class="Grid">
+<object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+</object> 
+
+<p>@WIZSET(PERIOD=@dbHot(INI,SYSTEM,SMS,BALANCECASHIER));<br>
+@WIZSET(CRITERIA=SELECT F1185,F1034,F65 FROM RPT_CLK_D WHERE F1056="@STORE" AND F1034 BETWEEN 1301 and 1399 AND F254 BETWEEN "@DSWD" and "@DSDF" UNION SELECT F1185,F1034,F65 FROM RPT_CLK_W WHERE F1056="@STORE" AND F1034 BETWEEN 1301 and 1399 AND F254="@DSW-007");
+@FMT(CMP,@wizget(PERIOD)=1,'®wizrpl(CRITERIA=SELECT F1185,F1034,F65 FROM RPT_CLK_D WHERE F1056="@STORE" AND F1034 BETWEEN 1301 and 1399 AND F254="®DSDF")');<br>
+@FMT(CMP,@wizget(PERIOD)=2,'®wizrpl(CRITERIA=SELECT F1185,F1034,F65 FROM RPT_CLK_D WHERE F1056="@STORE" AND F1034 BETWEEN 1301 and 1399 AND F254 BETWEEN "®DSWD" and "®DSDF" )');</p>
+
+<table ID="GridTable" class="GridFrm">
+	<tr>
+		<td class="GridFrm">
+			<table class="Grid">
+				<tr>
+					<td class="GridTitle">Drawers list</td>
+
+					<td class="GridEnt"><u>G</u>rid&nbsp;&nbsp;
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="GridFrmLook" colspan="2" accesskey="G" onfocus="SmsGrid.SMSGridSelect='ACTIVEFOCUS'">
+<object classid="clsid:7ABC48CB-63C0-4FDB-B020-593C6F39BFE0" id="SmsGrid" width="100%" height="100%">
+  <param name="AxBorderStyle" value="0">
+  <param name="DBAlias" value="@dbHot(DBALIAS)">
+  <param name="DBUserName" value="@dbHot(DBUSERNAME)">
+  <param name="DBPassword" value="@dbHot(DBPASSWORD)">
+  <param name="SqlQuery" value='SELECT MAX(CLK.F1126) as OperCode,MAX(CLK.F1127) AS OperName,SUM(RPT.F65) AS InDwr,MAX(CLK.F1176) as OnLane,RPT.F1185 as OperNum FROM CLK_TAB CLK JOIN (@WIZGET(CRITERIA)) RPT ON RPT.F1185=CLK.F1185 GROUP BY RPT.F1185 ORDER BY OperName'>
+  <param name="GridTitle" value="">
+  <param name="GridButtons" value="View,Pickup,Loan,Declare">
+  <param name="GridColumns" value="10,25,10,5,0">
+</object>
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>pda_rec_error.htm</title>
+    <meta name="curhdr" content="pda" />
+    <meta http-equiv="Scanner" content="@dbHot('setup.ini',[PDA_SCANNER]Global_Scanner)" />
+    <meta http-equiv="OnKey@DBHOT(REG,@PROFILE\pda\HOTKEY_F01)" content="Javascript:onkey('HOT_IDX_F01$SCAN');" />
+    <link rel="stylesheet" href="../../Images/pda.css" type="text/css" />
+<script type="text/javascript" src="../../Images/pda.js">
+</script>
+<script type="text/javascript">
+
+function SmsLoad() {
+  @WIZSET(hotKey=@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYLEFT),@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYUP),@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYRIGHT),@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYDOWN));
+  VariableInit(@FMT(CMP,'@WIZGET(hotKey)&lt;&gt;,,,','®WIZGET(hotKey)'));
+  BodyLoad('@WIZGET(CP)');
+}
+
+</script>
+  </head>
+
+  <body onload="SmsLoad();">
+    <table>
+      <tbody>
+        <tr>
+          <td class="HdrCelTitle" style="COLOR: #ff0000">@FMT(CHR,7)ERROR ON ITEM</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide">
+      @WIZRPL(CP=@FMT(CMP,'@dbHot(REC_HDR,F1068)=RECV',@DBHOT(REG,@PROFILE\pda\BUY_REC_CP),@WIZGET(CP)));<br />
+       @WIZRPL(unitQty=@FMT(CMP,'@dbHot(REC_HDR,F1068)=RECV',@DBHOT(REG,@PROFILE\pda\BUY_REC_QTY),@WIZGET(unitQty)));<br />
+       @WIZRPL(GOTOEXIST=@FMT(CMP,'@dbHot(REC_HDR,F1068)=RECV',@DBHOT(REG,@PROFILE\pda\BUY_REC_GOTOEXIST),@WIZGET(GOTOEXIST)));<br />
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="EntCap">Code&nbsp;</td>
+
+          <td class="EntVal">
+            <form action="http:/scripts/trs.exe" method="get">
+              <input datafld="scan" class="CODE" onblur="EntBlur(this)" onfocus="EntFocus(this)" onkeydown="EntKeyDown(this)" datasrc="" value="@dbHot(HOT_IDX,F01)" name="HOT_IDX_F01$SCAN" scanner="@dbHot('setup.ini',[PDA_SCANNER]HOT_IDX_F01)" /><input class="submit" type="submit" value="GO" name="BtnGo" /><input class="Hide" type="hidden" value="@CNC" name="CN" /><input class="Hide" type="hidden" value="@TER" name="TN" /><input class="Hide" type="hidden" value="pda" name="DN" /><input class="Hide" type="hidden" value="@DBHOT(REG,@PROFILE\pda\HOT_PRM)" name="HOT_PRM_F01" /><input class="Hide" type="hidden" value="FCT=3510" name="RETPAGE" /><input class="Hide" type="hidden" value="pda_SKU_SCANNING" name="SQI" /><input class="Hide" type="hidden" value="1" name="HOT" /><input class="Hide" type="hidden" value="0:0@FMT(CMP,@WIZGET(CP)&lt;&gt;,':@WIZGET(CP)')" name="CP" /><input class="Hide" type="hidden" value="@WIZGET(GOTOEXIST)" name="@FMT(CMP,@WIZGET(GOTOEXIST)&lt;&gt;,GOTOEXIST)" /><input class="Hide" type="hidden" value="@DBHOT(REG,@PROFILE/pda/SET_F126)" name="HOT_IDX_F126" /><input class="Hide" type="hidden" value="D" name="HOT_PRM_F126" /><input class="Hide" type="hidden" name="HOT_IDX_F1184" /><input class="Hide" type="hidden" value="@WIZGET(unitQty)" name="unitQty" /><input class="Hide" type="hidden" value="pda_rec_itm_add" name="HOT_URL_BACK" />
+            </form>
+          </td>
+
+          <td><input class="BntHelp" onclick="document.location='http:/scripts/trs.exe?CGI=pda_rec_itm_search&amp;HOT_URL_BACK=pda_rec_itm_add&amp;GOTOEXIST=@WIZGET(GOTOEXIST)&amp;CN=@CNC&amp;tn=@TER&amp;dn=pda&amp;unitQty=@WIZGET(unitQty)&amp;CP=0:0:@FMT(CMP,@WIZGET(CP)&lt;&gt;,@WIZGET(CP),1)'" type="button" value="?" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td style="PADDING-BOTTOM: 7px; PADDING-LEFT: 2px; PADDING-RIGHT: 0px; FONT-SIZE: 12px; FONT-WEIGHT: bold; PADDING-TOP: 2px">@DBHOT(HOT_IDX,F27)</td>
+
+          <td>&nbsp;</td>
+
+          <td style="PADDING-BOTTOM: 7px; PADDING-LEFT: 2px; PADDING-RIGHT: 0px; FONT-SIZE: 12px; FONT-WEIGHT: bold; PADDING-TOP: 2px">@DBHOT(VENDOR_TAB,F334)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="@FMT(CMP,@WIZGET(MESSAGE)&lt;&gt;,,Hide)">
+      <tbody>
+        <tr>
+          <td class="ErrMsg">@FMT(M1:30,@WIZGET(MESSAGE))</td>
+        </tr>
+
+        <tr>
+          <td class="ErrMsg">@FMT(M2:30,@WIZGET(MESSAGE))</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><input class="BntSubMenu" type="button" value="MENU" onclick="document.location='http:/scripts/trs.exe?cgi=pda_rec_menu&amp;HOT_URL_BACK=@WIZGET(OLD_HTT)&amp;CN=@CNC&amp;tn=@TER&amp;dn=pda'"/></td>
+
+          <td>&nbsp;</td>
+
+          <td><input class="BntSubMenu" type="button" value="BACK" onclick="document.location='http:/scripts/trs.exe?cgi=pda_rec_menu&amp;CN=@CNC&amp;tn=@TER&amp;dn=pda&CP=@DBHOT(HOT_URL,MARK)&amp;HOT_URL_MARK='"/></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

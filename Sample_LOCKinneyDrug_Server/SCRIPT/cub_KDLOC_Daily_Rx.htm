@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html class="ChildFix" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/sms_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_info.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_cube.css" type="text/css" />
+<script src="../../Images/sms.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+@DBHOT(REG,SET,USER@USER/Cube/cub_KDLOC_daily_Rx*)
+
+function SmsLoad() 
+{
+  VariableInit('@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','Http:/Scripts/trs.exe');
+  top.BodyLoad(document);
+  top.CursorSetFocus(document,"@wizget(CS)","@wizget(CP)");
+  PeriodButtonCreate(BtnPeriod,'CN=@CNC&amp;TN=@TER&amp;sql=Script/cub_KDLOC_daily_Rx&amp;detail=','@dbhot(DETAIL_PERIODS)','@dbhot(DETAIL_NAMES)','@dbhot(DETAIL_DETAILS)','');
+  InitCube(document,'','@WIZGET(DETAIL)');    
+}
+
+function ReadCubeKey(oWin)
+{
+  if (oWin.event.keyCode==33)
+    oWin.document.all("BtnPrev").click();
+  else if (oWin.event.keyCode==34)
+    oWin.document.all("BtnNext").click();
+}
+
+function GoUrl(sUrl)
+{
+  document.location='Http:/Scripts/Trs.exe?TN=@TER&amp;CN=@CNC&amp;'+sUrl;
+}
+
+function InitCube(oDoc,sOrder,sDetail)
+{
+  // * Init Period buttons *
+  if(oDoc.all("Date_"+sDetail) != null)
+    EntSetHighLight(oDoc.all("Date_"+sDetail),1,'EntBtnDef');
+
+}
+</script>
+
+    <title>Script Count Report</title>
+  </head>
+
+  <body class="InfoRpt" onkeydown="ReadCubeKey(window)" onload="SmsLoad()">
+    <object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <td class="HdrCel">Script Count Report</td>
+
+          <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="window.print()" type="button" value="Print" /></td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+				<tr>
+					<td class="EntCap">Period</td>
+
+					<td class="EntInp" id="BtnPeriod">
+					</td>
+				</tr>			  
+				<tr>
+					<td class="EntCap">Date</td>
+
+					<td class="EntInp"><input class="EntBtn" style="WIDTH: 20px" datasrc="@ATTRIB(B)" onclick="GoUrl('SQL=Script/cub_KDLOC_daily_Rx&amp;DATE=@DATE(@wizget(DATE),DSD-@WIZGET(DETAIL)1F)&amp;FORM=@WIZGET(FORM)&amp;F03=@wizget(F03)&amp;TARGET=@WIZGET(TARGET)&amp;DETAIL=@WIZGET(DETAIL)')" type="button" value="&lt;&lt;" name="BtnPrev" /> <input class="EntDat" style="WIDTH: 70px" datasrc="@ATTRIB(E:date,SQL=Script/cub_KDLOC_daily_Rx&amp;FORM=@WIZGET(FORM)&amp;F03=@wizget(F03)&amp;TARGET=@WIZGET(TARGET)&amp;DETAIL=@WIZGET(DETAIL))" value="@DATE(@WIZGET(DATE),DW@WIZGET(DETAIL)F)" name="DATE$DW2S" /> <input class="EntBtn" style="WIDTH: 20px" datasrc="@ATTRIB(B)" onclick="GoUrl('SQL=Script/cub_KDLOC_daily_Rx&amp;DATE=@DATE(@wizget(DATE),DSD+@WIZGET(DETAIL)1F)&amp;FORM=@WIZGET(FORM)&amp;F03=@wizget(F03)&amp;TARGET=@WIZGET(TARGET)&amp;DETAIL=@WIZGET(DETAIL)')" type="button" value="&gt;&gt;" name="BtnNext" /></td>
+				</tr>
+              </tbody>
+            </table>
+          </td>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+				<tr>
+					<td class="EntCap">Target</td>
+					<td class="EntInp"><input class="EntGridTxt" style="WIDTH: 40px" value="@WIZGET(TARGET)" name="TARGET" smsattrib="@ATTRIB(E:txt:F1000_RPT,sql=Script/cub_KDLOC_daily_Rx&amp;DATE=@WIZGET(DATE)&amp;FORM=@WIZGET(FORM)&amp;F03=@wizget(F03)&amp;DETAIL=@WIZGET(DETAIL))" /></td>
+					<td class="EntVal"><input class="EntValTxt" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT F1018 FROM STO_TAB WHERE F1000='@WIZGET(TARGET)')" /></td>
+				</tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+	
+	
+	<div class="HideTxt">
+		@dbTable(Q1,BEGIN
+	DECLARE @DATE_FROM DATETIME, @DATE_TO DATETIME,@TARGET VARCHAR(10)
+	SET @DATE_FROM = '@DATE(@DATE(@WIZGET(DATE),DS@WIZGET(DETAIL)D),DSWD)'
+	SET @DATE_TO = '@DATE(@DATE(@WIZGET(DATE),DS@WIZGET(DETAIL)F),DSWF)'
+	SET @TARGET='@WIZGET(TARGET)';
+	WITH DATES AS(
+		SELECT @DATE_FROM AS F254
+		UNION ALL
+		SELECT DATEADD(D,1,F254) FROM DATES WHERE F254<@DATE_TO
+	)
+	SELECT DATEPART(WEEK,TMP.F254) AS F1310,TMP.F254,ISNULL(TYS.F64,0) AS F1301,ISNULL(TYS.F65,0) AS F1302,ISNULL(LYS.F64,0) AS F1303,ISNULL(LYS.F65,0) AS F1304
+	FROM DATES TMP
+	LEFT OUTER JOIN (SELECT F254,SUM(F64) AS F64,SUM(F65) AS F65 FROM RPT_DPT WHERE F1034=3 AND (F03=88 OR F03=89 OR F03=404) AND F254 BETWEEN @DATE_FROM AND @DATE_TO AND F1056 IN (SELECT DISTINCT F1056 FROM LNK_TAB WHERE F1000=@TARGET) AND F1031='D' GROUP BY F254) TYS ON TYS.F254=TMP.F254
+	LEFT OUTER JOIN (SELECT F254,SUM(F64) AS F64,SUM(F65) AS F65 FROM RPT_DPT WHERE F1034=3 AND (F03=88 OR F03=89 OR F03=404) AND F254 BETWEEN DATEADD(YY,-1,@DATE_FROM) AND DATEADD(YY,-1,@DATE_TO) AND F1056 IN (SELECT DISTINCT F1056 FROM LNK_TAB WHERE F1000=@TARGET) AND F1031='D' GROUP BY F254) LYS ON LYS.F254=DATEADD(YY,-1,TMP.F254)
+	OPTION (MAXRECURSION 1000)
+END)
+	</div>
+@RPTCLR(TTQTY,TTQLY,TQTY,TQLY,TATY,TALY,TATY,TALY,CTQTY,CTQLY,CTATY,CTALY,CTATY,CTALY)
+    <table class="FrmTab" style="MARGIN-TOP: 15px">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="RptTab">
+              <tbody>
+				<tr>
+					<th class="RptCap" colspan="3"></th>
+					<th class="RptCap" colspan="3">Script Counts</th>
+					<th class="RptCap" colspan="3">Daily Average $ Amt</th>
+					<th class="RptCap" colspan="3">Daily Average $ Margin</th>
+				</tr>
+				<tr>
+					<th class="RptCap" style="WIDTH: 80px">Week</th>
+					<th class="RptCap" style="WIDTH: 20px">Day</th>
+					<th class="RptCap" style="WIDTH: 80px">Weekday</th>
+					<th class="RptCap" style="WIDTH: 80px">@DATE(@WIZGET(DATE),DYYF)</th>
+					<th class="RptCap" style="WIDTH: 80px">@DATE(@WIZGET(DATE),DYY-Y1F)</th>
+					<th class="RptCap" style="WIDTH: 80px">Variance</th>
+					<th class="RptCap" style="WIDTH: 80px">@DATE(@WIZGET(DATE),DYYF)</th>
+					<th class="RptCap" style="WIDTH: 80px">@DATE(@WIZGET(DATE),DYY-Y1F)</th>
+					<th class="RptCap" style="WIDTH: 80px"></th>
+					<th class="RptCap" style="WIDTH: 80px"></th>
+					<th class="RptCap" style="WIDTH: 80px"></th>
+					<th class="RptCap" style="WIDTH: 80px"></th>
+				</tr>
+				<tr>
+@RPTCLR(QTY,QLY,ATY,ALY)
+@FMT(CMP,@DATE(@WIZGET(DATE),DMDF)=@DBROW(Q1,F254,DMDF),'®WIZRPL(MTD=1)','®WIZRPL(MTD=0)')
+					<td class="RptCap">@DBROW(Q1,F1310,#)</td>
+					<td class="RptCap">@DBROW(Q1,F254,DDDD)</td>
+					<td class="RptCap">@FMT(L3,@DATE(@DBROW(Q1,F254,DSDD),LTR,D))</td>
+					<td class="RptCapNum">@DBROW(Q1,F1301,#,TTQTY;QTY;TQTY@FMT(CMP,@WIZGET(MTD)=1,';CTQTY'))</td>
+					<td class="RptCapNum">@DBROW(Q1,F1303,#,TTQLY;QLY;TQLY@FMT(CMP,@WIZGET(MTD)=1,';CTQLY'))</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(QTY-QLY,#)*100/@FMT(CMP,'@RPTTTL(QLY,#)=0',1,'®RPTTTL(QLY,#)'),#:2)%</td>
+					<td class="RptCapNum">@DBROW(Q1,F1302,#:2,ATY;TATY@FMT(CMP,@WIZGET(MTD)=1,';CTATY'))</td>
+					<td class="RptCapNum">@DBROW(Q1,F1304,#:2,ALY;TALY@FMT(CMP,@WIZGET(MTD)=1,';CTALY'))</td>
+					<td class="RptCapNum"></td>
+					<td class="RptCapNum"></td>
+					<td class="RptCapNum"></td>
+					<td class="RptCapNum"></td>
+@IF(@DBROW(Q1,F1310,#)&lt;&gt;@WIZGET(OLDWEEK))
+@WIZRPL(OLDWEEK=@DBROW(Q1,F1310,#))
+@WIZRPL(TWEEK=@WIZGET(TWEEK)
+				&lt;tr&gt;
+					&lt;td class="RptCap" style="WIDTH: 200px"&gt;Week @DBROW(Q1,F1310,#)&lt;/td&gt;
+					&lt;td class="RptCapNum" style="WIDTH: 80px"&gt;@RPTTTL(TQTY,#)&lt;/td&gt;
+					&lt;td class="RptCapNum" style="WIDTH: 80px"&gt;@RPTTTL(TQLY,#)&lt;/td&gt;
+					&lt;td class="RptCapNum" style="WIDTH: 80px"&gt;@RPTTTL(@RPTTTL(TQTY-TQLY,#)*100/@FMT(CMP,'@RPTTTL(TQLY,#)=0',1,'®RPTTTL(TQLY,#)'),#:2)%&lt;/td&gt;
+					&lt;td class="RptCapNum" style="WIDTH: 80px"&gt;@RPTTTL(TATY,#:2)&lt;/td&gt;
+					&lt;td class="RptCapNum" style="WIDTH: 80px"&gt;@RPTTTL(TALY,#:2)&lt;/td&gt;
+					&lt;td class="RptCapNum" style="WIDTH: 80px"&gt;&lt;/td&gt;
+					&lt;td class="RptCapNum" style="WIDTH: 80px"&gt;&lt;/td&gt;
+					&lt;td class="RptCapNum" style="WIDTH: 80px"&gt;&lt;/td&gt;
+					&lt;td class="RptCapNum" style="WIDTH: 80px"&gt;&lt;/td&gt;
+				&lt;/tr&gt;)
+@RPTCLR(TQTY,TQLY,TATY,TALY,TATY,TALY)
+@ENDIF
+				</tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="FrmCel">
+            <table class="RptTab">
+              <tbody>
+		@WIZGET(TWEEK)
+				<tr>
+					<td class="RptCap" style="WIDTH: 200px">Calendar MTD</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(CTQTY,#)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(CTQLY,#)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(@RPTTTL(CTQTY-CTQLY,#)*100/@FMT(CMP,'@RPTTTL(CTQLY,#)=0',1,'®RPTTTL(CTQLY,#)'),#:2)%</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(CTATY,#:2)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(CTALY,#:2)</td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+				</tr>
+				<tr>
+					<td class="RptCap" style="WIDTH: 200px">Daily Avg. TY vs Same Day LY</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(TTQTY/@DBROW(Q1,RECORD_COUNT,#),#:2)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(TTQLY/@DBROW(Q1,RECORD_COUNT,#),#:2)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(@RPTTTL(TTQTY-TTQLY,#)*100/@FMT(CMP,'@RPTTTL(TTQLY,#)=0',1,'®RPTTTL(TTQLY,#)'),#:2)%</td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+				</tr>
+				<tr>
+					<td class="RptCap" style="WIDTH: 200px">Daily Average. Calendar month</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(CTQTY/@DBROW(Q1,RECORD_COUNT,#),#)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(CTQLY/@DBROW(Q1,RECORD_COUNT,#),#)</td>
+					<td class="RptCapNum" style="WIDTH: 80px">@RPTTTL(@RPTTTL(CTQTY-CTQLY,#)*100/@FMT(CMP,'@RPTTTL(CTQLY,#)=0',1,'®RPTTTL(CTQLY,#)'),#:2)%</td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+					<td class="RptCapNum" style="WIDTH: 80px"></td>
+				</tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>		
+      </tbody>
+    </table>
+	
+  </body>
+</html>
+

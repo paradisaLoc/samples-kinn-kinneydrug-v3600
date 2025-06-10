@@ -1,0 +1,22 @@
+/* Ad Batch Report: Scan Down Report */
+
+@WIZINIT;
+@WIZEDIT(DITTO,SELECT A DITTO NUMBER);
+@WIZTARGET(TARGET=RAL,SELECT F1000,F1018 FROM STO_TAB WHERE F1180='1' ORDER BY F1000);
+@WIZDISPLAY;
+
+@WIZRPL(DATECREATED=@DSDF);
+@WIZRPL(TIMECREATED=@FMT(T6D,@NOW));
+
+/* Scan down report */
+@wizrpl(ExtGridUsp=Kinney_ScanDownReport_xls);
+@WIZSET(FILENAME=Kinney_ScanDownReport.xls);
+@WIZRPL(OUTPUT=@OFFICEDBT\@WIZGET(FILENAME))
+@EXEC(XLS=RTM\Kinney_ScanDownReport.xls);
+@wizClr(OUTPUT);
+
+@WIZRPL(TITLE=SaveFile);
+@WIZRPL(FORM=SaveFile);
+@WIZRPL(width=1)
+@WIZRPL(height=1)
+@EXEC(HTT=script\SKU_BAT_KDLOC_save_xls);

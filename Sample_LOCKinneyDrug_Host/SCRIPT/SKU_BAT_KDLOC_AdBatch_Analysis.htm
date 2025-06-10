@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html class="Child" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/pro_info.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/pro_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/pro_cube.css" type="text/css" />
+
+    <title></title>
+<script src="../../Images/sms.js" type="text/javascript">
+</script>
+
+<script type="text/javascript">
+
+</script>
+
+  </head>
+
+  <body class="Child">
+
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+    </div>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <div class="HideTxt">
+              @DBTABLE(Q1,SELECT 
+               OBJ.F01
+              ,ISNULL(BAT.F902,'') AS F902
+              ,MAX(BAT.DITTO) AS DITTO
+              ,MAX(BAT.F222) AS F222
+              ,MAX(BAT.F909) AS F909
+              ,MAX(BAT.F907) AS F907
+              ,MAX(BAT.F136) AS F136
+              ,MAX(PRI.F30) AS F30
+              ,MAX(FCAST.F64) AS F1301
+              ,SUM(RPT.F64) AS F1302
+              FROM OBJ_TAB OBJ
+			  LEFT OUTER JOIN (
+				SELECT DISTINCT ALLOW_BAT.F01,ALLOW_BAT.F222,FSPRICE_BAT.F136,FSPRICE_BAT.F126,FSPRICE_BAT.F1000,
+				 HEADER_BAT.F902,SUBSTRING(HEADER_BAT.F913,1,CHARINDEX('-',HEADER_BAT.F913)-1) AS DITTO,HEADER_BAT.F909,HEADER_BAT.F907 
+				FROM HEADER_BAT 
+				LEFT OUTER JOIN ALLOW_BAT ON ALLOW_BAT.F902=HEADER_BAT.F902 AND ALLOW_BAT.F01='@DBHOT(HOT_IDX,F01)'
+				LEFT OUTER JOIN FSPRICE_BAT ON FSPRICE_BAT.F902=HEADER_BAT.F902 AND FSPRICE_BAT.F01='@DBHOT(HOT_IDX,F01)'				
+				WHERE CHARINDEX('-',HEADER_BAT.F913)>0 
+				UNION
+				SELECT DISTINCT OALLOW_BAT.F01,OALLOW_BAT.F222,OSPRICE_BAT.F136,OSPRICE_BAT.F126,OSPRICE_BAT.F1000,
+				 HEADER_OLD.F902,SUBSTRING(HEADER_OLD.F913,1,CHARINDEX('-',HEADER_OLD.F913)-1) AS DITTO,HEADER_OLD.F909,HEADER_OLD.F907 
+				FROM HEADER_OLD 
+				LEFT OUTER JOIN OALLOW_BAT ON OALLOW_BAT.F902=HEADER_OLD.F902 AND OALLOW_BAT.F01='@DBHOT(HOT_IDX,F01)'
+				LEFT OUTER JOIN OSPRICE_BAT ON OSPRICE_BAT.F902=HEADER_OLD.F902 AND OSPRICE_BAT.F01='@DBHOT(HOT_IDX,F01)'
+				WHERE CHARINDEX('-',HEADER_OLD.F913)>0 
+				) BAT ON BAT.F01=OBJ.F01
+              LEFT OUTER JOIN PRICE_TAB PRI ON PRI.F01=BAT.F01 AND PRI.F126=BAT.F126 AND PRI.F1000=BAT.F1000
+              LEFT OUTER JOIN RPT_ITM_D RPT ON OBJ.F01=RPT.F01 AND RPT.F1034=3 AND RPT.F254 BETWEEN BAT.F909 AND BAT.F907
+              LEFT OUTER JOIN RPT_ITM_D FCAST ON OBJ.F01=FCAST.F01 AND FCAST.F1034=3710 AND FCAST.F254 BETWEEN BAT.F909 AND BAT.F907
+              WHERE OBJ.F01='@DBHOT(HOT_IDX,F01)'
+              GROUP BY OBJ.F01,BAT.F902 ORDER BY F909 DESC);
+            </div>
+
+            <table class="RptTab" id="Rpt">
+              <tbody>
+                <tr>
+                  <th class="RptCap">Ditto#</th>
+
+                  <th class="RptCap">Invoice #</th>
+
+                  <th class="RptCap">Ad Begin Date</th>
+
+                  <th class="RptCap">Ad End Date</th>
+
+                  <th class="RptCap">Ad Retail</th>
+
+                  <th class="RptCap">Ad Qty Projection</th>
+
+                  <th class="RptCap">Ad Qty Actual</th>
+                </tr>
+
+                <tr>
+                  <td class="RptValCapTxt">@DBROW(Q1,DITTO,L)</td>
+
+                  <td class="RptValCapTxt">@DBROW(Q1,F222,L)</td>
+
+                  <td class="RptValCapTxt">@DBROW(Q1,F909,DSDF)</td>
+
+                  <td class="RptValCapTxt">@DBROW(Q1,F907,DSDF)</td>
+
+                  <td class="RptValNum">@DBROW(Q1,F136,Z$)</td>
+
+                  <td class="RptValNum">@DBROW(Q1,F1301,Z#)</td>
+
+                  <td class="RptValNum">@DBROW(Q1,F1302,Z#)</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

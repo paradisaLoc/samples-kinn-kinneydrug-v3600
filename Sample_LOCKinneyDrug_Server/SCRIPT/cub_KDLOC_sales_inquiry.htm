@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html class="ChildFix" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/sms_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_info.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_cube.css" type="text/css" />
+<script src="../../Images/sms.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+@FMT(CMP,@wizget(TUPDATE)=1,'®dbHot(REG,SET,USER@USER/CUBE*)')
+@DBHOT(REG,SET,USER@USER/Script/ITM_RPT_BUDGET_*)
+
+@FMT(CMP,@wizget(TORDER)<>,'®dbHot(REGSET,USER@USER/Cube/cub_KDLOC_sales_inquiry/ORDER,,®wizget(TORDER))')
+
+function SmsLoad() 
+{
+  VariableInit('@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','Http:/Scripts/trs.exe');
+  InitCube(document,'@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/ORDER)','M');
+  top.BodyLoad(document);
+  top.CursorSetFocus(document,"@wizget(CS)","@wizget(CP)");
+}
+
+function InitCube(oDoc,sOrder,sDetail)
+{
+  // * Init Period buttons *
+  if(oDoc.all("Date_"+sDetail) != null)
+    EntSetHighLight(oDoc.all("Date_"+sDetail),1,'EntBtnDef');
+  
+  // * Init Caption Order by *
+  var oOrder= oDoc.all(sOrder.split(' ')[0]);
+  if(oOrder!=null)
+    EntSetHighLight(oOrder,1,'RptCapDef');
+}
+
+function ReadCubeKey(oWin)
+{
+  if (oWin.event.keyCode==33 && oWin.document.all("BtnPrev"))
+    oWin.document.all("BtnPrev").click();
+  else if (oWin.event.keyCode==34 && oWin.document.all("BtnNext"))
+    oWin.document.all("BtnNext").click();
+}
+
+function GoUrl(sUrl)
+{
+  document.location='Http:/Scripts/Trs.exe?TN=@TER&amp;CN=@CNC&amp;'+sUrl;
+}
+</script>
+
+    <title>Sales inquiry Report</title>
+  </head>
+
+  <body class="InfoRpt" onkeydown="ReadCubeKey(window)" onload="SmsLoad()">
+    <object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+      @dbHot(USER@USER/CUBE/CUB_,SET,USER@USER/CUBE/CUB_[*)<br />
+    </div>
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <td class="HdrCel">Sales inquiry Report</td>
+
+          <td class="HdrBtnCel"><input class="HdrBtnNew" onclick="GoUrl('sql=Script/cub_KDLOC_sales_inquiry')" type="button" value="Refresh" smsattrib="@ATTRIB(B)" /></td>
+
+          <td class="HdrBtnCel"><input class="HdrBtnNew" onclick="window.print()" type="button" value="Print" smsattrib="@ATTRIB(B)" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <td class="EntCap">Date end</td>
+
+                  <td class="EntInp" colspan="2"><input class="EntBtn" style="WIDTH: 20px" onclick="GoUrl('sql=Script/cub_KDLOC_sales_inquiry&amp;USER@USER/Cube/cub_KDLOC_sales_inquiry/STOP=@DATE(@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/STOP),DSD-M1F)&amp;USER@USER/Cube/cub_KDLOC_sales_inquiry/START=@DATE(@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/STOP),DSD-M1D)')" type="button" value="&lt;&lt;" name="BtnPrev" smsattrib="@ATTRIB(B)" /> <input class="EntDat" style="WIDTH: 70px" value="@DATE(@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/STOP),DWDF)" name="USER@USER/Cube/cub_KDLOC_sales_inquiry/STOP$DW2S" smsattrib="@ATTRIB(E:dateMF,sql=Script/cub_KDLOC_sales_inquiry&amp;USER@USER/Cube/cub_KDLOC_sales_inquiry/START=)" /> <input class="EntBtn" style="WIDTH: 20px" onclick="GoUrl('sql=Script/cub_KDLOC_sales_inquiry&amp;F1027=@wizget(F1027)&amp;USER@USER/Cube/cub_KDLOC_sales_inquiry/STOP=@DATE(@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/STOP),DSD+M1F)&amp;USER@USER/Cube/cub_KDLOC_sales_inquiry/START=@DATE(@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/STOP),DSD+M1D)')" type="button" value="&gt;&gt;" name="BtnNext" smsattrib="@ATTRIB(B)" /></td>
+                </tr>			  
+                <tr>
+                  <td class="EntCap">Target</td>
+
+                  <td class="EntInp"><input class="EntGridTxt" style="WIDTH: 40px" value="@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/TARGET)" name="USER@USER/Cube/cub_KDLOC_sales_inquiry/TARGET" smsattrib="@ATTRIB(E:txt:F1000_RPT,sql=Script/cub_KDLOC_sales_inquiry)" /></td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT F1018 FROM STO_TAB WHERE F1000='@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/TARGET)')" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Type</td>
+
+                  <td class="EntInp" colspan="2" ><select class="EntList" style="WIDTH: 140px" size="1" name="USER@USER/Cube/cub_KDLOC_sales_inquiry/Dept" smsattrib="@ATTRIB(S,sql=Script/cub_KDLOC_sales_inquiry)" truevalue="@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/Dept)">
+                    <option value="DEPT1" selected="selected">
+                      Pharmacy
+                    </option>
+
+                    <option value="DEPTALL">
+                      Front End
+                    </option>
+                  </select></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Sales type</td>
+
+                  <td class="EntInp" colspan="2" ><select class="EntList" style="WIDTH: 140px" size="1" name="USER@USER/Cube/cub_KDLOC_sales_inquiry/SaleType" smsattrib="@ATTRIB(S,sql=Script/cub_KDLOC_sales_inquiry)" truevalue="@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/SaleType)">
+                    <option value="SALE" selected="selected">
+                      Promo
+                    </option>
+
+                    <option value="REG">
+                      Regular
+                    </option>
+                  </select></td>
+                </tr>				
+
+              </tbody>
+            </table>
+          </td>
+          <td class="FrmCel">
+            <div class="HideTxt">
+              <p>
+@dbTable(Q1,BEGIN
+	declare @date_from datetime, @date_to datetime
+	set @date_from = '@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/START)'
+	set @date_to = '@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/STOP)';
+	with dates as(
+		select @date_from as F254
+		union all
+		select DATEADD(d,1,F254) from dates where F254<@date_to
+	)
+	SELECT LEFT(DATENAME(DW,TMP.F254),3) + ' ' + RIGHT('00'+CAST(DATEPART(DD,TMP.F254) AS VARCHAR),2) AS F1401
+		,CASE WHEN '@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/SaleType)'='SALE' 
+			THEN SUM(CASE WHEN RPT.F1034=3 THEN ISNULL(RPT.F65,0) ELSE -1*ISNULL(RPT.F65,0) END) 
+			ELSE SUM(CASE WHEN RPT.F1034=3605 THEN ISNULL(RPT.F65,0) ELSE 0 END) END AS F65
+	FROM (SELECT F254 FROM DATES ) TMP
+	LEFT OUTER JOIN RPT_DPT RPT ON RPT.F254 BETWEEN @date_from AND @date_to AND RPT.F1031='D' AND RPT.F254=TMP.F254
+		AND RPT.F1056 IN (SELECT DISTINCT F1056 FROM LNK_TAB WHERE F1000='@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/TARGET)')
+		AND (('@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/Dept)'='DEPT1' AND RPT.F03=1) OR ('@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/Dept)'='DEPTALL' AND RPT.F03!=1)) 
+		AND (RPT.F1034=3605 OR ('@dbHot(REG,USER@USER/Cube/cub_KDLOC_sales_inquiry/SaleType)'='SALE' AND RPT.F1034=3))
+	GROUP BY TMP.F254
+END);</p>
+
+            </div>
+@RPTCLR(T65)
+            <table class="RptTab" id="Rpt">
+              <tbody>
+                <tr>
+                  <th class="RptCap">Day</th>
+
+                  <th class="RptCap">Amount</th>
+                </tr>
+
+                <tr>
+                  <td class="RptCapNum">@dbRow(Q1,F1401,L)</td>
+
+                  <td class="RptTtlNum">@dbRow(Q1,F65,Z#:2,T65)</td>
+                </tr>
+
+                <tr>
+                  <th class="RptTtlSep" colspan="14">
+                  </th>
+                </tr>
+
+                <tr>
+                  <th class="RptTtlTxt RptSep">TOTAL:</th>
+
+                  <th class="RptTtlNum">@rptttl(T65,Z#:2)</th>
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </td>		  
+        </tr>
+      </tbody>
+    </table>
+
+  </body>
+</html>
+

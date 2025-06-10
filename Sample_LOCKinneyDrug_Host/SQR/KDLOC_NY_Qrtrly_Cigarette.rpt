@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<html>
+
+  <head>
+    <desc>
+      <input type="hidden" class="HidParam" id="RPT_NAME" value="NY Qrtrly Cigarette" /> <input type="hidden" class="HidParam" id="RPT_FILENAME" value="KDLOC_NY_QRTRLY_CIGARETTE" /> <input type="hidden" class="HidParam" id="RPT_PARENT" value="rpt_dept" /> <input type="hidden" class="HidParam" id="RPT_PRIORITY" value="30" /> <input type="hidden" class="HidParam" id="RPT_DESC" value="Cigarette sales by store. CRITERIA: Period and Target" /> <input type="hidden" class="HidParam" id="RPT_GROUP" value="9.Multi Stores" /> <input type="hidden" class="HidParam" id="RPT_WIZARD" value="yes" />
+    </desc>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="CurHdr" content="ScreenRpt" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="PRAGMA" content="No_Cache" />
+    <link rel="stylesheet" href="../../Images/sms_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_rpt.css" type="text/css" />
+<script type="text/javascript" src="../../Images/rpt.js">
+        
+</script>
+
+    <title></title>
+  </head>
+
+  <body class="Main" onload="@wizset(CURPOS=0)InitRpt(document,@wizget(CURPOS),'@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','http:/scripts/trs.exe')">
+    <object id="cDialog" class="ComDialog" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <th id="RptTitle" class="HdrCel">NY Qrtrly Cigarette</th>
+
+          <th class="HdrBtnCel"><input onclick="SubmitReport('@wizget(DN)')" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" accesskey="Z" type="button" value="Excel" name="BtnSubmit" /></th>
+
+          <th class="HdrBtnCel"><input onclick="document.location='http:/scripts/trs.exe?htt=sqr\\' + RPT_FILENAME.value + '.rpt&amp;CN=@CNC&amp;TN=@TER';" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" type="button" value="Reset" name="BtnReset" /></th>
+        </tr>
+      </tbody>
+    </table>
+    <input class="HidParam" type="hidden" value="SQR\KDLOC_NY_QRTRLY_CIGARETTE.SQL" name="SQL" /><input class="HidParam" type="hidden" value="@CNC" name="CN" /><input class="HidParam" type="hidden" value="@TER" name="TN" />
+
+    <table class="EntTab" style="POSITION: absolute; LEFT: 200px; TOP: 150px">
+      <tbody>
+        <tr>
+          <th class="EntHdr" colspan="2">TARGET</th>
+        </tr>
+
+        <tr>
+          <td class="EntInp"><input onchange="@TOOLS(ValidateField,txt,F1000_RPT)" ondblclick="@TOOLS(SHOWGRID,F1000_RPT)" onfocus="SaveValue(this)" datasrc="@wizset(TARGET=@TOOLS(PopupDefault,F1000_RPT,FIRST,RAL))" onblur="LeaveField(this)" class="EntGrid" onkeydown="ReadKeyStroke(window,this)" style="WIDTH: 70px" value="@wizget(TARGET)" name="TARGET" /></td>
+
+          <td class="EntVal"><input tabindex="-1" class="EntValTxt" readonly="readonly" value="@dbSELECT(SELECT F1018 FROM STO_TAB WHERE F1000='@wizget(TARGET)')" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="EntTab" style="POSITION: absolute; LEFT: 200px; TOP: 55px">
+      <tbody>
+        <tr>
+          <th id="oDateSrc" class="EntHdr" colspan="4" initval="@wizset(REFRESH_DATE=1)@wizget(REFRESH_DATE)" initformat="@dbHOT(REGIONAL,SHORTDATEFORMAT)" initformatsql="@dbHOT(REGIONAL,SQLDATEFORMAT)" initweek="@dbHOT(WEEKSTART)" initdatereg="@wizset(DATE=@DWDD)@wizget(DATE)">DATE RANGE</th>
+
+          <td>
+          </td>
+        </tr>
+
+        <tr>
+          <th class="EntCap">Start</th>
+
+          <td class="EntInp"><input onchange="ValidateField(window,this,'date')" ondblclick="ShowDateExt(window,this,'Select a date','D')" onfocus="SaveValue(this)" onblur="LeaveField(this)" class="EntDat" onkeydown="ReadKeyStroke(window,this)" style="WIDTH: 90px" value="@wizget(START)" name="START" /></td>
+
+          <td class="EntVal" style="WIDTH: 0%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px" rowspan="2"><input onclick="GotoNextPreviousDate('-')" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="EntBtn" onkeydown="ReadKeyStroke(window,this)" style="WIDTH: 60px" type="button" value="Past" name="BtnDatPas" /><br />
+          <input onclick="GotoNextPreviousDate('+')" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="EntBtn" onkeydown="ReadKeyStroke(window,this)" style="WIDTH: 60px" type="button" value="Future" name="BtnDatFut" /> </td>
+        </tr>
+
+        <tr>
+          <th class="EntCap">Stop</th>
+
+          <td class="EntInp"><input onchange="ValidateField(window,this,'date')" ondblclick="ShowDateExt(window,this,'Select a date','F')" onfocus="SaveValue(this)" onblur="LeaveField(this)" class="EntDat" onkeydown="ReadKeyStroke(window,this)" style="WIDTH: 90px" value="@wizget(STOP)" name="STOP" /></td>
+        </tr>
+
+        <tr>
+          <td id="oDateDesc" class="EntVal" colspan="4">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="EntTab" style="POSITION: absolute; LEFT: 40px; TOP: 55px">
+      <tbody>
+        <tr>
+          <th class="EntHdr" colspan="2">PERIOD</th>
+        </tr>
+
+        <tr>
+          <td id="oPeriodSrc" class="EntPeriod" initval="@wizset(DETAIL=0)@wizget(DETAIL)" detail_details="@dbhot(DETAIL_DETAILS)" detail_names="@dbhot(DETAIL_NAMES)" detail_periods="@dbhot(DETAIL_PERIODS)">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

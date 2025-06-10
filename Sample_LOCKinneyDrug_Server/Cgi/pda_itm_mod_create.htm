@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>pda_itm_mod_create.htm</title>
+    <meta name="curhdr" content="pda" />
+    <link rel="stylesheet" href="../../Images/pda.css" type="text/css" />
+<script type="text/javascript" src="../../Images/pda.js">
+</script>
+  </head>
+
+  <body>
+    <table>
+      <tbody>
+        <tr>
+          <td class="HdrCelTitle">CREATE ITEM</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="ErrMsg">@FMT(CHR,7)Item does not exist</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="EntCap">Code&nbsp;</td>
+
+          <td class="EntVal"><input class="EntValTxt" style="WIDTH: 190px" readonly="readonly" value="@DBHOT(HOT_IDX,F01)" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide">
+      @IF(@DBHOT(REG,@PROFILE\pda\GO_CREATE)=1)
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><input class="BntGeneral" type="button" value="CREATE ITEM" onclick="document.location='http:/scripts/trs.exe?CN=@cnc&amp;TN=@ter&amp;CGI=pda_itm_mod_gen&amp;DN=pda&amp;HOT_ADD=OBJ_TAB;POS_TAB;PRICE_TAB&amp;HOT_IDX_F01=@DBHOT(HOT_IDX,F01)&amp;NEWITEM=1&amp;CP=0:0:1'" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide">
+      @ENDIF
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><input class="BntSubMenu" type="button" value="MENU" onclick="document.location='http:/scripts/trs.exe?cgi=pda_menu&amp;HOT_URL_BACK=@WIZGET(OLD_HTT)&amp;CN=@CNC&amp;tn=@TER&amp;dn=pda'"/></td>
+
+@IF(@dbhot(hot_url,back)&lt;&gt;@wizget(old_htt))
+          <td>&nbsp;</td>
+
+          <td><input class="BntSubMenu" type="button" value="BACK" onclick="document.location='http:/scripts/trs.exe?cgi=@DBHOT(HOT_URL,BACK)&amp;CN=@CNC&amp;tn=@TER&amp;dn=pda&CP=@DBHOT(HOT_URL,MARK)&amp;HOT_URL_MARK='"/></td>
+@ENDIF
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

@@ -1,0 +1,33 @@
+/* exit if base is not installed */
+@fmt(CMP,@dbHot(FindFirst,@OfficeHtm\dev\mFloor\app.js)=,'®fmt(CHR,26)');
+/* exit if no wrap exist */
+@fmt(CMP,@dbHot(FindFirst,@OfficeHtm\mFloor\app.js)=,'®fmt(CHR,26)');
+
+/* SET SERVER TO REACH */
+@WIZSET(WINSERVER=localhost:@DBHOT(CONFIG,WINSERVERPORT))
+
+/* XML SETUP FILE */
+@WIZSET(XMLFILE=@OFFICEDBT\SENCHAWRAP.XML);
+
+/* ADD SENCHA APP IN SAMPLE */
+/* CREATE XML FILE */
+@WIZRPL(XMLWRAP=^<?xml version="1.0" encoding="UTF-8"?^>^<command^>^<option driver="samples" server="@WIZGET(WINSERVER)" store="@STORE" ter="@TER"^>^<commands^>^<copy^>^<option^>^<name^>SAMPLE_LOCKINNEYDRUG_SERVER^</name^>^<sub /^>^<app^>mFloor^</app^>^<success/^>^</option^>^</copy^>^</commands^>^</option^>^</command^>);
+@EXEC(EXE='cmd /c echo @WIZGET(XMLWRAP) >@WIZGET(XMLFILE)');
+
+@WIZRPL(HttpTimeout=10)
+@WIZRPL(HttpUrl=https://@WIZGET(WINSERVER)/scripts/trs.exe?CN=PUBLIC&XN=HTTP&OUTPUT=HTTPSTREAM&HTTPMETHOD=POST&TYPE=option&SERVER=@WIZGET(WINSERVER)&DRIVER=samples&SECTION=&PROTOCOL=http&PROXY=&BW=CH&DN=eSuite&DBASE_TIMEOUT=40&LASTPOSTDATA=xml&POSTDATA=@WIZGET(XMLFILE)&SETUPMETHOD=POST&SETUPPOST=@WIZGET(XMLFILE)&SETUPOUTPUT=@WIZGET(XMLFILE)TMP&TASK=COMMAND&XCH=SETUP)
+@WIZRPL(HttpOutput=@OFFICEDBT\SENCHAERROR.TXT);
+@EXEC(XCH=HTTP)
+
+/* FOUND ERROR */
+@WIZRPL(DIR=@OFFICEDBT\);
+@WIZRPL(FILE=SENCHAERROR.TXT);
+@FMT(CMP,'@msgFILE(FINDINFILE,Error processing request)=',,'®WIZRPL(HTTPERROR=ERROR IN SENCHA WRAP)');
+@WIZCLR(DIR);
+@WIZCLR(FILE);
+
+/* ACTION TO TAKE ON ERROR */
+@FMT(CMP,'@WIZGET(HTTPERROR)=',,'®TOOLS(MESSAGEURGENT,MKIN@STORE.@TER,KINNEY SAMPLE CREATION,"@WIZGET(HTTPERROR)")');
+
+
+

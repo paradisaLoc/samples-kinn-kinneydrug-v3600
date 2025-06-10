@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<html>
+
+  <head>
+    <desc>
+      <input type="hidden" class="HidParam" id="RPT_NAME" value="Billing Report" /> <input type="hidden" class="HidParam" id="RPT_FILENAME" value="KDLOC_BILLING_REPORT" /> <input type="hidden" class="HidParam" id="RPT_PARENT" value="RPT_VND_TTL" /> <input type="hidden" class="HidParam" id="RPT_PRIORITY" value="1" /> <input type="hidden" class="HidParam" id="RPT_DESC" value="Displays a Statement Report based on allowances due from promotions. CRITERIA: Ditto#" /> <input type="hidden" class="HidParam" id="RPT_GROUP" value="2.Sales" /> <input type="hidden" class="HidParam" id="RPT_WIZARD" value="yes" />
+    </desc>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="CurHdr" content="ScreenRpt" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="PRAGMA" content="No_Cache" />
+    <link rel="stylesheet" href="../../Images/sms_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_rpt.css" type="text/css" />
+<script type="text/javascript" src="../../Images/rpt.js">
+        
+</script>
+
+    <title></title>
+  </head>
+
+  <body class="Main" onload="@wizset(CURPOS=0)InitRpt(document,@wizget(CURPOS),'@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','http:/scripts/trs.exe')">
+    <object id="cDialog" class="ComDialog" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <th id="RptTitle" class="HdrCel">Billing Report</th>
+
+          <th class="HdrBtnCel"><input onclick="SubmitReport('@wizget(DN)')" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" accesskey="Z" type="button" value="Launch" name="BtnSubmit" /></th>
+
+          <th class="HdrBtnCel"><input onclick="PrintReport('@wizget(DN)')" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" type="button" value="Print" name="BtnPrint" /></th>
+
+          <th class="HdrBtnCel"><input onclick="ReportAddTo(this,'@wizget(DN)','T')" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" type="button" value="Add" name="BtnTask" /></th>
+
+          <th class="HdrBtnCel"><input onclick="document.location='http:/scripts/trs.exe?htt=sqr\\' + RPT_FILENAME.value + '.rpt&amp;CN=@CNC&amp;TN=@TER';" onfocus="ActivateField(this)" onblur="LeaveField(this)" class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" type="button" value="Reset" name="BtnReset" /></th>
+        </tr>
+      </tbody>
+    </table>
+    <input class="HidParam" type="hidden" value="KDLOC_BILLING_REPORT" name="SQR" /><input class="HidParam" type="hidden" value="@CNC" name="CN" /><input class="HidParam" type="hidden" value="@TER" name="TN" />
+
+    <table class="EntTab" style="HEIGHT: 15px; WIDTH: 66px; POSITION: absolute; LEFT: 40px; TOP: 50px">
+      <tbody>
+        <tr>
+          <th class="EntHdr" colspan="2">Ditto #</th>
+        </tr>
+
+        <tr>
+          <td class="EntInp"><input onchange="ValidateField(window,this,'txt');" onfocus="SaveValue(this)" datasrc="@wizset(DITTO=)" onblur="LeaveField(this)" class="EntTxt" onkeydown="ReadKeyStroke(window,this)" style="WIDTH: 150px" value="@wizget(DITTO)" name="DITTO" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

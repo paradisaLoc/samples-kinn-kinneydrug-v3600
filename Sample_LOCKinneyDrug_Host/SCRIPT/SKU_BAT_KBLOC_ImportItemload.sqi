@@ -1,0 +1,13 @@
+/* Import KinneyDrugs Item Load */
+
+@WIZINIT;
+@WIZEDIT(CONFIRM=NO,Are you sure you want to reload the Price/Cost information);
+@WIZDISPLAY;
+@FMT(CMP,@WIZGET(CONFIRM)=YES,,'®FMT(CHR,27)');
+
+@WIZRPL(KINNEYDRUG.INI[IMPORT]ITEMLOAD=1);
+@DBHOT(KINNEYDRUG.INI,SET,KINNEYDRUG.INI[*);
+
+@EXEC(SQI=KDLOC_ItemImport_all);
+
+

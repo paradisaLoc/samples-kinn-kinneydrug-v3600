@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<hooks>
+
+@dbHot(REC_REG,EXTSET,REC_REG[*)
+
+<!-- Getting Main image from BMP_TAB -->
+@WIZRPL(img=@dbSelect(SELECT F2929 FROM BMP_TAB WHERE F01='@dbHot(HOT_IDX,F01)' AND F2926='MAIN' AND F2927='MAIN'));
+@FMT(CMP,@WIZGET(img)=,®WIZRPL(ImgPath=@dbHot(HOT_WIZ,GET,MFLOOR_IMAGE_SERVER)@dbHot(HOT_IDX,F01)@dbHot(HOT_WIZ,GET,MFLOOR_IMAGE_EXT)),®WIZRPL(ImgPath=@WIZGET(img)));
+@FMT(CMP,'@FMT(S1:4,@WIZGET(ImgPath))=HTTP',,®WIZRPL(ImgPath=@dbHot(HOT_WIZ,GET,MFLOOR_IMAGE_SERVER)@WIZGET(ImgPath)));
+
+@FMT(CMP,@DBHOT(REC_REG,F1774,Z#)&lt;&gt;,'®WIZSET(WARNING=*** TOTAL COST DISCREPANCY: ®dbHot(REC_REG,F1774,$) ***)')
+
+@TOOLS(DATED_PRICE,@DBHOT(REC_HDR,F2657,DSDF),F30;F31)
+
+		<hook>
+			<type>hookExec</type>
+			<alias>BuyRecItmStart</alias>
+			<skipFocus>@WIZGET(SKIPFOCUS)</skipFocus>
+			<data>
+				<record>
+					<F01>@dbHot(HOT_IDX,F01)</F01>
+
+@IF(@dbHot(REC_REG,F1067)&lt;&gt;)
+					<F1032>@dbHot(REC_REG,F1032,#)</F1032>
+					<F1101>@dbHot(REC_REG,F1101,#)</F1101>
+
+					<F113>@WIZGET(F113)</F113> <!-- price src -->
+					<F1007>@WIZGET(F1007)</F1007> <!-- dated price -->
+					<F1006>@WIZGET(F1006)</F1006> <!-- dated qty -->
+					<F30>@WIZGET(F30)</F30> <!-- Price -->
+					<F31>@WIZGET(F31)</F31> <!-- qty -->
+
+					<FORMAT_COUNT>@DBSELECT(SELECT COUNT(F01) FROM COST_TAB WHERE F01='@dbHot(HOT_IDX,F01)' AND F27='@dbHot(REC_HDR,F27)')</FORMAT_COUNT>
+					<TOTAL_COUNT>@DBSELECT(SELECT ISNULL(SUM(F1003),0) AS F1003 From REC_REG WHERE F1032=@dbHot(REC_HDR,F1032,#) AND F01='@DBHOT(HOT_IDX,F01)')</TOTAL_COUNT>
+					<INVENTORY>@RPTTTL(@FMT(COMA,F64,Z#:0,,@dbPlan(RPT_ITM_N,F01=@dbHot(HOT_IDX,F01),F1034=8501))/@dbHot(REC_REG,F19,#),Z#)</INVENTORY>
+
+					<F151>@dbHot(REC_REG,F151,Z#)</F151> <!-- Net cost -->
+					<F1140>@dbHot(REC_REG,F1140,Z#)</F1140> <!-- Unit net cost -->
+					<F1887>@dbHot(REC_REG,F1887)</F1887> <!-- UOM -->
+					<F220>@dbHot(REC_REG,F220)</F220> <!-- Split Item -->
+					<F1795>@dbHOT(REC_REG,F1795,Z#)</F1795> <!-- Split qty -->
+					<F64>@dbHot(REC_REG,F64,Z#)</F64> <!-- Total unit -->
+
+					<F75>@dbHot(REC_REG,F75,Z#)</F75> <!-- Case order -->
+					<F1266>@dbHot(REC_REG,F1266,Z#)</F1266> <!-- Unit order -->
+					<F1267>@dbHot(REC_REG,F1267,Z#)</F1267> <!-- weight order -->
+
+					<REC_REG-F26>@dbHot(REC_REG,F26)</REC_REG-F26> <!-- vnd code -->
+					<REC_REG-F1041>@dbHot(REC_REG,F1041)</REC_REG-F1041> <!-- Description -->
+					<REC_REG-F1976>@dbHot(REC_REG,F1976)</REC_REG-F1976> <!-- Cost comment -->
+					<REC_REG-F1691>@dbHot(REC_REG,F1691)</REC_REG-F1691> <!-- Note -->
+					<REC_REG-F82>@dbHot(REC_REG,F82)</REC_REG-F82> <!-- Scalable -->
+					<REC_REG-F08>@dbHot(REC_REG,F08)</REC_REG-F08> <!-- Status -->
+					<REC_REG-F1793>@dbHot(REC_REG,F1793,Z#)</REC_REG-F1793> <!-- delivery days -->
+
+					<REC_REG-F1184>@dbHot(REC_REG,F1184)</REC_REG-F1184> <!-- Format -->
+					<REC_REG-F38>@dbHot(REC_REG,F38,Z#)</REC_REG-F38> <!-- Base cost -->
+					<REC_REG-F19>@dbHot(REC_REG,F19,Z#)</REC_REG-F19> <!-- Case size -->
+					<REC_REG-F1003>@dbHot(REC_REG,F1003,Z#)</REC_REG-F1003> <!-- Case -->
+					<REC_REG-F70>@dbHot(REC_REG,F70,Z#)</REC_REG-F70> <!-- Unit -->
+					<REC_REG-F270>@dbHot(REC_REG,F270,Z#)</REC_REG-F270> <!-- Weight -->
+					<REC_REG-F65>@dbHot(REC_REG,F65,Z#)</REC_REG-F65> <!-- Total cost -->
+					<REC_REG-F1248>@dbHot(REC_REG,F1248,L)</REC_REG-F1248> <!-- Refund -->
+					<REC_REG-F1247>@dbHot(REC_REG,F1247,L)</REC_REG-F1247> <!-- Free -->
+
+					<REC_REG-F201>@dbHot(REC_REG,F201,Z#)</REC_REG-F201> <!-- Allowance $ -->
+					<REC_REG-F1657>@dbHot(REC_REG,F1657,Z#)</REC_REG-F1657> <!-- Allowance % -->
+					<REC_REG-F156>@dbHot(REC_REG,F156)</REC_REG-F156> <!-- Qualifier -->
+					<REC_REG-F223>@dbHot(REC_REG,F223)</REC_REG-F223> <!-- Off invoice -->
+					<REC_REG-F1977>@dbHot(REC_REG,F1977,Z#)</REC_REG-F1977> <!-- Minimum -->
+					<REC_REG-F202>@dbHot(REC_REG,F202,DSDF)</REC_REG-F202> <!-- start -->
+					<REC_REG-F203>@dbHot(REC_REG,F203,DSDF)</REC_REG-F203> <!-- end -->
+
+					<REC_REG-F1658>@dbHot(REC_REG,F1658,Z#)</REC_REG-F1658> <!-- Discount $ -->
+					<REC_REG-F228>@dbHot(REC_REG,F228,Z#)</REC_REG-F228> <!-- Discount % -->
+					<REC_REG-F233>@dbHot(REC_REG,F233,Z#)</REC_REG-F233> <!-- Rebate $ -->
+					<REC_REG-F237>@dbHot(REC_REG,F237,Z#)</REC_REG-F237> <!-- Rebate % -->
+@ENDIF
+
+					<warningMsg>@WizGet(WARNING)</warningMsg>
+					<imageSrc>@WIZGET(ImgPath)</imageSrc>
+					<imageAlt>No Image</imageAlt>
+				</record>
+			</data>
+		</hook>
+
+	</hooks>
+</root>

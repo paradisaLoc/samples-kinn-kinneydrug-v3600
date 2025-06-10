@@ -1,0 +1,15 @@
+/* KDLOC_Taxable_Sales */
+@WIZINIT;
+@WIZDETAIL(DETAIL=W);
+@WIZDATES(START,STOP);
+@WIZTARGET(TARGET=RAL,SELECT F1000,F1018 FROM STO_TAB WHERE F1180='1' ORDER BY F1000);
+@WIZDISPLAY;
+
+/* TAXABLE SALES */
+@wizrpl(ExtGridUsp=KDLOC_TaxableSales_xsl);
+
+/* @wizRpl(OUTPUT=C:\StoreLoc\test2.xls);*/
+@wizClr(OUTPUT);
+
+/*@EXEC(XLS=RTM\Kinney_Scandown.xls);*/
+@EXEC(XLS=NIL);

@@ -1,0 +1,1121 @@
+object ppReport1: TppReport
+  AutoStop = False
+  DataPipeline = MASTER
+  OnPrintingComplete = ppReport1AfterPrint
+  PrinterSetup.BinName = 'Default'
+  PrinterSetup.DocumentName = 'ppReport1'
+  PrinterSetup.Orientation = poLandscape
+  PrinterSetup.PaperName = 'Letter'
+  PrinterSetup.PrinterName = 'Default'
+  PrinterSetup.mmMarginBottom = 6350
+  PrinterSetup.mmMarginLeft = 6350
+  PrinterSetup.mmMarginRight = 6350
+  PrinterSetup.mmMarginTop = 6350
+  PrinterSetup.mmPaperHeight = 215900
+  PrinterSetup.mmPaperWidth = 279401
+  PrinterSetup.PaperSize = 1
+  Template.FileName = 'C:\Storeman\Office\Sqr\HDR_FPRICE_BAT.rtm'
+  Template.Format = ftASCII
+  ArchiveFileName = 'C:\STOREMAN\Office\cie.bmp'
+  DeviceType = 'Screen'
+  OutlineSettings.CreateNode = True
+  OutlineSettings.CreatePageNodes = True
+  OutlineSettings.Enabled = False
+  OutlineSettings.Visible = False
+  TextFileName = 'C:\Locdisk\report.TXT'
+  TextFileType = ftFixedLength
+  TextSearchSettings.DefaultString = '<FindText>'
+  TextSearchSettings.Enabled = False
+  Left = 152
+  Top = 180
+  Version = '7.04'
+  mmColumnWidth = 266701
+  DataPipelineName = 'MASTER'
+  object ppReport1HeaderBand1: TppHeaderBand
+    mmBottomOffset = 0
+    mmHeight = 35190
+    mmPrintPosition = 0
+    object ppImage2: TppImage
+      UserName = 'Image2'
+      Center = False
+      MaintainAspectRatio = False
+      Picture.Data = {
+        07544269746D61707E000000424D7E0000000000000036000000280000000400
+        000006000000010018000000000048000000C40E0000C40E0000000000000000
+        0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF}
+      mmHeight = 24606
+      mmLeft = 529
+      mmTop = 0
+      mmWidth = 203200
+      BandType = 0
+    end
+    object ppReport1Label1: TppLabel
+      UserName = 'ppReport1Label1'
+      Caption = '@WIZGET(TITLE)'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Verdana'
+      Font.Size = 16
+      Font.Style = [fsItalic]
+      Transparent = True
+      mmHeight = 6879
+      mmLeft = 3969
+      mmTop = 794
+      mmWidth = 51858
+      BandType = 0
+    end
+    object ppImage1: TppImage
+      UserName = 'Image1'
+      MaintainAspectRatio = True
+      Stretch = True
+      Picture.Data = {
+        07544269746D61707E000000424D7E0000000000000036000000280000000400
+        000006000000010018000000000048000000C40E0000C40E0000000000000000
+        0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF}
+      mmHeight = 18785
+      mmLeft = 150813
+      mmTop = 0
+      mmWidth = 101071
+      BandType = 0
+    end
+    object ppLabel1: TppLabel
+      UserName = 'Label1'
+      Caption = 'Pkg prc'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 4233
+      mmLeft = 239713
+      mmTop = 28575
+      mmWidth = 13039
+      BandType = 0
+    end
+    object ppLabel10: TppLabel
+      UserName = 'Label10'
+      Caption = 'Start'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 4233
+      mmLeft = 166952
+      mmTop = 28575
+      mmWidth = 7938
+      BandType = 0
+    end
+    object ppLabel11: TppLabel
+      UserName = 'Label101'
+      Caption = 'Stop'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 4233
+      mmLeft = 187325
+      mmTop = 28575
+      mmWidth = 7938
+      BandType = 0
+    end
+    object ppLabel12: TppLabel
+      UserName = 'Label12'
+      Caption = 'Active price'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 4233
+      mmLeft = 118269
+      mmTop = 28575
+      mmWidth = 19844
+      BandType = 0
+    end
+    object ppLabel13: TppLabel
+      UserName = 'Label13'
+      Caption = 'Scale'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 4233
+      mmLeft = 141552
+      mmTop = 28575
+      mmWidth = 9260
+      BandType = 0
+    end
+    object ppLine2: TppLine
+      UserName = 'Line2'
+      Weight = 0.75
+      mmHeight = 1852
+      mmLeft = 529
+      mmTop = 33338
+      mmWidth = 266701
+      BandType = 0
+    end
+    object ppLabel17: TppLabel
+      UserName = 'Label11'
+      Caption = 'Target'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = [fsBold]
+      Transparent = True
+      Visible = False
+      mmHeight = 4233
+      mmLeft = 152136
+      mmTop = 28575
+      mmWidth = 10848
+      BandType = 0
+    end
+    object ppLabel7: TppLabel
+      UserName = 'Label7'
+      Caption = 'Batch: '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = []
+      Transparent = True
+      mmHeight = 3969
+      mmLeft = 3969
+      mmTop = 8996
+      mmWidth = 10848
+      BandType = 0
+    end
+    object ppDBText10: TppDBText
+      UserName = 'DBText10'
+      DataField = 'F902'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = [fsBold]
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 3969
+      mmLeft = 16140
+      mmTop = 8996
+      mmWidth = 16404
+      BandType = 0
+    end
+    object ppLabel8: TppLabel
+      UserName = 'Label8'
+      Caption = 'Start date: '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = []
+      Transparent = True
+      mmHeight = 3704
+      mmLeft = 4233
+      mmTop = 14023
+      mmWidth = 15875
+      BandType = 0
+    end
+    object ppDBText8: TppDBText
+      UserName = 'DBText101'
+      AutoSize = True
+      DataField = 'F909'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = [fsBold]
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 3895
+      mmLeft = 20108
+      mmTop = 14023
+      mmWidth = 14309
+      BandType = 0
+    end
+    object ppLabel9: TppLabel
+      UserName = 'Label9'
+      Caption = 'End date: '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = []
+      Transparent = True
+      mmHeight = 3704
+      mmLeft = 4233
+      mmTop = 17992
+      mmWidth = 14552
+      BandType = 0
+    end
+    object ppDBText7: TppDBText
+      UserName = 'DBText8'
+      AutoSize = True
+      DataField = 'F907'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = [fsBold]
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 3895
+      mmLeft = 18785
+      mmTop = 17992
+      mmWidth = 16087
+      BandType = 0
+    end
+    object ppLabel18: TppLabel
+      UserName = 'Label18'
+      Caption = 'Source: '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = []
+      Transparent = True
+      mmHeight = 3725
+      mmLeft = 38100
+      mmTop = 14023
+      mmWidth = 11938
+      BandType = 0
+    end
+    object ppDBText13: TppDBText
+      UserName = 'DBText14'
+      AutoSize = True
+      DataField = 'F903'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = [fsBold]
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 3895
+      mmLeft = 51594
+      mmTop = 14023
+      mmWidth = 10668
+      BandType = 0
+    end
+    object ppLabel19: TppLabel
+      UserName = 'Label19'
+      Caption = 'State: '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = []
+      Transparent = True
+      mmHeight = 3725
+      mmLeft = 38365
+      mmTop = 17992
+      mmWidth = 9313
+      BandType = 0
+    end
+    object ppDBText16: TppDBText
+      UserName = 'DBText16'
+      AutoSize = True
+      DataField = 'F914'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = [fsBold]
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 3895
+      mmLeft = 49213
+      mmTop = 17992
+      mmWidth = 7281
+      BandType = 0
+    end
+    object ppLabel20: TppLabel
+      UserName = 'Label102'
+      Caption = 'Priority: '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = []
+      Transparent = True
+      mmHeight = 3725
+      mmLeft = 4233
+      mmTop = 21960
+      mmWidth = 12023
+      BandType = 0
+    end
+    object ppDBText17: TppDBText
+      UserName = 'DBText15'
+      AutoSize = True
+      DataField = 'F931'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = [fsBold]
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 3895
+      mmLeft = 17992
+      mmTop = 21960
+      mmWidth = 7281
+      BandType = 0
+    end
+    object ppDBText18: TppDBText
+      UserName = 'DBText102'
+      AutoSize = True
+      DataField = 'F913'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = [fsBold]
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4233
+      mmLeft = 34131
+      mmTop = 8996
+      mmWidth = 90678
+      BandType = 0
+    end
+    object ppReport1Label7: TppLabel
+      UserName = 'ppReport1Label7'
+      Caption = 'Code'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 3969
+      mmLeft = 1323
+      mmTop = 28575
+      mmWidth = 7938
+      BandType = 0
+    end
+    object ppLabel24: TppLabel
+      UserName = 'Label17'
+      Caption = 'S.Dpt'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 3969
+      mmLeft = 104511
+      mmTop = 28575
+      mmWidth = 8467
+      BandType = 0
+    end
+    object ppLabel26: TppLabel
+      UserName = 'Label20'
+      Caption = 'Description'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 3969
+      mmLeft = 24606
+      mmTop = 28575
+      mmWidth = 17727
+      BandType = 0
+    end
+    object ppLabel27: TppLabel
+      UserName = 'Label27'
+      Caption = 'Size'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 3969
+      mmLeft = 92604
+      mmTop = 28575
+      mmWidth = 6350
+      BandType = 0
+    end
+    object ppLabel6: TppLabel
+      UserName = 'Label6'
+      Caption = 'Price'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 4233
+      mmLeft = 211403
+      mmTop = 28575
+      mmWidth = 8467
+      BandType = 0
+    end
+    object ppLabel16: TppLabel
+      UserName = 'Label16'
+      Caption = 'lvl'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 4233
+      mmLeft = 202142
+      mmTop = 28575
+      mmWidth = 3969
+      BandType = 0
+    end
+    object ppLabel2: TppLabel
+      UserName = 'Label2'
+      Caption = 'tgm-rnd'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 8
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 3302
+      mmLeft = 225161
+      mmTop = 29104
+      mmWidth = 10499
+      BandType = 0
+    end
+    object ppLabel3: TppLabel
+      UserName = 'Label3'
+      Caption = 'tgm-rnd'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 8
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 3302
+      mmLeft = 255323
+      mmTop = 29104
+      mmWidth = 10499
+      BandType = 0
+    end
+  end
+  object ppReport1DetailBand1: TppDetailBand
+    PrintHeight = phDynamic
+    mmBottomOffset = 0
+    mmHeight = 11377
+    mmPrintPosition = 0
+    object ppReport1DBText12: TppDBText
+      UserName = 'ppReport1DBText12'
+      DataField = 'F35'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = []
+      ResetGroup = ppGroup1
+      SuppressRepeatedValues = True
+      TextAlignment = taCentered
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 161661
+      mmTop = 529
+      mmWidth = 19579
+      BandType = 4
+    end
+    object ppReport1DBText14: TppDBText
+      UserName = 'ppReport1DBText14'
+      DataField = 'F129'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = []
+      ResetGroup = ppGroup1
+      SuppressRepeatedValues = True
+      TextAlignment = taRightJustified
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 181240
+      mmTop = 529
+      mmWidth = 19579
+      BandType = 4
+    end
+    object ppDBText3: TppDBText
+      UserName = 'DBText3'
+      DataField = 'F1006'
+      DataPipeline = MASTER
+      DisplayFormat = '/#,0;-#,0'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = []
+      Transparent = True
+      Visible = False
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 132292
+      mmTop = 529
+      mmWidth = 4763
+      BandType = 4
+    end
+    object ppDBText4: TppDBText
+      UserName = 'DBText4'
+      DataField = 'F1007'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = []
+      TextAlignment = taRightJustified
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 114829
+      mmTop = 529
+      mmWidth = 17198
+      BandType = 4
+    end
+    object ppDBText5: TppDBText
+      UserName = 'DBText5'
+      DataField = 'F113'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = []
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 138113
+      mmTop = 529
+      mmWidth = 8731
+      BandType = 4
+    end
+    object ppReport1DBText6: TppDBText
+      UserName = 'ppReport1DBText6'
+      DataField = 'F140'
+      DataPipeline = MASTER
+      DisplayFormat = '#,0.00;-#,0.00'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = []
+      TextAlignment = taRightJustified
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 237861
+      mmTop = 529
+      mmWidth = 10848
+      BandType = 4
+    end
+    object myDBCheckBox1: TmyDBCheckBox
+      UserName = 'DBCheckBox1'
+      BooleanFalse = '0'
+      BooleanTrue = '1'
+      Style = csCheckMark
+      DataPipeline = MASTER
+      DataField = 'F82'
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 147638
+      mmTop = 529
+      mmWidth = 3440
+      BandType = 4
+    end
+    object ppDBText9: TppDBText
+      UserName = 'DBText7'
+      DataField = 'F142'
+      DataPipeline = MASTER
+      DisplayFormat = '/#,0;-#,0'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = []
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 248709
+      mmTop = 529
+      mmWidth = 5027
+      BandType = 4
+    end
+    object ppReport1DBText1: TppDBText
+      UserName = 'ppReport1DBText1'
+      DataField = 'F01'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Times New Roman'
+      Font.Size = 9
+      Font.Style = []
+      ReprintOnSubsequent = True
+      ResetGroup = ppGroup1
+      SuppressRepeatedValues = True
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 794
+      mmTop = 529
+      mmWidth = 22490
+      BandType = 4
+    end
+    object ppDBText19: TppDBText
+      UserName = 'DBText19'
+      DataField = 'F29'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Times New Roman'
+      Font.Size = 9
+      Font.Style = []
+      ReprintOnSubsequent = True
+      ResetGroup = ppGroup1
+      SuppressRepeatedValues = True
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 24077
+      mmTop = 529
+      mmWidth = 66940
+      BandType = 4
+    end
+    object ppDBText20: TppDBText
+      UserName = 'DBText20'
+      DataField = 'F22'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Times New Roman'
+      Font.Size = 9
+      Font.Style = []
+      SuppressRepeatedValues = True
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 91546
+      mmTop = 529
+      mmWidth = 14552
+      BandType = 4
+    end
+    object ppDBText23: TppDBText
+      UserName = 'DBText23'
+      DataField = 'F1000'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = []
+      Transparent = True
+      Visible = False
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 152665
+      mmTop = 529
+      mmWidth = 8996
+      BandType = 4
+    end
+    object ppDBText27: TppDBText
+      UserName = 'DBText27'
+      DataField = 'F04'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Times New Roman'
+      Font.Size = 9
+      Font.Style = []
+      ResetGroup = ppGroup1
+      SuppressRepeatedValues = True
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 107156
+      mmTop = 529
+      mmWidth = 6615
+      BandType = 4
+    end
+    object ppShape2: TppShape
+      UserName = 'Shape2'
+      Pen.Style = psDot
+      mmHeight = 4498
+      mmLeft = 114036
+      mmTop = 529
+      mmWidth = 265
+      BandType = 4
+    end
+    object ppShape3: TppShape
+      UserName = 'Shape3'
+      Pen.Style = psDot
+      mmHeight = 4498
+      mmLeft = 151342
+      mmTop = 529
+      mmWidth = 265
+      BandType = 4
+    end
+    object ppReport1DBText4: TppDBText
+      UserName = 'ppReport1DBText4'
+      DataField = 'F30'
+      DataPipeline = MASTER
+      DisplayFormat = '#,0.00;-#,0.00'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = []
+      TextAlignment = taRightJustified
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 205846
+      mmTop = 529
+      mmWidth = 12700
+      BandType = 4
+    end
+    object ppDBText12: TppDBText
+      UserName = 'DBText9'
+      DataField = 'F126'
+      DataPipeline = MASTER
+      DisplayFormat = '(##)'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = []
+      ResetGroup = ppGroup1
+      SuppressRepeatedValues = True
+      TextAlignment = taRightJustified
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 201348
+      mmTop = 529
+      mmWidth = 4498
+      BandType = 4
+    end
+    object ppDBText1: TppDBText
+      UserName = 'DBText1'
+      BlankWhenZero = True
+      DataField = 'F49'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Times New Roman'
+      Font.Size = 8
+      Font.Style = []
+      TextAlignment = taRightJustified
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 3387
+      mmLeft = 223838
+      mmTop = 794
+      mmWidth = 7408
+      BandType = 4
+    end
+    object ppDBText2: TppDBText
+      UserName = 'DBText2'
+      BlankWhenZero = True
+      DataField = 'F1767'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Times New Roman'
+      Font.Size = 8
+      Font.Style = []
+      TextAlignment = taRightJustified
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 3133
+      mmLeft = 254001
+      mmTop = 794
+      mmWidth = 7408
+      BandType = 4
+    end
+    object ppDBText6: TppDBText
+      UserName = 'DBText6'
+      BlankWhenZero = True
+      DataField = 'F1005'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Times New Roman'
+      Font.Size = 8
+      Font.Style = []
+      TextAlignment = taRightJustified
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 3387
+      mmLeft = 232040
+      mmTop = 794
+      mmWidth = 5027
+      BandType = 4
+    end
+    object ppDBText11: TppDBText
+      UserName = 'DBText11'
+      BlankWhenZero = True
+      DataField = 'F1768'
+      DataPipeline = MASTER
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Times New Roman'
+      Font.Size = 8
+      Font.Style = []
+      TextAlignment = taRightJustified
+      Transparent = True
+      DataPipelineName = 'MASTER'
+      mmHeight = 3133
+      mmLeft = 261938
+      mmTop = 794
+      mmWidth = 5027
+      BandType = 4
+    end
+    object ppDBText15: TppDBText
+      UserName = 'DBText13'
+      DataField = 'F31'
+      DataPipeline = MASTER
+      DisplayFormat = '/#,0;-#,0'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 10
+      Font.Style = []
+      Transparent = True
+      Visible = False
+      DataPipelineName = 'MASTER'
+      mmHeight = 4498
+      mmLeft = 218546
+      mmTop = 529
+      mmWidth = 5027
+      BandType = 4
+    end
+    object ppVariable1: TppVariable
+      UserName = 'Variable1'
+      CalcOrder = 0
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 9
+      Font.Style = []
+      TextAlignment = taRightJustified
+      Transparent = True
+      Visible = False
+      mmHeight = 3704
+      mmLeft = 92869
+      mmTop = 5821
+      mmWidth = 171980
+      BandType = 4
+    end
+  end
+  object ppFooterBand1: TppFooterBand
+    mmBottomOffset = 0
+    mmHeight = 5556
+    mmPrintPosition = 0
+    object ppLine1: TppLine
+      UserName = 'Line1'
+      Pen.Width = 3
+      Weight = 2.25
+      mmHeight = 1852
+      mmLeft = 265
+      mmTop = 265
+      mmWidth = 266436
+      BandType = 8
+    end
+    object ppLabel14: TppLabel
+      UserName = 'Label14'
+      Caption = 'Printed :'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 8
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 3440
+      mmLeft = 191559
+      mmTop = 1323
+      mmWidth = 11642
+      BandType = 8
+    end
+    object ppSystemVariable1: TppSystemVariable
+      UserName = 'SystemVariable1'
+      VarType = vtDateTime
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 8
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 3440
+      mmLeft = 204259
+      mmTop = 1323
+      mmWidth = 29898
+      BandType = 8
+    end
+    object ppSystemVariable2: TppSystemVariable
+      UserName = 'SystemVariable2'
+      VarType = vtPageNoDesc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 8
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 3440
+      mmLeft = 245005
+      mmTop = 1323
+      mmWidth = 11377
+      BandType = 8
+    end
+    object ppLabel4: TppLabel
+      UserName = 'Label4'
+      Caption = '@dbHot(CURRENT,REPORTFOOTER)'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Name = 'Arial'
+      Font.Size = 8
+      Font.Style = [fsBold]
+      Transparent = True
+      mmHeight = 3440
+      mmLeft = 2646
+      mmTop = 2117
+      mmWidth = 110067
+      BandType = 8
+    end
+  end
+  object ppGroup1: TppGroup
+    BreakName = 'F01'
+    DataPipeline = MASTER
+    KeepTogether = True
+    OutlineSettings.CreateNode = True
+    UserName = 'Group1'
+    mmNewColumnThreshold = 0
+    mmNewPageThreshold = 0
+    DataPipelineName = 'MASTER'
+    object ppGroupHeaderBand1: TppGroupHeaderBand
+      mmBottomOffset = 0
+      mmHeight = 0
+      mmPrintPosition = 0
+    end
+    object ppGroupFooterBand1: TppGroupFooterBand
+      mmBottomOffset = 0
+      mmHeight = 2381
+      mmPrintPosition = 0
+      object ppLine3: TppLine
+        UserName = 'Line3'
+        Pen.Style = psDot
+        Weight = 0.75
+        mmHeight = 1588
+        mmLeft = 1058
+        mmTop = 792
+        mmWidth = 265907
+        BandType = 5
+        GroupNo = 0
+      end
+    end
+  end
+  object raCodeModule1: TraCodeModule
+    ProgramStream = {
+      01060F5472614576656E7448616E646C65720B50726F6772616D4E616D65060D
+      496D616765314F6E5072696E740B50726F6772616D54797065070B747450726F
+      63656475726506536F7572636506CA70726F63656475726520496D616765314F
+      6E5072696E743B0D0A626567696E0D0A2020496D616765312E50696374757265
+      2E4C6F616446726F6D46696C65285265706F72742E4172636869766546696C65
+      4E616D65293B0D0A2020496D616765322E506963747572652E4C6F616446726F
+      6D46696C6528636F7079285265706F72742E4172636869766546696C654E616D
+      652C312C6C656E677468285265706F72742E4172636869766546696C654E616D
+      65292D37292B277270742E626D7027293B0D0A656E643B0D0A0D436F6D706F6E
+      656E744E616D650606496D61676531094576656E744E616D6506074F6E507269
+      6E74074576656E74494402200001060F5472614576656E7448616E646C65720B
+      50726F6772616D4E616D6506115265706F72744265666F72655072696E740B50
+      726F6772616D54797065070B747450726F63656475726506536F7572636506C7
+      70726F636564757265205265706F72744265666F72655072696E743B0D0A6265
+      67696E0D0A20206966204D41535445525B274D54275D3D31205448454E204C41
+      42454C31312E56495349424C453A3D5452554520454C5345204C4142454C3131
+      2E56495349424C453A3D46414C53453B0D0A20206966204D41535445525B274D
+      54275D3D31205448454E2044425445585432332E56495349424C453A3D545255
+      4520454C53452044425445585432332E56495349424C453A3D46414C53453B0D
+      0A656E643B0D0A0D436F6D706F6E656E744E616D6506065265706F7274094576
+      656E744E616D65060B4265666F72655072696E74074576656E74494402010001
+      060F5472614576656E7448616E646C65720B50726F6772616D4E616D65061144
+      657461696C4265666F72655072696E740B50726F6772616D54797065070B7474
+      50726F63656475726506536F757263650C1A01000070726F6365647572652044
+      657461696C4265666F72655072696E743B0D0A626567696E0D0A20206966206D
+      61737465725B274631303036275D3D31207468656E20646274657874332E7669
+      7369626C653A3D66616C736520656C736520646274657874332E76697369626C
+      653A3D747275653B0D0A20206966206D61737465725B27463331275D3D312074
+      68656E2064627465787431332E76697369626C653A3D66616C736520656C7365
+      2064627465787431332E76697369626C653A3D747275653B0D0A20206966206D
+      61737465725B2746313432275D3D31207468656E20646274657874372E766973
+      69626C653A3D66616C736520656C736520646274657874372E76697369626C65
+      3A3D747275653B0D0A656E643B0D0A0D436F6D706F6E656E744E616D65060644
+      657461696C094576656E744E616D65060B4265666F72655072696E7407457665
+      6E74494402180001060F5472614576656E7448616E646C65720B50726F677261
+      6D4E616D65060F5661726961626C65314F6E43616C630B50726F6772616D5479
+      7065070B747450726F63656475726506536F757263650C0F04000070726F6365
+      64757265205661726961626C65314F6E43616C63287661722056616C75653A20
+      56617269616E74293B0D0A626567696E0D0A202056616C75653A3D27273B0D0A
+      20206966204D41535445525B27463632275D3C3E30205448454E2056616C7565
+      3A3D56616C75652B2720204C494D495445443A20272B466C6F6174546F537472
+      284D41535445525B27463633275D292B27202F272B466C6F6174546F53747228
+      4D41535445525B27463632275D293B0D0A20206966204D41535445525B274631
+      373639275D3C3E30205448454E2056616C75653A3D56616C75652B2720205447
+      4D3A20272B466C6F6174546F537472284D41535445525B274631373639275D29
+      3B0D0A20206966204D41535445525B274631373730275D3C3E2727205448454E
+      2056616C75653A3D56616C75652B272020524E443A20272B4D41535445525B27
+      4631373730275D3B0D0A20206966204D41535445525B2746313638275D3C3E30
+      205448454E2056616C75653A3D56616C75652B2720205352503A20272B466C6F
+      6174546F537472284D41535445525B2746313638275D293B0D0A20206966204D
+      41535445525B274631373133275D3C3E30205448454E2056616C75653A3D5661
+      6C75652B27202054474D3A20272B466C6F6174546F537472284D41535445525B
+      274631373133275D293B0D0A20206966204D41535445525B274631373134275D
+      3C3E2727205448454E2056616C75653A3D56616C75652B272020524E443A2027
+      2B4D41535445525B274631373134275D3B0D0A20206966204D41535445525B27
+      463332275D3C3E30205448454E2056616C75653A3D56616C75652B2720204D49
+      583A20272B466C6F6174546F537472284D41535445525B27463332275D293B0D
+      0A20206966204D41535445525B27463333275D3C3E2727205448454E2056616C
+      75653A3D56616C75652B2720204D4554484F443A20272B4D41535445525B2746
+      3333275D3B0D0A20206966204D41535445525B2746313131275D3C3E30205448
+      454E2056616C75653A3D56616C75652B272020445343243A20272B466C6F6174
+      546F537472284D41535445525B2746313131275D293B0D0A20206966204D4153
+      5445525B2746313132275D3C3E30205448454E2056616C75653A3D56616C7565
+      2B272020445343253A20272B466C6F6174546F537472284D41535445525B2746
+      313132275D293B0D0A20206966204D41535445525B2746313639275D3C3E3020
+      5448454E2056616C75653A3D56616C75652B2720205054533A20272B466C6F61
+      74546F537472284D41535445525B2746313639275D293B0D0A20206966207661
+      6C75653D2727205448454E205641524941424C45312E56495349424C453A3D46
+      414C534520454C5345205641524941424C45312E56495349424C453A3D545255
+      453B0D0A656E643B0D0A0D436F6D706F6E656E744E616D650609566172696162
+      6C6531094576656E744E616D6506064F6E43616C63074576656E744944022100
+      00}
+  end
+  object ppParameterList1: TppParameterList
+  end
+end

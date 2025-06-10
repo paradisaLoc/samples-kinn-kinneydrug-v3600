@@ -1,0 +1,11 @@
+@DBHOT(MSSQL,STARTTRANSACTION);
+
+@dbTable(Q1,exec KINNEYDRUG_AR_EXPORT);
+
+<dbTable>
+@dbRow(Q1,F1056)@fmt(CHR,09)@dbRow(Q1,F1057)@fmt(CHR,09)@dbRow(Q1,F1032,#)@fmt(CHR,09)@dbRow(Q1,F254,DIDF)@fmt(CHR,09)@dbRow(Q1,F1036)@fmt(CHR,09)@dbRow(Q1,F1148)@fmt(CHR,09)@dbRow(Q1,F1034,Z#)@fmt(CHR,09)@dbRow(Q1,F65,#:2)@fmt(CHR,09)@dbRow(Q1,F1063,Z#)@fmt(CHR,09)@dbRow(Q1,F1079)
+</dbtable>
+
+@dbExec(UPDATE KINNEY_AR_TRS SET F1765=1 WHERE F1765 IS NULL);
+
+@DBHOT(MSSQL,COMMIT);

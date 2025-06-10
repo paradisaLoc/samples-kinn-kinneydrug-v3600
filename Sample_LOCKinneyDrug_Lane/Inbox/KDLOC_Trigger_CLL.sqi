@@ -1,0 +1,2 @@
+@WIZRPL(CREATE_TRIGGER_TABLE=CLL_TAB);
+@EXEC(SQI=KDLOC_create_trigger_cll);

@@ -1,0 +1,17 @@
+@wizSet(KDLOC.CUSTPROMPT=1);
+@dbHot(HOT_WIZ,SETT,GIFT_CARD_WARNING_DISPLAYED,0);
+@wizSet(KDLOC.DRIVETHRUPROMPT=1);
+
+@fmt(CMP,@wizExist(STATE)=1,'®wizClr(STATE)');
+
+/* PROMPT FOR CUSTOMER IF THE CUSTOMER IS NOT ALREADY PROVIDED */
+@fmt(CMP,@fmt(CMP,@dbHot(SAL_HDR,F1148)=,1,0)-@wizGet(KDLOC.CUSTPROMPT)=1-1,'®exec(HTT=KDLOC_POS_EnterTenderMode)®fmt(CHR,27)');
+
+/* GIFT CARD WARNING */
+@fmt(CMP,@dbHot(HOT_WIZ,GET,GIFT_CARD_WARNING_DISPLAYED)=0,'®exec(SQI=KDLOC_GiftCard_Warning)');
+
+/* DRIVE THRU PROMPT */
+@fmt(CMP,@wizGet(KDLOC.DRIVETHRUPROMPT)=1,'®exec(SQI=KDLOC_DriveThru_Prompt)');
+
+/* subtotal */
+@exec(FCT=720);

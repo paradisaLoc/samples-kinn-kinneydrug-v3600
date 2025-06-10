@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>@WIZGET(TITLE)</title>
+    <meta name="CurHdr" content="ScreenPos" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="Pragma" content="no_cache" />
+    <link rel="stylesheet" href="../../Images/pos_entry.css" type="text/css" />
+<script type="text/javascript" src="../../Images/sms.js">
+</script>
+<script type="text/javascript">
+@DBHOT(HOT_WIZ,RPLT,PAIDOUTDONE,0)
+@WIZRPL(LEFT=350);
+@WIZRPL(TOP=200);
+@WIZRPL(HEIGHT=475);
+@WIZRPL(WIDTH=350);
+@WIZRPL(FORM=REASON);
+@WIZRPL(STYLE=HTM);
+@WIZRPL(STATE=STAYONTOP);
+@WIZRPL(OPTIONS=BS1BI0);
+@WIZRPL(TITLE=PAID OUT);
+@FMT(CMP,@WIZGET(ScanSign)@FMT(CMP,@DBHOT(FINDFIRST,DBT\SIG_@STORE@TER_@dbHot(SAL_HDR,F1032,!0:6).bmp)=,0,1)=11,®WIZRPL(ScanSign=0));
+
+@wizset(CP=5)
+// Set mandatory flags
+var sMandatoryFields = 'REASON_CODE';
+if('@WIZGET(KD.PAIDOUT.ForceFirstName)'=='1')
+ sMandatoryFields += ',SAL_HDR[F1149]';
+if('@WIZGET(KD.PAIDOUT.ForceLastName)'=='1')
+ sMandatoryFields += ',SAL_HDR[F1150]';
+if('@WIZGET(KD.PAIDOUT.ForceAddress)'=='1')
+ sMandatoryFields += ',SAL_HDR[F1156]';
+if('@WIZGET(KD.PAIDOUT.ForcePhone)'=='1')
+ sMandatoryFields += ',SAL_HDR[F1172]';
+if('@WIZGET(KD.PAIDOUT.ForceComments)'=='1')
+ sMandatoryFields += ',KD.PAIDOUT.Comment';
+if('@WIZGET(KD.PAIDOUT.ForceEmpNum)'=='1')
+ sMandatoryFields += ',EmpNumber';
+  
+function SmsLoad() 
+{
+  VariableInit('@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','Http:/Scripts/trs.exe');
+  SetMandatoryFlag();
+  top.BodyLoad(document);
+  top.CursorSetFocus(document,"@wizget(CS)","@wizget(CP)");
+}
+
+function SetMandatoryFlag()
+{
+  var TagDesc;
+  for (var x=1; x<DataTable.rows.length+1; x++){
+		TagDesc=document.getElementById(x+'Tag').innerHTML;
+		if(sMandatoryFields.indexOf(document.getElementById(x).name)>-1)
+			document.getElementById(x+'Tag').innerHTML=TagDesc+' *';
+	}
+}
+
+function ClearAll()
+{
+    //************************** clear the field background color **************************
+  for (var x=1; x<DataTable.rows.length+1; x++){
+    top.EntSetHighLight(document.getElementById(x),0,'EntErr');
+	document.getElementById(x).value='';
+	}
+}
+
+function SubmitForm()
+{
+    var sMsgErr='';
+
+  for (var x=1; x<DataTable.rows.length+1; x++)
+  {
+    //************************** clear the field background color **************************
+    top.EntSetHighLight(document.getElementById(x),0,'EntErr');
+	
+	//******************** Remove special characters from fields ***************************************
+	var sValue = document.getElementById(x).value;
+	sValue=sValue.replace(/["']/g, " ");
+	sValue=sValue.replace(/[(]/g, "[");
+	sValue=sValue.replace(/[)]/g, "]");
+	document.getElementById(x).value = sValue;
+    //******************** Don't submit if madatory fields are missing *********************
+    if(sMandatoryFields.indexOf(document.getElementById(x).name)>-1 && document.getElementById(x).value=='')
+    {
+        top.EntSetHighLight(document.getElementById(x),1,'EntErr');
+        sMsgErr='Missing mandatory fields \n';
+    }
+  } 
+  if(sMsgErr!=''){
+    alert('Cannot submit values because:\n\n'+sMsgErr);
+	return false;
+	}
+	document.getElementById('Entry').value=document.getElementById('REASON_CODE').value;
+	return true;
+}
+
+</script>
+<style type="text/css">
+input.EntErr,select.EntErr,textarea.EntErr {
+    background-color: red;
+    }
+</style>
+  </head>
+
+  <body class="InfoHdr" onselectstart="document.selection.empty();" onkeydown="if(event.keyCode==27)document.location='Http:/Scripts/trs.exe?btn=close&FORM=@WIZGET(FORM)&FCT=30'" onload="SmsLoad()">
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+    </div>
+    <object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+    <form class="FrmDcl" action="Http:/Scripts/Trs.exe" method="get" id="IdData" onsubmit="return SubmitForm();">
+      <table class="HdrTab">
+        <tbody>
+          <tr>
+            <td class="HdrCel">PAID OUT</td>
+
+            <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" type="submit" value="Submit" name="BTNSUBMIT" /></td>
+
+            <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="document.location='Http:/Scripts/trs.exe?btn=close&FORM=@WIZGET(FORM)&FCT=30'; return false"type="submit" value="Cancel" name="BTNCANCEL" /></td>
+
+			<td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="ClearAll();return false" type="submit" value="Clear" name="BTNCLEAR" /></td>
+			
+            <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="top.PopKeyboard(window)" type="button" value="Keyboard" /></td>
+
+          </tr>
+        </tbody>
+      </table>
+@DBVIEW(Q1,SELECT F1063,F1064 FROM FCT_TAB WHERE F1063=@WIZGET(FUNCTION))
+	  <input class="Hide" type="hidden" value="CLOSE" name="BTN" />
+	  <input class="Hide" type="hidden" value="KDLOC_TRS_POS_PAIDOUT" name="SQI" />
+	  <input class="Hide" type="hidden" name="ENTRY" />
+	  <input class="Hide" type="hidden" name="SCANSIGN" value="@WIZGET(SCANSIGN)" />
+      <table class="FrmTab">
+        <tbody>
+          <tr>
+            <td class="FrmCel">
+              <table class="EntTab" id="DataTable">
+                <tbody>
+				 <tr>
+				  <td class="EntCap" id="1tag">Paid Out</td>
+
+			  	  <td class="EntVal"><input id="1" class="EntValTxt" style="WIDTH: 220px" readonly="readonly" tabindex="-1" size="32" name="paidout" value="@DBROW(Q1,F1064,RAW)"/> </td>
+				 </tr>
+				 <tr>
+				  <td class="EntCap" id="2tag">First Name</td>
+
+				  <td class="EntVal"><input id="2" class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E0F:txt,'NOREFRESH')" size="32" name="SAL_HDR[F1149]" value="@DBHOT(SAL_HDR,F1149,L)"/> </td>
+				 </tr>
+				 <tr>
+				  <td class="EntCap" id="3tag">Last Name</td>
+
+				  <td class="EntVal"><input id="3" class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E0F:txt,'NOREFRESH')" size="32" name="SAL_HDR[F1150]" value="@DBHOT(SAL_HDR,F1150,L)"/> </td>
+				 </tr>
+				 <tr>
+				  <td class="EntCap" id="4tag">Address</td>
+
+				  <td class="EntVal"><input id="4" class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E0F:txt,'NOREFRESH')" size="32" name="SAL_HDR[F1156]" value="@DBHOT(SAL_HDR,F1156,L)"/> </td>
+				 </tr>
+				 <tr>
+				  <td class="EntCap" id="5tag">Phone No</td>
+
+				  <td class="EntVal"><input id="5" class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E0F:txt,'NOREFRESH')" size="32" name="SAL_HDR[F1172]" value="@DBHOT(SAL_HDR,F1172,L)"/> </td>
+				 </tr>
+				<tr>
+				  <td class="EntCap" id="6tag">Reason</td>
+
+				  <td class="EntVal">
+				  
+				  @DBTABLE(Q1,SELECT * FROM REASON_TAB WHERE F1511=@WIZGET(FUNCTION))
+				  @FMT(CMP,@DBROW(Q1,RECORD_COUNT,#)=1,"®WIZSET(REASON_CODE=®DBROW(Q1,F2772,#))")
+				  <select id="6" class="EntList" style="WIDTH: 230px" datasrc="@ATTRIB(S0F,'NOREFRESH')" name="REASON_CODE" truevalue="@WIZGET(REASON_CODE)">
+					<DBTABLE>
+					<option value="@DBROW(Q1,F2772,#)">
+					@DBROW(Q1,F2773)
+					</option>
+					</DBTABLE>
+				  </select>
+				  </td>
+				</tr>
+				<tr>
+				  <td class="EntCap" id="7tag">Comments</td>
+				  <td class="EntInp"><textarea id="7" style="WIDTH: 220px" rows="5" onkeydown="top.EntTAInsertEnter(window,this,'@wizget(DN)',BTNSUBMIT)" datasrc="@attrib(A0F:txt,'NOREFRESH')" name="KD.PAIDOUT.Comment"></textarea></td>
+				</tr>
+				<tr>
+				  <td class="EntCap" id="8tag">Cashier</td>
+
+			  	  <td class="EntVal"><input id="8" class="EntValTxt" style="WIDTH: 220px" readonly="readonly" tabindex="-1" size="32" name="Cashier" value="@DBHOT(SAL_HDR,F1127)"/> </td>
+				</tr>
+				<tr>
+				  <td class="EntCap" id="9tag">OK'D By</td>
+
+			  	  <td class="EntVal"><input id="9" class="EntValTxt" style="WIDTH: 220px" readonly="readonly" tabindex="-1" size="32" name="Username" value="@USERNAME"/> </td>
+				</tr>
+				@IF(@WIZGET(KD.PAIDOUT.ForceEmpNum)=1)
+				@FMT(CMP,@DBHOT(SAL_HDR,F1148,L)=,"®WIZCLR(EmpNumber)","®WIZRPL(EmpNumber=®dbSELECT(SELECT F1643 FROM CLT_TAB WHERE F1148='®DBHOT(SAL_HDR,F1148)'))")
+				<tr>
+				  <td class="EntCap" id="10tag">Employee #</td>
+			  	  <td class="EntVal"><input id="10" class="@FMT(CMP,@WIZGET(EmpNumber)=,EntNum,EntValNum)" style="WIDTH: 220px" @FMT(CMP,@WIZGET(EmpNumber)=,,readonly="readonly" tabindex="-1") datasrc="@ATTRIB(E_A:NUM:EmpNumber,'NOREFRESH')" size="32" name="EmpNumber" value="@WIZGET(EmpNumber)"/> </td>
+				</tr>
+				<@ENDIF
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </body>
+</html>
+

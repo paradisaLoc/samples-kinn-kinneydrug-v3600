@@ -1,0 +1,17 @@
+@PRINT(CENT_SIGN,¢)
+@PRINT(LBL_HEIGHT,1.19)
+@PRINT(BC,0.84,0.89,1.08,0.21,7,10,@FMT(!0:13,@dbHot(ALT_LUP,ALT_TAB[F154],L)))
+@PRINT(XY,0.06,0.64,7,Arial,,l)@dbHot(ALT_LUP,ALT_TAB[F154],L)
+@PRINT(XY,0.06,0.75,8,Arial,,bl)@dbHot(POS_TAB,POS_TAB[F02],L)
+@PRINT(XY,0.06,0.88,6,Arial,0,bl)@dbHot(OBJ_TAB,OBJ_TAB[F22],L)
+@PRINT(XY,0.06,0.99,8,Arial,,l)@FMT(#,@dbHot(OBJ_TAB,OBJ_TAB[F01],L))
+@PRINT(XY,0.19,0.43,8,Arial,0,l)@WIZSET(PDA=1)@exec(sqi=KDLOC_trs_lbl_std_price)@Wizget(F1806)
+@PRINT(XY,0.22,0.23,12,Arial,,bl)@WIZSET(PDA=1)@exec(sqi=KDLOC_trs_lbl_std_price)@Wizget(PRICE)
+@PRINT(XY,0.26,0.08,8,Arial,0,l)Unit Price
+@PRINT(XY,0.67,0.88,6,Arial,0,bl)@dbHot(OBJ_TAB,OBJ_TAB[F23],L)
+@PRINT(XY,1.09,0.27,16,Arial,,l)@rptttl(@dbhot(PRICE_TAB,F30,#)/@FMT(CMP,@dbhot(PRICE_TAB,F31,#)=,1,@dbhot(PRICE_TAB,F31,#)),$:2)
+@PRINT(XY,1.11,0.61,8,Arial,0,l)@dbHot(OBJ_TAB,OBJ_TAB[F21],Z#)
+@PRINT(XY,1.19,0.08,8,Arial,0,l)YOU PAY
+@PRINT(XY,1.40,0.61,8,Arial,0,l)@dbHot(OBJ_TAB,OBJ_TAB[F17],Z#)
+@PRINT(XY,1.85,0.76,8,Arial,0,r)@DMDD/@D2DD
+@PRINT(FF,,)

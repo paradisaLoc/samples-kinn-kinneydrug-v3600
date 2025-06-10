@@ -1,0 +1,14 @@
+/* Import: 1.KinneyDrugs Item Cost */
+
+@WIZRPL(NAME=KinneyItemCost);
+@WIZRPL(FILE_TYPE=IMPORT);
+@WIZRPL(DIR_NAME=@RUNLinks\Item\);
+@WIZRPL(FILE_NAME=Kinney_Cost.*.txt);
+@WIZRPL(FILE_TYPE2=ASCII);
+@WIZRPL(CHAR_DELIMITER=#9);
+@WIZRPL(MAP_FILE=KinneyItemCost.SQM);
+@WIZRPL(SAVE_DIR=@RUNLinks\Item\Backup\);
+@WIZRPL(DEL_FILE=1);
+@WIZRPL(TARGET=941);
+@EXEC(XCH=RECV);
+

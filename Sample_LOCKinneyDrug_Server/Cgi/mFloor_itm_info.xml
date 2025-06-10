@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<hooks>
+
+@fmt(CMP,@dbHot(PRICE_TAB,F01)=,'®exec(HOT_IDX_F126=®dbSelect(SELECT F126 FROM PRICE_TAB WHERE F01="®dbHot(HOT_IDX,F01)"))');
+@fmt(CMP,@dbHot(COST_TAB,F01)=,'®exec(HOT_IDX_F27=®dbHot(COST_LUP,F27))');
+@fmt(CMP,@dbHot(LOC_TAB,F01)=,'®exec(HOT_IDX_F117=®dbHot(LOC_LUP,F117))');
+
+<!-- Getting Main image from BMP_TAB -->
+@WIZRPL(img=@dbSelect(SELECT F2929 FROM BMP_TAB WHERE F01='@dbHot(HOT_IDX,F01)' AND F2926='MAIN' AND F2927='MAIN'));
+@FMT(CMP,@WIZGET(img)=,®WIZRPL(ImgPath=@dbHot(HOT_WIZ,GET,MFLOOR_IMAGE_SERVER)@dbHot(HOT_IDX,F01)@dbHot(HOT_WIZ,GET,MFLOOR_IMAGE_EXT)),®WIZRPL(ImgPath=@WIZGET(img)));
+@FMT(CMP,'@FMT(S1:4,@WIZGET(ImgPath))=HTTP',,®WIZRPL(ImgPath=@dbHot(HOT_WIZ,GET,MFLOOR_IMAGE_SERVER)@WIZGET(ImgPath)));
+
+		<hook>
+			<type>hookExec</type>
+			<alias>ItmInfo</alias>
+			<skipFocus>@WIZGET(SKIPFOCUS)</skipFocus>
+			<data>
+				<record>
+					<F01>@dbHot(HOT_IDX,F01)</F01>
+					<F902>@dbHot(HOT_IDX,F902)</F902>
+					<F126>@dbHot(HOT_IDX,F126)</F126>
+					
+					<!-- Category -->
+					@IF(@dbHot(OBJ_TAB,F01)&lt;&gt;)
+					<F17>@dbHot(OBJ_TAB,F17,Z#)</F17>
+					<!-- Family -->
+					<F16>@dbHot(OBJ_TAB,F16,Z#)</F16>
+					<!-- Report code -->
+					<F18>@dbHot(OBJ_TAB,F18,Z#)</F18>
+					@ENDIF
+					
+					@IF(@dbHot(POS_TAB,F01)&lt;&gt;)
+					<!-- POS Descriptor -->
+					<F02>@dbHot(POS_TAB,F02)</F02>
+					<!-- Sub dept. -->
+					<F04>@dbHot(POS_TAB,F04,Z#)</F04>
+					<!-- Bottle depo -->
+					<F05>@dbHot(POS_TAB,F05,Z#)</F05>
+
+					<!-- Tax 1 -->
+					<F81>@dbHot(POS_TAB,F81)</F81>
+					<!-- Tax 2 -->
+					<F96>@dbHot(POS_TAB,F96)</F96>
+					<!-- Tax 3 -->
+					<F97>@dbHot(POS_TAB,F97)</F97>
+					<!-- Tax 4 -->
+					<F98>@dbHot(POS_TAB,F98)</F98>
+					<!-- Tax 5 -->
+					<F99>@dbHot(POS_TAB,F99)</F99>
+					<!-- Tax 6 -->
+					<F100>@dbHot(POS_TAB,F100)</F100>
+					<!-- Tax 7 -->
+					<F101>@dbHot(POS_TAB,F101)</F101>
+					<!-- Others -->
+					<F1120>@dbHot(POS_TAB,F1120)</F1120>
+					<!-- SCL -->
+					<F82>@dbHot(POS_TAB,F82)</F82>
+					<!-- FS -->
+					<F79>@dbHot(POS_TAB,F79)</F79>
+					<!-- FSA -->
+					<F80>@dbHot(POS_TAB,F80)</F80>
+					<!-- WIC -->
+					<F178>@dbHot(POS_TAB,F178)</F178>
+					<!-- Not for sale -->
+					<F86>@dbHot(POS_TAB,F86)</F86>
+					<!-- Restriction code -->
+					<F170>@dbHot(POS_TAB,F170,Z#)</F170>
+					<!-- Age -->
+					<F171>@dbHot(POS_TAB,F171,Z#)</F171>
+					
+					@dbView(Q2,SELECT TOP 1 ecpn = POS.F02 FROM POS_TAB POS JOIN PRICE_TAB PRI ON POS.F01=PRI.F01 AND PRI.F126=1 JOIN ECL_TAB ECL ON POS.F01=ECL.F164 WHERE (PRI.F129 IS NOT NULL AND PRI.F129 > getDate()) AND ((ECL.F1033 =  'ITM' AND ECL.F01= '@dbHot(POS_TAB,F01)') OR (ECL.F1033 =  'PID' AND CHARINDEX(','+REPLACE(ECL.F01,';',',')+',',',@dbHot(POS_TAB,F383),')>0) OR (ECL.F1033 =  'SUB' AND ECL.F01= '@dbHot(POS_TAB,F04,#)') OR (ECL.F1033 =  'DPT' AND ECL.F01= '@dbHot(SDP_TAB,F03,#)')))
+					<F1033>@dbROW(Q2,ecpn)</F1033>
+					@ENDIF
+
+					@IF(@dbHot(PRICE_TAB,F01)&lt;&gt;)
+					<!-- Active Source -->
+					<F113>@dbHot(PRICE_TAB,F113)</F113>
+					<!-- Active Quantity -->
+					<F1006>@dbHot(PRICE_TAB,F1006,Z#)</F1006>
+					<!-- Active Price -->
+					<F1007>@dbHot(PRICE_TAB,F1007,Z$)</F1007>
+					<!-- Active date -->
+					<F1008>@dbHot(PRICE_TAB,F1008,DSDF)</F1008>
+
+					<!-- Next Source -->
+					<F1011>@dbHot(PRICE_TAB,F1011)</F1011>
+					<!-- Next Quantity -->
+					<F1012>@dbHot(PRICE_TAB,F1012,Z#)</F1012>
+					<!-- Next Price -->
+					<F1013>@dbHot(PRICE_TAB,F1013,Z$)</F1013>
+					<!-- Next date -->
+					<F1014>@dbHot(PRICE_TAB,F1014,DSDF)</F1014>
+
+					<!-- Like code -->
+					<F122>@dbHot(PRICE_TAB,F122)</F122>
+					<!-- REGULAR Price -->
+					<F30>@dbHot(PRICE_TAB,F30,Z$)</F30>
+					<F31>@dbHot(PRICE_TAB,F31,Z#)</F31>
+					<!-- TPR Price -->
+					<F181>@dbHot(PRICE_TAB,F181,Z$)</F181>
+					<F182>@dbHot(PRICE_TAB,F182,Z#)</F182>
+					<F183>@dbHot(PRICE_TAB,F183,DSDF)</F183>
+					<F184>@dbHot(PRICE_TAB,F184,DSDF)</F184>
+					<!-- SALE Price -->
+					<F136>@dbHot(PRICE_TAB,F136,Z$)</F136>
+					<F135>@dbHot(PRICE_TAB,F135,Z#)</F135>
+					<F137>@dbHot(PRICE_TAB,F137,DSDF)</F137>
+					<F138>@dbHot(PRICE_TAB,F138,DSDF)</F138>
+					<!-- SALE DISCOUNT $ -->
+					<F1220>@dbHot(PRICE_TAB,F1220,Z$)</F1220>
+					<!-- SALE DISCOUNT % -->
+					<F1221>@dbHot(PRICE_TAB,F1221,Z#)</F1221>
+					<!-- SALE Package Price -->
+					<F139>@dbHot(PRICE_TAB,F139,Z$)</F139>
+					<F143>@dbHot(PRICE_TAB,F143,Z#)</F143>
+					
+					<!-- INSTORE Price -->
+					<F1133>@dbHot(PRICE_TAB,F1133,Z$)</F1133>
+					<F1134>@dbHot(PRICE_TAB,F1134,Z#)</F1134>
+					@ENDIF
+
+					@IF(@dbHot(COST_TAB,F01)&lt;&gt;)
+					<!-- Vendor ID -->
+					<F27>@dbHot(COST_TAB,F27)</F27>
+					<!-- Net cost -->
+					<F196>@dbHot(COST_TAB,F196,Z$)</F196>
+					<!-- Case size -->
+					<F19>@dbHot(COST_TAB,F19,Z#)</F19>
+					@ENDIF
+
+					@IF(@dbHot(LOC_TAB,F01)&lt;&gt;)
+					<!-- Shelf Id -->
+					<F117>@dbHot(LOC_TAB,F117)</F117>
+					<!-- Position -->
+					<F1030>@dbHot(LOC_TAB,F1030,Z#)</F1030>
+					@ENDIF
+
+					<!-- image -->
+					<imageSrc>@WIZGET(ImgPath)</imageSrc>
+					<imageAlt>No Image</imageAlt>
+					
+					<!-- Price Level 2 Sale Price -->
+					@wizRpl(F01=@dbHot(HOT_IDX,F01))
+					@dbView(Q1,SELECT PRI.F1007, PRI.F1006,	PRI.F1013, PRI.F1014, PRI.F1015, PRI.F1012, PRI.F126, LVL.F1017, PRI.F113, PRI.F135, PRI.F136, PRI.F137, PRI.F138, PRI.F1220, PRI.F1221, PRI.F139, PRI.F143, PRI.F1011 FROM PRICE_TAB PRI JOIN LVL_TAB LVL ON PRI.F126 = LVL.F126 WHERE PRI.F01='@dbHot(HOT_IDX,F01)' AND LVL.F126 = '2')
+					<F135PL2>@dbRow(Q1,F135,Z#)</F135PL2>
+					<F136PL2>@dbRow(Q1,F136,Z$)</F136PL2>
+					<F137PL2>@dbRow(Q1,F137,DSDF)</F137PL2>
+					<F138PL2>@dbRow(Q1,F138,DSDF)</F138PL2>
+					<F139PL2>@dbRow(Q1,F139,Z$)</F139PL2>
+					<F143PL2>@dbRow(Q1,F143,Z#)</F143PL2>
+					<F1220PL2>@dbRow(Q1,F1220,Z$)</F1220PL2>
+					<F1221PL2>@dbRow(Q1,F1221,Z#)</F1221PL2>
+				</record>
+			</data>
+		</hook>
+
+	</hooks>
+</root>

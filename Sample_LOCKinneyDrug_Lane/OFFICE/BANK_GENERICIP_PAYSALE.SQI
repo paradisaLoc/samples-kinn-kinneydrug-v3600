@@ -1,0 +1,18 @@
+/* VALIDATE EMERGENCY ACCOUNT */
+@fmt(CMP,@fmt(L3,@wizGet(PayTrack))=@STORE,,'®wizRpl(MSG=!Store_number_mismatch)');
+@fmt(CMP,@fmt(LEN,@wizGet(PayTrack))=10,,'®wizRpl(MSG=!Account_length_must_be_10)');
+@fmt(CMP,@dbHot(HOT_MEM,CLTOVERLIMIT)@wizGet(PayGenericIPOver)=11,®exec(),®wizClr(MSG));
+
+/* MANAGER OVERRIDE */
+@fmt(CMP,@dbHot(CURRENT,FCT,@dbHot(LEVELFIELD))>1,®wizSet(PayGenericIPOver=2));
+
+/* MAKE SURE THERE IS NO MORE THAN 1 PAYMENT */
+@fmt(CMP,1=@dbSelect(SELECT CASE WHEN '@wizget(FUNCTION)'='316' AND COUNT(*)>0 THEN 1 ELSE 0 END FROM SAL_REG WHERE F1032=@dbHot(SAL_HDR,F1032,#) AND F1063=316 AND F1069='0'),'®exec(MSG=!Only_one_payment_allowed)®fmt(CHR,27)');
+
+/* STRIP THE FIRST CHARACTER OF THE ACCOUNT */
+@fmt(CMP,@fmt(L1,@wizGet(PayTrack))=B,"®wizRpl(PayTrack=®dbSelect(select cast(SUBSTRING('®wizGet(PayTrack)',2,30) as BIGINT)))");
+
+@dbHot(SAL_TTL_FIND,22,F65,,=TL);
+@dbHot(SAL_TTL_FIND,26,F65,,TL);
+
+@wizRpl(PayGenericIPTaxTL=@rptTtl(TL,#:2));

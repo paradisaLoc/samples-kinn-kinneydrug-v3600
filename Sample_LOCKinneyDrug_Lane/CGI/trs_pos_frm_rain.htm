@@ -1,0 +1,18 @@
+<html>
+<body>
+@EXEC(Set=Printbmp)
+<center>@Tools(RCT_BMP,RCT_HEADER.BMP)
+@Tools(RCT_HTML,RCT_HEADER.HTM)
+
+<pre>RAIN CHECK
+--------------------------------------</center></pre>
+<pre style="TEXT-ALIGN: left">Operator @USER @USERNAME
+Date: @DWDF @FMT(L2,@TIME):@FMT(R2,@TIME)
+
+ITEM#: @dbHot(POS_TAB,F01)
+Quantity: @WIZGET(F64)
+Description: @dbHot(POS_TAB,F02)
+Price: @dbHot(PRICE_TAB,F1007,$)</pre>
+</body>
+</html>
+

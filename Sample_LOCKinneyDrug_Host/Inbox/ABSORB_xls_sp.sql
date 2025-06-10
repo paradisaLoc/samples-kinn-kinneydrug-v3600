@@ -1,0 +1,1 @@
+@TOOLS(INSTALL_USP,Usp\KDLOC_xls_*.*);

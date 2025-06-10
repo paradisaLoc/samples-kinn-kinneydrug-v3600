@@ -1,0 +1,13 @@
+{
+    "type": "cssresource",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "css",
+        "url": "../mFloor/resources/css/app.css"
+    },
+    "designerId": "860dfb27-ea36-4815-b020-f9732b799506"
+}

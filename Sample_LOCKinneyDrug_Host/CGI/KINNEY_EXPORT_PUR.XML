@@ -1,0 +1,40 @@
+@DBTABLE(Q1,@WIZGET(SQLQUERY));
+<?xml version="1.0" encoding="utf-8"?>
+<Interface xmlns='demandEvents.forecast.scm.retalix.com'>
+	<Data>
+<DBTABLE>
+		<EnvelopElement User='Kinney' InterfaceType='DemandEvent' FileName='DemandEvent'>
+			<MessageElement TransactionType='PromoDemandEvent' Source='Ad Plan' Version='1.0' Identifier='1' Site='Kinney' Trigger='Update' Purpose='Ongoing' MessageStructure='PromoDemandEvent' CreationDateTime='@DXDFT@FMT(T6D,@NOW)'>
+				<DeliveryHeaderElement>
+					<Record_Status>2</Record_Status>
+					<BusinessUnitId>600</BusinessUnitId>
+					<BusinessUnitIdType>Master</BusinessUnitIdType>
+					<DemandEventId>@DBROW(Q1,EventId,L)</DemandEventId>
+					<Description>@DBROW(Q1,EventIdDesc,L)</Description>
+					<PlanningMethod>LFT</PlanningMethod>
+					<FromDate>@DBROW(Q1,ShpStrDte,DXDF)</FromDate>
+					<ToDate>@DBROW(Q1,ShpEndDte,DXDF)</ToDate>
+					<ReceiveFromDate>@DBROW(Q1,RcvStrDte,DXDF)</ReceiveFromDate>
+					<ReceiveToDate>@DBROW(Q1,RcvEndDte,DXDF)</ReceiveToDate>
+					<ReleaseDate>@DBROW(Q1,RelDte,DXDF)</ReleaseDate>
+					<Status>@DBROW(Q1,pStatus,L)</Status>
+					<DemandEventType>PRM</DemandEventType>
+					<Reason>@DBROW(Q1,Discount,#)</Reason>
+					<OKToTransfer>true</OKToTransfer>
+					<Subtype>@DBROW(Q1,PromoType,L)@DBROW(Q1,PromoDest,L)</Subtype>
+					<Magnitude>@DBROW(Q1,pMagnitude,L)</Magnitude>
+					<MatchingDurationCategories>@DBROW(Q1,MatDurCat,L)</MatchingDurationCategories>
+					<SameOwnerBU>1</SameOwnerBU>
+					<HistoryDepth>395</HistoryDepth>
+					<HistoryDepthUOM>DAY</HistoryDepthUOM>
+					<LinesElement>
+						<ItemId>@DBROW(Q1,pItemId,L)</ItemId>
+						<ItemIdType>SKU</ItemIdType>
+						<Quantity>@DBROW(Q1,ItmSugQty,#)</Quantity>
+					</LinesElement>
+				</DeliveryHeaderElement>
+			</MessageElement>
+		</EnvelopElement>
+</DBTABLE>
+	</Data>
+</Interface>

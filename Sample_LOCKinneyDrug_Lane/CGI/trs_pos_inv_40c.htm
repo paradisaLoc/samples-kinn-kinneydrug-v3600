@@ -1,0 +1,115 @@
+<html>
+<head>
+	<meta name="sms-protected" content="true"/>
+</head>
+<body>
+
+<p>@WIZSET(F1032=@dbHot(SAL_HDR,F1032,#));<br>
+@FMT(CMP,@wizget(F1032)=SAL_HDR,'®WIZCLR(F1032)');<br>
+@WIZSET(FIL1=@WIZGET(F1032));</p>
+
+<p>@WIZINIT;<br>
+@WIZFIL(FIL1,,SELECT F1032,F254,F1155 FROM SAL_HDR);<br>
+@WIZDISPLAY;</p>
+
+<p>@WIZSET(RCT_WIDTH=40);<br>
+@RPTCLR(T1;C1;P1)</p>
+
+<p>@dbView(Q5,SELECT F1034,F1039 FROM TLZ_TAB);<br>
+@dbView(Q6,SELECT F1063,F1064 FROM FCT_TAB);</p>
+
+<p>@dbView(Q1,SELECT * FROM SAL_HDR@dbHot(TABLEBYTERMINAL) WHERE F1032=@wizget(FIL1));</p>
+
+
+@EXEC(Set=Printbmp)
+<center>@Tools(RCT_BMP,RCT_HEADER.BMP)</center>
+@Tools(RCT_HTML,RCT_HEADER.HTM)
+ 
+<pre style="TEXT-ALIGN: left">
+@dbRow(Q1,F1056,!0:4)-@dbRow(Q1,F1057) @dbRow(Q1,F253,DMDF)/@dbRow(Q1,F253,DDDF)/@dbRow(Q1,F253,D2DF) @dbRow(Q1,F253,T4F) @dbRow(Q1,F1126,!0:8) @dbRow(Q1,F1032,!0:6)
+@Tools(RCT_LINE,@dbRow(Q1,F1068)=REFUND,********** REFUND TRANSACTION **********)
+@Tools(RCT_LINE,@dbRow(Q1,F1068)=TRAIN,********* TRAINING TRANSACTION *********)</PRE>
+
+<hr len="40">
+
+<p>@dbTable(Q2,SELECT * FROM SAL_REG@dbHot(TABLEBYTERMINAL)<br>
+WHERE F1032=@wizget(FIL1) and F1067&lt;&gt;'TENDER' and F1067&lt;&gt;'FSTAMP');</p>
+
+<pre>@Tools(RCT_LINE,@dbRow(Q2,F1069)=1,** Voided)
+@Tools(RCT_LINE,@dbRow(Q2,F1070)=1,** Refunded)
+@Tools(RCT_LINE,@dbRow(Q2,F1071)=1,** Corrected)
+@Tools(RCT_QTY,Q2)
+@Tools(RCT_LINE,@dbRow(Q2,F1067)=SUBD,'@dbRow(Q2,F1041)','@dbRow(Q2,F65,Z$) @Tools(RCT_FLAG,Q2,L4)')
+@Tools(RCT_LINE,@dbRow(Q2,F1067)=DEPT,'@dbRow(Q2,F1041)','@dbRow(Q2,F65,Z$) @Tools(RCT_FLAG,Q2,L4)')
+@Tools(RCT_LINE,@dbRow(Q2,F1067)=ITEM,'@dbRow(Q2,F1041)','@dbRow(Q2,F65,Z$) @Tools(RCT_FLAG,Q2,L4)')
+@Tools(RCT_LINE,@dbRow(Q2,F1067)=CREDIT,'@dbRow(Q2,F1041): @dbRow(Q2,F65,Z$) @Tools(RCT_FLAG,Q2)')
+@Tools(RCT_LINE,@dbRow(Q2,F1067)=DEBIT,'@dbRow(Q2,F1041): @dbRow(Q2,F65,Z$) @Tools(RCT_FLAG,Q2)')
+@Tools(RCT_LINE,@dbRow(Q2,F1067)=DISC,'@dbRow(Q2,F1041): @dbRow(Q2,F65,Z$) @Tools(RCT_FLAG,Q2)')
+@Tools(RCT_LINE,@dbRow(Q2,F1067)=TEXT,'@dbRow(Q2,F1041) @dbRow(Q2,F65,Z$)')
+@Tools(RCT_LINE,'@dbRow(Q2,F1832,Z#)&lt;&gt;',' Points redeemed: @dbRow(Q2,F1832,Z#)')
+@Tools(RCT_LINE,'@dbRow(Q2,F1833,Z$)&lt;&gt;',' @dbFind(Q6,F1063,318,F1064): @dbRow(Q2,F1833,Z$)',,point-dsc)
+</pre>
+
+<hr len="40">
+
+<p>@dbView(Q2,SELECT * FROM SAL_TTL@dbHot(TABLEBYTERMINAL) WHERE F1032=@wizget(FIL1));</p>
+
+<pre>@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3,F1039)','@dbFind(Q2,F1034,3,F65,Z$)     ')</pre>
+
+<p>@dbTable(Q2,FILTER F1034&gt;=8 and F1034&lt;=15);</p>
+
+<pre>@Tools(RCT_LINE,,'@dbRow(Q2,F1039)','@dbRow(Q2,F65,Z$)     ')</pre>
+
+<pre>
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,22,F1039)','@dbFind(Q2,F1034,22,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,26,F1039)','@dbFind(Q2,F1034,26,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,30,F1039)','@dbFind(Q2,F1034,30,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,34,F1039)','@dbFind(Q2,F1034,34,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,302,F1039)','@dbFind(Q2,F1034,302,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,306,F1039)','@dbFind(Q2,F1034,306,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,310,F1039)','@dbFind(Q2,F1034,310,F65,Z$)     ')
+</pre>
+
+<p>@dbTable(Q2,FILTER F1034&gt;=39 and F1034&lt;=79);</p>
+
+<pre>@Tools(RCT_LINE,,'@dbRow(Q2,F1039)','@dbRow(Q2,F65,Z$)     ')</pre>
+
+<pre>@Tools(RCT_LINE,,'@dbFind(Q2,F1034,2,F1039)','@dbFind(Q2,F1034,2,F65,Z$,T1)     ')</pre>
+
+<p>@dbTable(Q2,FILTER F1034&gt;=1207 and F1034&lt;=1211);</p>
+
+<pre>@Tools(RCT_LINE,,'@dbRow(Q2,F1039)','@dbRow(Q2,F65,Z$,-T1)     ')</pre>
+
+<hr len="40">
+
+<pre><b>@Tools(RCT_LINE,,'SUB TOTAL',@rptTTL(T1,Z$)     )</b>
+@Tools(RCT_LINE,@dbFind(Q2,F1034,1219,F65,Z#)<>n/a,'@dbFind(Q2,F1034,92,F1039)','@dbFind(Q2,F1034,92,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,1219,F1039)','@dbFind(Q2,F1034,1219,F65,Z$)     ')
+@Tools(RCT_LINE,@dbFind(Q2,F1034,1218,F65,Z#)<>n/a,'@dbFind(Q2,F1034,90,F1039)','@dbFind(Q2,F1034,90,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,1218,F1039)','@dbFind(Q2,F1034,1218,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,29995,F1039)','@dbFind(Q2,F1034,29995,F65,Z$)     ')</pre>
+
+<p>@dbTable(Q3,SELECT F1041,F65,F1081 FROM SAL_REG@dbHot(TABLEBYTERMINAL)<br>
+WHERE F1032=@dbRow(Q1,F1032,#) and<br /> 
+(F1063 BETWEEN 102 and 106 or F1063 BETWEEN 112 and 117 or F1063 BETWEEN 120 and 200) AND F1069<>1 ORDER BY F1101);</p>
+
+<pre>@Tools(RCT_LINE,,'@dbRow(Q3,F1041)','@dbRow(Q3,F65,Z$)     ')
+@Tools(RCT_LINE,@Tools(RCT_CARD,Q3,5)<>,' # @Tools(RCT_CARD,Q3,5)')</pre>
+
+<pre>@Tools(RCT_LINE,,'@dbFind(Q2,F1034,1201,F1039)','@dbFind(Q2,F1034,1201,F65,Z$)     ')
+@dbFind(Q2,F1034,29999,F65,,C1)@Tools(RCT_LINE,,Change,'@rptttl(-C1,Z$)     ')</pre>
+
+<hr len="40">
+
+<pre>@Tools(RCT_LINE,,'Points in this sale','@dbFind(Q2,F1034,3401,F64,Z#,P1)     ')
+@Tools(RCT_LINE,,'Points redeemed','@dbFind(Q2,F1034,3411,F64,Z#,-P1)     ')
+@Tools(RCT_LINE,,'New point balance','@rptttl(@dbRow(Q1,F1238,#)@FMT(CMP,@dbRow(Q1,F1068)=REFUND,-,+)P1,Z#)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3412,F1039)','@dbFind(Q2,F1034,3412,F65,Z$,TS)     ',point.dsc)
+@Tools(RCT_LINE,,'New customer balance','@dbFind(Q2,F1034,7501,F65,Z$)     ')</pre>
+
+<pre> 
+ 
+Sign:__________________________________
+ </pre>
+</body>
+</html>

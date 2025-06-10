@@ -1,0 +1,35 @@
+妻bHot(HOT_WIZ,PARAMTOLINE,PARAM_SAV);
+
+@rptClr(TDSC);
+/* STORE DISCOUNT */
+@dbHot(PRICE_TAB,F1007,,=DSC)
+@fmt(CMP,@rptTtl(DSC,#:2)=0.00,'宸mt(CHR,27)')
+
+/* STORE TOTAL */
+@dbHot(SAL_TTL_FIND,3,F65,,=TTL);
+@fmt(CMP,@rptTtl(TTL,#:2)=0.00,'宸mt(CHR,27)')
+
+@dbTable(Q1,SELECT F1101
+    , FLOOR(@rptTtl(DSC/@dbHot(SAL_TTL_FIND,3,F64,#),#) ) AS F1719
+    , ROW_NUMBER() OVER(ORDER BY F1101 ASC) as LINE 
+FROM SAL_REG 
+WHERE F1032 = @fmt(#,@dbHot(SAL_HDR,F1032,#)) AND F1067 IN ('ITEM','DEPT','SUBD') AND ISNULL(F1069,'0') = '0' 
+AND F65 > 0
+ORDER BY F1101 ASC)
+
+<dbTable>
+定izRpl(CPN_ELECTRONIC=1);
+定izRpl(CPN_MATCHTYPE=LINE);
+定izRpl(CPN_MATCHCODE=@dbRow(Q1,F1101,#));
+定izRpl(CPN_VALUE=@fmt(CMP,@dbRow(Q1,Record_Count)=@dbRow(Q1,LINE,#),'崁ptttl(DSC-TDSC,#:2)','宵bRow(Q1,F1719,#:2,TDSC)'));
+定izRpl(CPN_CPNITEM=@dbHot(HOT_IDX,F01,L));
+定izSet(CPN_FUNCTION=468);
+定izRpl(CPN_COLLISION=1);
+孤ools(COUPON_MATCH);
+妹mt(CMP,定izExist(MESSAGE)=1,'容xec(FCT=30)');
+呷XEC(TEST=1);
+定izReset;
+妻bHot(HOT_WIZ,LINETOPARAM,PARAM_SAV);
+</dbTable>
+
+妻bHot(HOT_WIZ,CLR,PARAM_SAV);

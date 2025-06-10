@@ -1,0 +1,15 @@
+<html>
+<script>
+@wizset(LstPage=Link_McKesson_RxRefill);
+@wizset(BtnPage=Link_McKesson_RxRefill_SCR_LOOK_BTN);
+function LoadFrameSet()
+{
+	Btn.location = "Http:/Scripts/trs.exe?TN=@TER&amp;CN=@CNC&amp;htt=@WIZGET(BtnPage)";
+	Lst.location = "Http:/Scripts/trs.exe?TN=@TER&amp;CN=@CNC&amp;htt=@WIZGET(LstPage)";
+}
+</script>
+<frameset name="TT" rows="*,66" frameborder="NO" framespacing="0" onLoad="LoadFrameSet()">
+  <frame name="Lst">
+  <frame name="Btn">
+</frameset>
+</html>

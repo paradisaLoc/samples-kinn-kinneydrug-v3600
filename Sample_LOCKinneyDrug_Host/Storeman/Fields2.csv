@@ -1,0 +1,4 @@
+HOT,FIELD,TYPE,SIZE,DEC,DESCRIPTOR,Short,P,Translation,Short,S,KINNEYINV
+222,F222,C,12,,Allowance number,,,Numéro de l'allocation,,,P
+,F6000,C,200,,Description,,,Description,,,F
+,F6001,C,200,,Note,,,Note,,,F

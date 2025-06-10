@@ -1,0 +1,9 @@
+@wizRpl(Hookskip=All);
+@EXEC(SSM=trs_rec_web);
+@wizClr(HookSkip);
+
+@EXEC(FCT=3110,HDRRECF1068=RECV,ENTRY=@dbHot(KINNEYDRUG.INI,[BUYING]VendorId));
+
+
+
+

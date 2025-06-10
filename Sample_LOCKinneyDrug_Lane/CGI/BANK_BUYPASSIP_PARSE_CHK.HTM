@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>trs_pos_parse_chk</title>
+    <meta name="CurHdr" content="ScreenPos" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="Pragma" content="no_cache" />
+    <link rel="stylesheet" href="../../Images/pos_entry.css" type="text/css" />
+<script src="../../Images/sms.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+@FMT(CMP,@WIZEXIST(PayCheckAccount)=1,®wizset(CP=6),®wizset(CP=3));
+@FMT(CMP,@dbHot(HOT_MEM,CLTRETURNMODE)@dbHot(HOT_MEM,CLTVOIDKEY)&gt;00,®WIZRPL(CP=4));
+
+var currUserLevel = @dbHot(USERLEVEL);
+
+function SmsLoad() 
+{
+  top.BodyLoad(document);
+  top.CursorSetFocus(document,"@wizget(CS)","@wizget(CP)");
+  ShowSubmit();
+}
+
+function ShowSubmit()
+{
+  if (currUserLevel < 5 && (document.all("PayCheckID").value == '' || document.all("PayCheckStateCode").value == ''))
+    document.all("B1").disabled = true;
+  else
+    document.all("B1").disabled = false;
+}
+
+</script>
+  </head>
+
+  <body class="InfoHdr" onselectstart="document.selection.empty();" onkeydown="if(event.keyCode==27)document.all('CLOSE').click()" onload="SmsLoad()">
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+    </div>
+    <object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <form class="FrmDcl" action="Http:/Scripts/Trs.exe" method="get">
+      <table class="HdrTab">
+        <tbody>
+          <tr>
+            <td class="HdrCel">Check: @wizget(PayCheckDesc)</td>
+
+            <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="top.PopKeyboard(window)" style="width: 100px" tabindex="-1" type="button" value="Keyboard" /></td>
+
+            <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" type="submit" style="width: 100px" value="Submit" name="B1" /></td>
+
+            <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" type="submit" style="width: 100px" value="Cancel" name="CLOSE" /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="HideTxt">
+       @IF(@dbHot(HOT_MEM,CLTRETURNMODE)@dbHot(HOT_MEM,CLTVOIDKEY)&gt;00)
+      </div>
+
+      <table class="FrmTab">
+        <tbody>
+          <tr>
+            <td class="FrmCel">
+              <table class="EntTab">
+                <tbody>
+                  <tr>
+                    <td class="EntCap">Original authorization id @dbHot(HOT_MEM,CLTRETURNMODE)@dbHot(HOT_MEM,CLTVOIDKEY)</td>
+
+                    <td class="EntVal"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" size="32" name="ORGAUTHID" /> </td>
+                  </tr>
+                  <tr>
+                    <td class="EntCap">Original sequence</td>
+
+                    <td class="EntVal"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" size="32" name="PaySequence" /> </td>
+                  </tr>
+                  <tr>
+                    <td class="EntCap">Original ECA trace ID</td>
+
+                    <td class="EntVal"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" size="32" name="PAYAUTHINFO" /> </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="HideTxt">
+       @ENDIF
+      </div>
+
+      <table class="FrmTab">
+        <tbody>
+          <tr>
+            <td class="FrmCel">
+              <table class="EntTab">
+                <tbody>
+                  <tr>
+                    <td class="EntCap">MICR</td>
+
+                    <td class="EntVal"><input class="EntValTxt" style="WIDTH: 347px; HEIGHT: 22px" tabindex="-1" readonly="readonly" size="49" value="@wizget(EntryNumber)" /> </td>
+                  </tr>
+
+                  <tr>
+                    <td class="EntCap">Bank account</td>
+
+                    <td class="EntVal"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" onchange="document.all('PayEntryType').value='M'" size="32" value="@WIZGET(PayCheckAccount)" name="PayCheckAccount" /> </td>
+                  </tr>
+
+                  <tr>
+                    <td class="EntCap">Bank routing</td>
+
+                    <td class="EntVal"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" onchange="document.all('PayEntryType').value='M'" size="32" value="@WIZGET(PayCheckRouting)" name="PayCheckRouting" /> </td>
+                  </tr>
+
+                  <tr>
+                    <td class="EntCap">Serial</td>
+
+                    <td class="EntVal"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" onchange="document.all('PayEntryType').value='M'" size="32" value="@WIZGET(PayCheckSerial)" name="PayCheckSerial" /> </td>
+                  </tr>
+
+                  <tr>
+                    <td class="EntCap">Check type</td>
+
+                    <td class="EntVal"><select class="EntList" style="WIDTH: 230px" datasrc="@ATTRIB(S_A,'NOREFRESH')" name="PayCheckType" truevalue="@WIZSET(PAYCHECKTYPE=I)@WIZGET(PAYCHECKTYPE)">
+                      <option value="C">
+                        BUSINESS
+                      </option>
+
+                      <option value="I" selected="selected">
+                        PERSONAL
+                      </option>
+
+                    </select> </td>
+                  </tr>
+
+                  <tr>
+                    <td class="EntCap">Driver's Licence</td>
+
+                    <td class="EntVal"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" size="32" onchange="ShowSubmit()" name="PayCheckID" value="@WIZGET(PayCheckID)"/> </td>
+                  </tr>
+
+                  <tr>
+                    <td class="EntCap">State code</td>
+
+                    <td class="EntVal"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" size="32" onchange="ShowSubmit()" name="PayCheckStateCode" value="@WIZGET(PayCheckStateCode)"/> </td>
+                  </tr>
+
+                  <tr>
+                    <td class="EntCap">Customer phone number</td>
+
+                    <td class="EntVal"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" size="32" name="PayPhone" value="@WIZGET(PayPhone)" /> </td>
+                  </tr>
+
+                  <tr>
+                    <td class="EntCap">Customer birthday (MMDDYYYY)</td>
+
+                    <td class="EntVal"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" size="32" name="PayBirthday" value="@WIZGET(PayBirthday)"/> </td>
+                  </tr>
+
+                  <tr>
+                    <td class="EntCap">Customer last name</td>
+
+                    <td class="EntVal"><input class="EntTxt" style="WIDTH: 220px" datasrc="@ATTRIB(E_A:txt,'NOREFRESH')" size="32" name="PayCheckLastName" value="@WIZGET(PayCheckLastName)"/> </td>
+                  </tr>
+
+                </tbody>
+              </table>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <input class="HidParam" type="hidden" value="S" name="PayEntryType" />
+    </form>
+  </body>
+</html>
+

@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>pda_lbl_itm_print.htm</title>
+@IF(@WIZGET(TPRINT)=1)
+@EXEC(SQI=KDLOC_trs_lbl_std_price_kinney);
+@TOOLS(RCT_HTML,@OFFICE\pda_lbl_reg_2X1.sqi);
+@ENDIF
+    <meta http-equiv="Scanner" content="@dbHot('setup.ini',[PDA_SCANNER]Global_Scanner)" />
+    <meta http-equiv="OnKey@DBHOT(REG,@PROFILE\pda\HOTKEY_F01)" content="Javascript:onkey('HOT_IDX_F01$SCAN');" />
+    <meta name="curhdr" content="pda" />
+    <link rel="stylesheet" href="../../Images/pda.css" type="text/css" />
+<script type="text/javascript" src="../../Images/pda.js">
+</script>
+<script type="text/javascript">
+
+function SmsLoad() {
+  @WIZSET(hotKey=@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYLEFT),@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYUP),@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYRIGHT),@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYDOWN));
+  VariableInit(@FMT(CMP,'@WIZGET(hotKey)&lt;&gt;,,,','®WIZGET(hotKey)'));
+  BodyLoad('@WIZGET(CP)');
+}
+
+</script>
+  </head>
+
+  <body onload="SmsLoad();">
+    <table>
+      <tbody>
+        <tr>
+          <td class="HdrCelTitle">SHELF LABEL</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide">
+      @FMT(CMP,@DBHOT(REG,@PROFILE\pda\LBL_PRINT_F95)=,'®WIZSET(@PROFILE\pda\LBL_PRINT_F95=®DBHOT(FINDFIRST,LBZ\PORTABLE_*.LBZ))')<br />
+       @WIZRPL(@PROFILE\pda\LBL_PRINT_PRN=PORTABLE1)<br />
+       @DBHOT(REG,SET,@PROFILE\pda\LBL_*);<br />
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="EntCap">Code&nbsp;</td>
+
+          <td class="EntVal">
+            <form action="http:/scripts/trs.exe" method="get">
+              <input onblur="EntBlur(this)" onfocus="EntFocus(this)" onkeydown="EntKeyDown(this)" datafld="scan" class="CODE" value="@dbHot(HOT_IDX,F01)" name="HOT_IDX_F01$SCAN" scanner="@dbHot('setup.ini',[PDA_SCANNER]HOT_IDX_F01)" /><input class="submit" type="submit" value="GO" name="BtnGo" /><input class="Hide" type="hidden" value="@CNC" name="CN" /><input class="Hide" type="hidden" value="@TER" name="TN" /><input class="Hide" type="hidden" value="pda" name="DN" /><input class="Hide" type="hidden" value="@DBHOT(REG,@PROFILE\pda\HOT_PRM)" name="HOT_PRM_F01" /><input class="Hide" type="hidden" value="CGI=pda_lbl_itm_print" name="RETPAGE" /><input class="Hide" type="hidden" value="pda_SKU_SCANNING" name="SQI" /><input class="Hide" type="hidden" value="@DBHOT(REG,@PROFILE/pda/SET_F126)" name="HOT_IDX_F126" /><input class="Hide" type="hidden" value="D" name="HOT_PRM_F126" /><input class="Hide" type="hidden" value="0:0" name="CP" /><input class="Hide" type="hidden" value="pda_lbl_itm_print" name="HOT_URL_BACK" />
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr class="@FMT(CMP,@FMT(M1:26,@dbHot(POS_TAB,F02))&lt;&gt;,,Hide)">
+          <td class="EntVal"><input class="EntValTxt" style="WIDTH: 215px" readonly="readonly" value="@FMT(M1:26,@dbHot(POS_TAB,F02))" /></td>
+        </tr>
+
+        <tr class="@FMT(CMP,@FMT(M2:26,@dbHot(POS_TAB,F02))&lt;&gt;,,Hide)">
+          <td class="EntVal"><input class="EntValTxt" style="WIDTH: 215px" readonly="readonly" value="@FMT(M2:26,@dbHot(POS_TAB,F02))" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide">
+      @IF(@DBHOT(HOT_IDX,F01)&lt;&gt;)
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="EntCap">Label&nbsp;</td>
+
+          <td class="EntVal"><input class="EntValTxt" style="WIDTH: 182px" readonly="readonly" value="Kinney_Drug_template" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><input style="WIDTH: 85px" class="BntGeneral" type="button" value="PRINT REG" onclick="document.location='http:/scripts/trs.exe?cgi=pda_lbl_itm_print&amp;TPRINT=1&amp;HOT_URL_BACK=pda_lbl_itm_print&amp;DN=pda&amp;CN=@CNC&amp;TN=@TER&amp;CP=1:0:1'" /></td>
+
+          <td><input class="EntValNum" readonly="readonly" style="WIDTH: 70px" value="@dbHot(PRICE_TAB,PRICE_TAB[F30],Z#:2)" /></td>
+
+          <td class="EntSymbol">&nbsp;/&nbsp;</td>
+
+          <td><input class="EntValNum" readonly="readonly" style="WIDTH: 50px" value="@dbHot(PRICE_TAB,PRICE_TAB[F31],Z#)" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide">
+      @ENDIF
+    </div>
+
+    <div class="Hide">
+      @IF(@WIZGET(TPRINT)=1)<br />
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="Warning">Label Printing&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide">
+      @ENDIF
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><input class="BntSubMenu" type="button" value="MENU" onclick="document.location='http:/scripts/trs.exe?cgi=pda_menu&amp;HOT_URL_BACK=@WIZGET(OLD_HTT)&amp;CN=@CNC&amp;tn=@TER&amp;dn=pda'"/></td>
+
+          <td>&nbsp;</td>
+
+          <td><input class="BntSubMenu" type="button" value="BACK" onclick="document.location='http:/scripts/trs.exe?cgi=pda_itm_lup&amp;CN=@CNC&amp;tn=@TER&amp;dn=pda&CP=@DBHOT(HOT_URL,MARK)&amp;HOT_URL_MARK='"/></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

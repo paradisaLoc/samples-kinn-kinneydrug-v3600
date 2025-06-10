@@ -1,0 +1,551 @@
+{
+    "type": "Ext.form.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "buyrecstart",
+        "designer|userClassName": "Buy.Rec.Start",
+        "itemId": null,
+        "layout": null,
+        "padding": null,
+        "scrollable": false,
+        "smsHost": "buyhost",
+        "smsTaskbar": "Buying",
+        "smsToolbar": "Recv",
+        "smsToolbarKeep": "none"
+    },
+    "designerId": "0bbb756d-5122-48ef-9211-5cf6c03ebabe",
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "smsToolbar",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "smsHost",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "smsToolbarKeep",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "smsTaskbar",
+            "type": "string"
+        }
+    ],
+    "cn": [
+        {
+            "type": "Ext.TitleBar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": "top",
+                "height": null,
+                "minHeight": null,
+                "title": null
+            },
+            "name": "MyTitleBar42",
+            "designerId": "9ed0e29e-36fd-4183-b0a6-1881fb234cb0",
+            "cn": [
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "cls": [
+                            "sms-title-back-btn"
+                        ],
+                        "iconCls": null,
+                        "itemId": "suspendDocBtn",
+                        "margin": null,
+                        "text": null,
+                        "ui": null
+                    },
+                    "name": "MyButton141",
+                    "designerId": "d2c5a5d2-b27b-4ae6-a49a-c8006b8e3981",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "smsExec",
+                            "type": "string"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.Toolbar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "sms-child-tool"
+                ],
+                "container|align": null,
+                "container|pack": "center",
+                "defaults": null,
+                "docked": "top",
+                "ui": "light",
+                "width": null
+            },
+            "name": "MyToolbar3",
+            "designerId": "867c5977-7c12-4428-b535-acf50a0424fd",
+            "cn": [
+                {
+                    "type": "Ext.field.Search",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "clearIcon": null,
+                        "itemId": "searchEdit",
+                        "label": null,
+                        "labelWidth": null,
+                        "layout|flex": 1,
+                        "name": null,
+                        "placeHolder": "Enter item code",
+                        "width": null
+                    },
+                    "name": "MySearchField14",
+                    "designerId": "137e955c-4906-499c-b55b-43a44709569d",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "smsResultUrl",
+                            "type": "string"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.form.FieldSet",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "margin": null,
+                "title": "Receiving"
+            },
+            "name": "MyFieldSet32",
+            "designerId": "4386cbd8-a541-4914-b98d-cdd888fbb95a",
+            "cn": [
+                {
+                    "type": "Ext.Container",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout": "hbox"
+                    },
+                    "name": "MyContainer211",
+                    "designerId": "92d875a3-fdca-4cc9-b007-30bec9e3a3e8",
+                    "cn": [
+                        {
+                            "type": "Ext.field.Text",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "clearIcon": null,
+                                "label": "Vendor Id",
+                                "labelAlign": "top",
+                                "labelWidth": null,
+                                "margin": null,
+                                "name": "F27",
+                                "readOnly": true,
+                                "width": 80
+                            },
+                            "name": "MyTextField250",
+                            "designerId": "24418eba-7d7d-4e15-8f1d-086b2df86a9a"
+                        },
+                        {
+                            "type": "Ext.field.Text",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "clearIcon": null,
+                                "label": "Vendor name",
+                                "labelAlign": "top",
+                                "labelWidth": null,
+                                "margin": null,
+                                "name": "F334",
+                                "readOnly": true,
+                                "width": 220
+                            },
+                            "name": "MyTextField251",
+                            "designerId": "62e605c4-b9aa-47b3-80a0-2b6d74f65175"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Container",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout": "hbox"
+                    },
+                    "name": "MyContainer212",
+                    "designerId": "a414b97f-08d4-486a-98b1-72adb8e4dedc",
+                    "cn": [
+                        {
+                            "type": "Ext.field.Text",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "clearIcon": null,
+                                "inputCls": null,
+                                "itemId": null,
+                                "label": "Trs #",
+                                "labelAlign": "top",
+                                "labelWidth": null,
+                                "layout|flex": null,
+                                "margin": null,
+                                "name": "F1032",
+                                "readOnly": true,
+                                "width": 70
+                            },
+                            "name": "MyTextField252",
+                            "designerId": "b25ed603-4692-498e-bb17-00115949e99d"
+                        },
+                        {
+                            "type": "Ext.field.Text",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "clearIcon": null,
+                                "itemId": null,
+                                "label": "Ord #",
+                                "labelAlign": "top",
+                                "labelWidth": null,
+                                "layout|flex": null,
+                                "margin": null,
+                                "name": "F91",
+                                "readOnly": true,
+                                "width": 110
+                            },
+                            "name": "MyTextField253",
+                            "designerId": "5764dbdf-4ac6-4139-84f7-f8043a8f57fd"
+                        },
+                        {
+                            "type": "Ext.field.Text",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "clearIcon": null,
+                                "label": "Reference #",
+                                "labelAlign": "top",
+                                "margin": null,
+                                "name": "F1245",
+                                "readOnly": true,
+                                "width": 120
+                            },
+                            "name": "MyTextField254",
+                            "designerId": "58f8a635-91b0-4afc-b001-3a4175d02e12"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Container",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout": "hbox"
+                    },
+                    "name": "MyContainer213",
+                    "designerId": "99ee9f99-f333-44ee-a57b-2cddfe96fc52",
+                    "cn": [
+                        {
+                            "type": "Ext.field.DatePicker",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "label": "Delivery",
+                                "labelAlign": "top",
+                                "name": "F1246",
+                                "placeHolder": null,
+                                "readOnly": true,
+                                "width": 135
+                            },
+                            "name": "MyDatePicker6",
+                            "designerId": "6201ea0c-dcc3-4d52-8c8c-60b42478210d",
+                            "cn": [
+                                {
+                                    "type": "Ext.picker.Date",
+                                    "reference": {
+                                        "name": "picker",
+                                        "type": "object"
+                                    },
+                                    "codeClass": null,
+                                    "name": "MyDatePicker7",
+                                    "designerId": "8e97eb37-02c6-43ca-a623-ed6a164b1a5e",
+                                    "cn": [
+                                        {
+                                            "type": "Ext.Button",
+                                            "reference": {
+                                                "name": "doneButton",
+                                                "type": "object"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "text": "Done"
+                                            },
+                                            "name": "MyButton10",
+                                            "designerId": "cb113d77-1f5c-4cc1-ad69-f202792ce38f"
+                                        },
+                                        {
+                                            "type": "Ext.Button",
+                                            "reference": {
+                                                "name": "cancelButton",
+                                                "type": "object"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "text": "Cancel"
+                                            },
+                                            "name": "MyButton11",
+                                            "designerId": "0d4072a9-c13a-4179-a60a-745378aeae29"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.field.DatePicker",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "label": "Invoice",
+                                "labelAlign": "top",
+                                "name": "F254",
+                                "placeHolder": null,
+                                "readOnly": true,
+                                "width": 135
+                            },
+                            "name": "MyDatePicker8",
+                            "designerId": "ce4b0380-6016-4846-9674-4ecb6c39179b",
+                            "cn": [
+                                {
+                                    "type": "Ext.picker.Date",
+                                    "reference": {
+                                        "name": "picker",
+                                        "type": "object"
+                                    },
+                                    "codeClass": null,
+                                    "name": "MyDatePicker7",
+                                    "designerId": "0647eb05-7b2f-439a-887d-431418881d1c",
+                                    "cn": [
+                                        {
+                                            "type": "Ext.Button",
+                                            "reference": {
+                                                "name": "doneButton",
+                                                "type": "object"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "text": "Done"
+                                            },
+                                            "name": "MyButton10",
+                                            "designerId": "22c048c4-fe6f-4666-8ee5-84eda6f2a516"
+                                        },
+                                        {
+                                            "type": "Ext.Button",
+                                            "reference": {
+                                                "name": "cancelButton",
+                                                "type": "object"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "text": "Cancel"
+                                            },
+                                            "name": "MyButton11",
+                                            "designerId": "b26697ee-f0c7-428b-a3df-2272c9fdef4c"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "container|align": "center",
+                "container|pack": null,
+                "layout": "vbox",
+                "margin": null,
+                "padding": "10 0 10 0"
+            },
+            "name": "MyContainer214",
+            "designerId": "30aab92f-78fa-4133-ad7c-a4b7ada56392",
+            "cn": [
+                {
+                    "type": "Ext.Container",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "container|align": null,
+                        "container|pack": "center",
+                        "height": null,
+                        "layout": "hbox",
+                        "margin": "0 0 5 0"
+                    },
+                    "name": "MyContainer216",
+                    "designerId": "68b1a85c-7954-4e96-8b6d-9e9eef022d25",
+                    "cn": [
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "badgeText": null,
+                                "cls": [
+                                    "sms-start-btn-green"
+                                ],
+                                "icon": "resources/images/BuyMenuQuick.png",
+                                "iconAlign": "right",
+                                "iconCls": null,
+                                "itemId": null,
+                                "margin": 5,
+                                "smsExec": "jsFct=BuyCtrl.itmQuickResult",
+                                "style": null,
+                                "text": "Quick<br/>search"
+                            },
+                            "name": "MyButton1",
+                            "designerId": "4492b472-f72b-4890-9e8d-c154709e45cc",
+                            "customConfigs": [
+                                {
+                                    "group": "(Custom Properties)",
+                                    "name": "smsExec",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "cls": [
+                                    "sms-start-btn-green"
+                                ],
+                                "icon": "resources/images/InvStartList.png",
+                                "iconAlign": "right",
+                                "itemId": "listItmBtn",
+                                "margin": 5,
+                                "style": null,
+                                "text": "List<br/>line<br/>items"
+                            },
+                            "name": "MyButton146",
+                            "designerId": "76a5d438-9517-46a4-89ab-241517c6f64e"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Container",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "container|align": null,
+                        "container|pack": "center",
+                        "height": null,
+                        "layout": "hbox",
+                        "margin": "0 0 5 0"
+                    },
+                    "name": "MyContainer7",
+                    "designerId": "13c6bcfe-4b5f-4f20-9710-f3dede41dd03",
+                    "cn": [
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "cls": [
+                                    "sms-start-btn-green"
+                                ],
+                                "icon": "resources/images/BuyMenuCurrent.png",
+                                "iconAlign": "right",
+                                "itemId": "currentItmBtn",
+                                "margin": 5,
+                                "style": null,
+                                "text": "Show<br/>current<br/>line"
+                            },
+                            "name": "MyButton146",
+                            "designerId": "3053f4c9-85ad-493d-9d0b-15a440f34a41"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

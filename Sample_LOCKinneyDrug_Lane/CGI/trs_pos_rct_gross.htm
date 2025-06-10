@@ -1,0 +1,248 @@
+<html>
+<head>
+	<meta name="sms-protected" content="true"/>
+</head>
+<body>
+
+<p>@WIZSET(F1032=@dbHot(SAL_HDR,F1032,#));<br>
+@FMT(CMP,@WIZGET(F1032)=SAL_HDR,'®WIZCLR(F1032)');<br>
+@WIZSET(FIL1=@WIZGET(F1032));</p>
+
+<p>@WIZSET(PrintUPC=@dbHot(INI,SETUP,RECEIPT,PrintUPC));<br />
+@WIZSET(SkipDiscReg=@dbHot(INI,SETUP,RECEIPT,SkipDiscReg));<br />
+@WIZSET(SkipVoidReg=@dbHot(INI,SETUP,RECEIPT,SkipVoidReg));</p>
+
+<p>@WIZINIT;<br>
+@WIZFIL(FIL1,,SELECT F1032,F254,F1155 FROM SAL_HDR@dbHot(TABLEBYTERMINAL));<br>
+@WIZDISPLAY;</p>
+
+<p>@WIZSET(RCT_WIDTH=40);<br>
+@RPTCLR(T1;C1;TS;IS)</p>
+
+<p>@dbView(Q4,SELECT F1185,F1126,F1127 FROM CLK_TAB);<br />
+@dbView(Q5,SELECT F1034,F1039 FROM TLZ_TAB);<br />
+@dbView(Q6,SELECT F1063,F1064 FROM FCT_TAB);</p>
+
+<p>@dbView(Q1,SELECT * FROM SAL_HDR@dbHot(TABLEBYTERMINAL) WHERE F1032=@wizget(FIL1));<br>
+@EXEC(HOT_IDX_F1056=@dbRow(Q1,F1056),HOT_IDX_F1148=@dbRow(Q1,F1148),HOT_IDX_F1152=@dbRow(Q1,F1152,#),HOT_IDX_F1153=@dbRow(Q1,F1153,#));</p>
+
+@EXEC(Set=Printbmp)
+<center>@Tools(RCT_BMP,RCT_HEADER.BMP)</center>
+@IF("@FMT(CMP,@FMT(POS,',@dbRow(Q1,F1152,#),',',12,13,14,15,')>0,1,0)@FMT(CMP,@FMT(POS,',@dbRow(Q1,F1152,#),',',@DBHOT(INI,KinneyDrug.ini,THRIVE,SHOPLEVEL),')>0,1,0)=11")
+<center><big>THRIVE PLATINUM SHOPPER</big></center>
+<p>&nbsp;</p>
+@ENDIF
+@Tools(RCT_HTML,RCT_HEADER.HTM)
+
+<pre style="TEXT-ALIGN: left">
+@dbRow(Q1,F1056,!0:4)-@dbRow(Q1,F1057) @dbRow(Q1,F253,DMDF)/@dbRow(Q1,F253,DDDF)/@dbRow(Q1,F253,D2DF) @dbRow(Q1,F253,T4F) @dbRow(Q1,F1126,!0:8) @dbRow(Q1,F1032,!0:6)
+@Tools(RCT_LINE,@dbRow(Q1,F1068)=REFUND,********** REFUND TRANSACTION **********)
+@Tools(RCT_LINE,@dbRow(Q1,F1068)=TRAIN,********* TRAINING TRANSACTION *********)
+@Tools(RCT_LINE,@dbRow(Q1,F1688,#)&lt;&gt;0,************** DUPLICATE ***************)</pre>
+
+<hr len="40">
+
+<p>@dbVIEW(Q9,SELECT REG.F1101,(select STUFF((SELECT 
+CASE WHEN DET.F65<>0 THEN '<pre> '+LEFT(DET.F1041+space(33),33-LEN('$'+CAST(DET.F65 AS VARCHAR)))+' $'+CAST(DET.F65 AS VARCHAR)+'</pre>' ELSE '<pre> '+RTRIM(LEFT(DET.F1041,24))+'</pre>' END
+from SAL_DET DET WHERE DET.F1032=REG.F1032 AND DET.F1101=REG.F1101 FOR XML PATH('')),1,1,'')) AS F1041DET
+FROM SAL_REG@dbHot(TABLEBYTERMINAL) REG
+WHERE F1032=@dbRow(Q1,F1032,#))</p>
+
+<p>@dbTable(Q2,SELECT @DBFLD(SAL_REG@dbHot(TABLEBYTERMINAL),,F1730),CASE WHEN F1067='DEBIT' THEN -1*F1730 ELSE F1730 END AS F1730 FROM SAL_REG@dbHot(TABLEBYTERMINAL)<br>
+WHERE F1032=@dbRow(Q1,F1032,#) and F1067&lt;&gt;'TENDER' and F1067&lt;&gt;'FSTAMP' @FMT(CMP,@WIZGET(SkipVoidReg)<>0,AND F1069&lt;&gt;'1'));</p>
+
+<pre>@Tools(RCT_LINE,@dbRow(Q2,F1069)=1,** Voided)
+@Tools(RCT_LINE,@dbRow(Q2,F1070)<>0,** Refunded)
+@Tools(RCT_LINE,@dbRow(Q2,F1071)=1,** Corrected)
+@Tools(RCT_LINE,@dbRow(Q2,F1072,#)<>0,'Salesperson: @dbfind(Q4,F1185,@dbrow(Q2,F1072,#),F1126,#)-@dbfind(Q4,F1185,@dbrow(Q2,F1072,#),F1127,L20)')
+@FMT(CMP,@FMT(POS,@dbRow(Q2,F1067),SUBD-DEPT-ITEM)>0,'®dbRow(Q2,F1730,,IS)');
+@Tools(RCT_LINE,@dbRow(Q2,F1067)<>TEXT,'@dbRow(Q2,F1041)','@dbRow(Q2,F1730,Z$) @fmt(L4,@fmt(CMP,@fmt(COMA,OTC_Eligible,,,@dbRow(Q2,F1081,RAW))=Y,O)@Tools(RCT_FLAG,Q2,L4))')
+@Tools(RCT_LINE,@Tools(RCT_QTY,Q2)<>,' @Tools(RCT_QTY,Q2)')
+@Tools(RCT_LINE,'@dbRow(Q2,F1691)&lt;&gt;',' @dbRow(Q2,F1691)')
+@Tools(RCT_LINE,@dbRow(Q2,F1067)@WIZGET(PrintUPC)=ITEM1,' Code: @dbRow(Q2,F01)')
+@Tools(RCT_LINE,'@dbRow(Q2,F1715,Z$)&lt;&gt;',' @dbFind(Q5,F1034,@dbRow(Q2,F1034,#),F1039)','@dbRow(Q2,F1715,Z$)     ',,btl)
+@Tools(RCT_LINE,'@dbRow(Q2,F1716,Z$)&lt;&gt;',' @dbFind(Q5,F1034,@dbRow(Q2,F1596,#),F1039)','@dbRow(Q2,F1716,Z$)     ',,env)
+@Tools(RCT_LINE,'@dbRow(Q2,F2870,Z$)&lt;&gt;',' @dbFind(Q5,F1034,3346,F1039)','@rptttl(-@dbRow(Q2,F2870,#,-IS),Z$)     ',,promo dsc)
+@Tools(RCT_LINE,'@dbHot(CLF_TAB,F1287) @dbRow(Q2,F1733,Z$)&gt;1 ',' @dbFind(Q5,F1034,3330,F1039)','@rptttl(-@dbRow(Q2,F1733,#),Z$)     ',pkg dsc)
+@Tools(RCT_LINE,'@dbHot(CLF_TAB,F1288) @dbRow(Q2,F1734,Z$)&gt;1 ',' @dbFind(Q5,F1034,3332,F1039)','@rptttl(-@dbRow(Q2,F1734,#),Z$)     ',,lmt dsc)
+@Tools(RCT_LINE,'@dbRow(Q2,F1240,Z$)&lt;&gt;',' @dbFind(Q6,F1063,@dbRow(Q2,F1239,#),F1064)','@rptttl(-@dbRow(Q2,F1240,#),Z$)     ',itm.dsc)
+@Tools(RCT_LINE,'@dbHot(CLF_TAB,F1271) @dbRow(Q2,F1726,Z$)&gt;1 ',' @dbFind(Q5,F1034,3301,F1039)','@rptttl(-@dbRow(Q2,F1726,#),Z$)     ',,d$)
+@Tools(RCT_LINE,'@dbHot(CLF_TAB,F1272) @dbRow(Q2,F1727,Z$)&gt;1 ',' @dbFind(Q5,F1034,3302,F1039)','@rptttl(-@dbRow(Q2,F1727,#),Z$)     ',,d%)
+@Tools(RCT_LINE,'@dbHot(CLF_TAB,F1277) @dbRow(Q2,F1729,Z$)&gt;1 ',' @dbFind(Q5,F1034,3320,F1039)','@rptttl(-@dbRow(Q2,F1729,#),Z$)     ',,dpt)
+@Tools(RCT_LINE,'@dbRow(Q2,F1241,Z$)&lt;&gt;',' @dbFind(Q5,F1034,3303,F1039)','@rptttl(-@dbRow(Q2,F1241,#),Z$)     ',clt dsc)
+@Tools(RCT_LINE,'@dbRow(Q2,F1728,Z$)&lt;&gt;',' @dbFind(Q6,F1063,@dbRow(Q2,F1731,#),F1064)','@rptttl(-@dbRow(Q2,F1728,#),Z$)     ',prop.dsc)
+@Tools(RCT_LINE,'@dbRow(Q2,F1719,Z$)&lt;&gt;',' @dbFind(Q6,F1063,465,F1064)','@rptttl(-@dbRow(Q2,F1719,#),Z$)     ',e-sc)
+@Tools(RCT_LINE,'@dbRow(Q2,F1722,Z$)&lt;&gt;',' @dbFind(Q6,F1063,455,F1064)','@rptttl(-@dbRow(Q2,F1722,#),Z$)     ',e-vc)
+@Tools(RCT_LINE,'@dbRow(Q2,F1720,Z$)&lt;&gt;',' @dbFind(Q6,F1063,@dbRow(Q2,F1718,#),F1064)','@rptttl(-@dbRow(Q2,F1720,#),Z$)     ',sc)
+@Tools(RCT_LINE,'@dbRow(Q2,F1723,Z$)&lt;&gt;',' @dbFind(Q6,F1063,@dbRow(Q2,F1721,#),F1064)','@rptttl(-@dbRow(Q2,F1723,#),Z$)     ',vc)
+@Tools(RCT_LINE,'@dbRow(Q2,F1724,Z$)&lt;&gt;',' Double coupon','@rptttl(-@dbRow(Q2,F1724,#:2),Z$)     ',dc)
+@Tools(RCT_LINE,'@dbRow(Q2,F1936,Z$)&lt;&gt;',' Gas passive discount: @dbHot(HOT_MEM,CLTDISCOUNTPASSIVE,Z$,,Q2)')
+@Tools(RCT_LINE,'@dbRow(Q2,F2611,Z$)&lt;&gt;',' Price modify: @dbHot(HOT_MEM,CLTMODIFYPRICE,Z$,,Q2)')
+@Tools(RCT_LINE,'@dbHot(HOT_MEM,CltDiscountMarkdown,Z$,,Q2)&lt;&gt;',' Saved: @dbHot(HOT_MEM,CltDiscountMarkdown,Z$,,Q2)',)
+@Tools(RCT_LINE,'@dbHot(HOT_MEM,CltDiscountComparison,Z$,,Q2)&lt;&gt;',' Compare and save: @dbHot(HOT_MEM,CltDiscountComparison,Z$,,Q2)',)
+@Tools(RCT_LINE,'@dbRow(Q2,F169,Z#)&lt;&gt;',' Points given: @dbRow(Q2,F169,Z#)')
+@Tools(RCT_LINE,'@dbRow(Q2,F1832,Z#)&lt;&gt;',' Points redeemed: @dbRow(Q2,F1832,Z#)')
+@Tools(RCT_LINE,'@dbRow(Q2,F1833,Z$)&lt;&gt;',' @dbFind(Q6,F1063,318,F1064)','@rptttl(-@dbRow(Q2,F1833,#:2),Z$)     ',,point-dsc)
+@Tools(RCT_LINE,,' WIC #:FROM:TO','@dbRow(Q2,F1081,F:WIC)')
+@Tools(RCT_LINE,@dbRow(Q2,F1136)=CARWASH,' Carwash code: @dbRow(Q2,F1079)')
+@FMT(CMP,@dbFIND(Q9,F1101,@dbROW(Q2,F1101,#),F1041DET)&lt;&gt;,'@FMT(HTML2,'@FMT(HTML2,'&@dbFIND(Q9,F1101,@dbROW(Q2,F1101,#),F1041DET)')')',)
+</pre>
+
+<hr len="40">
+
+@wizrpl(TFEE1=@dbSELECT(SELECT SUM(F2551) FROM SAL_REG@dbHot(TABLEBYTERMINAL) WHERE F1032=@dbRow(Q1,F1032,#) AND F1069<>1))
+
+<p>@dbView(Q2,SELECT SAL.*,CASE WHEN TLZ.F1253='C' THEN F65 ELSE 0 END AS F1301 
+FROM SAL_TTL@dbHot(TABLEBYTERMINAL) SAL JOIN TLZ_TAB TLZ ON SAL.F1034=TLZ.F1034
+WHERE SAL.F1032=@dbRow(Q1,F1032,#) AND ISNULL(TLZ.F1966,'') NOT LIKE '%N%');</p>
+
+<pre>@Tools(RCT_LINE,,'Items Subtotal','@rptttl(IS,Z$)     ')</pre>
+
+<pre>@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3330,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3330,F65,#,-IS),Z$)     ',pkg.dsc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3332,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3332,F65,#,-IS),Z$)     ',lmt.dsc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3306,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3306,F65,#,-IS),Z$)     ',prop.dsc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3340,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3340,F65,#,-IS),Z$)     ',itm.dsc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3301,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3301,F65,#,-IS),Z$)     ',d$)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3302,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3302,F65,#,-IS),Z$)     ',d%)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3320,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3320,F65,#,-IS),Z$)     ',dpt)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3303,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3303,F65,#,-IS),Z$)     ',clt.dsc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3412,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3412,F65,#,-IS),Z$)     ',point.dsc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3305,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3305,F65,#,-IS),Z$)     ',sc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3311,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3311,F65,#,-IS),Z$)     ',sc1)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3312,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3312,F65,#,-IS),Z$)     ',sc2)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3335,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3335,F65,#,-IS),Z$)     ',e-vc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3337,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3337,F65,#,-IS),Z$)     ',e-sc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3338,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3338,F65,#,-IS),Z$)     ',o-sc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,1207,F1039) Total','@rptttl(-@dbFind(Q2,F1034,1207,F65,#,-IS),Z$)     ',sc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3308,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3308,F65,#,-IS),Z$)     ',vc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,1208,F1039) Total','@rptttl(-@dbFind(Q2,F1034,1208,F65,#,-IS),Z$)     ',vc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3310,F1039) Total','@rptttl(-@dbFind(Q2,F1034,3310,F65,#,-IS),Z$)     ',dc)
+@Tools(RCT_LINE,,'Modifier Total','@rptttl(@wizget(TFEE1),Z$,IS)     ',mod)
+</pre>
+
+<p>@dbTable(Q2,FILTER F1034&gt;=8 and F1034&lt;=15);</p>
+
+<pre>@Tools(RCT_LINE,,'@dbRow(Q2,F1039) Total','@rptttl(-@dbRow(Q2,F65,#,-IS),Z$)     ')</pre>
+
+<pre>@Tools(RCT_LINE,,'Subtotal','@rptttl(IS,Z$,T1)     ')</pre>
+
+<pre>@Tools(RCT_LINE,,'@dbFind(Q2,F1034,22,F1039) [@FMT(#:2,@DBHOT(INI,SYSTEM,TAX1,RATE))%]','@dbFind(Q2,F1034,22,F65,Z$)@dbFind(Q2,F1034,22,F1301,,T1)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,26,F1039) [@FMT(#:2,@DBHOT(INI,SYSTEM,TAX2,RATE))%]','@dbFind(Q2,F1034,26,F65,Z$)@dbFind(Q2,F1034,26,F1301,,T1)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,30,F1039) [@FMT(#:2,@DBHOT(INI,SYSTEM,TAX3,RATE))%]','@dbFind(Q2,F1034,30,F65,Z$)@dbFind(Q2,F1034,30,F1301,,T1)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,34,F1039) [@FMT(#:2,@DBHOT(INI,SYSTEM,TAX4,RATE))%]','@dbFind(Q2,F1034,34,F65,Z$)@dbFind(Q2,F1034,34,F1301,,T1)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,302,F1039) [@FMT(#:2,@DBHOT(INI,SYSTEM,TAX5,RATE))%]','@dbFind(Q2,F1034,302,F65,Z$)@dbFind(Q2,F1034,302,F1301,,T1)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,306,F1039) [@FMT(#:2,@DBHOT(INI,SYSTEM,TAX6,RATE))%]','@dbFind(Q2,F1034,306,F65,Z$)@dbFind(Q2,F1034,306,F1301,,T1)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,310,F1039) [@FMT(#:2,@DBHOT(INI,SYSTEM,TAX7,RATE))%]','@dbFind(Q2,F1034,310,F65,Z$)@dbFind(Q2,F1034,310,F1301,,T1)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,23,F1039)','@dbFind(Q2,F1034,23,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,27,F1039)','@dbFind(Q2,F1034,27,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,31,F1039)','@dbFind(Q2,F1034,31,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,35,F1039)','@dbFind(Q2,F1034,35,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,303,F1039)','@dbFind(Q2,F1034,303,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,307,F1039)','@dbFind(Q2,F1034,307,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,311,F1039)','@dbFind(Q2,F1034,311,F65,Z$)     ')</pre>
+
+<p>@dbTable(Q2,FILTER (F1034&gt;=39 and F1034&lt;=79) or (F1034&gt;=201 and F1034&lt;=217));</p>
+
+<pre>@Tools(RCT_LINE,,'@dbRow(Q2,F1039) Total','@dbRow(Q2,F65,Z$,T1)     ')</pre>
+
+<p>@dbTable(Q2,FILTER (F1034&gt;=1209 and F1034&lt;=1211) or (F1034&gt;=230 and F1034&lt;=253));</p>
+
+<pre>@Tools(RCT_LINE,,'@dbRow(Q2,F1039) Total','@rptttl(-@dbRow(Q2,F65,#,-T1),Z$)     ')</pre>
+
+<hr len="40">
+
+<pre><b>@Tools(RCT_LINE,,'TOTAL','@RPTTTL(T1,Z$)     ')</b></pre>
+
+@IF(@dbRow(Q1,F1067)=OPEN)
+<pre>@Tools(RCT_EFT,@dbRow(Q1,F1032,#))</pre>
+<center>
+<PRE>@FMT(CMP,@WIZGET(SUSPENDED_CODE)=,SALE SUSPENDED,"®FMT(CMP,®dbRow(Q1,F1068)=LAYAWA,LAYAWAY,SALE BACKED UP)")</PRE>
+<DIV class="PrintEAN13" id="SmsPrn">@FMT(CMP,@WIZGET(SUSPENDED_CODE)=,'991@TER@dbRow(Q1,F1032,!0:6)','@WIZGET(SUSPENDED_CODE)')</DIV>
+</center>
+@ELSE
+
+<pre>@Tools(RCT_LINE,'@dbFind(Q2,F1034,1219,F65,Z#)&lt;&gt;n/a','@dbFind(Q2,F1034,92,F1039)','@dbFind(Q2,F1034,92,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,1219,F1039)','@dbFind(Q2,F1034,1219,F65,Z$)     ')
+@Tools(RCT_LINE,'@dbFind(Q2,F1034,1218,F65,Z#)&lt;&gt;n/a','@dbFind(Q2,F1034,90,F1039)','@dbFind(Q2,F1034,90,F65,Z$)     ')
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,1218,F1039)','@dbFind(Q2,F1034,1218,F65,Z$)     ')
+@Tools(RCT_LINE,,'Food stamp change','@rptttl(-@dbFind(Q2,F1034,29995,F65,#),Z$)     ')</pre>
+
+<p>@dbTable(Q3,SELECT F1041,F65,F1081,F1691,abs(@FMT(#,@dbFind(Q2,F1034,29999,F65,#))) as F65C,F1079 FROM SAL_REG@dbHot(TABLEBYTERMINAL)<br />
+WHERE F1032=@dbRow(Q1,F1032,#) and<br /> 
+(F1063 BETWEEN 101 and 106 or F1063 BETWEEN 112 and 117 or F1063 BETWEEN 120 and 200) AND F1041 NOT LIKE 'OTC DISCOUNT' AND F1069<>1 ORDER BY F1101);</p>
+
+<pre>@Tools(RCT_LINE,,'@dbRow(Q3,F1041)','@Tools(RCT_AMT,Q3,F65,Z$)     ')
+@Tools(RCT_LINE,'@dbRow(Q3,F1691)&lt;&gt;',' @dbRow(Q3,F1691)')
+@Tools(RCT_LINE,@Tools(RCT_CARD,Q3,5)<>,' # @Tools(RCT_CARD,Q3,5)')
+@Tools(RCT_LINE,'@dbRow(Q3,F1079)&lt;&gt;',' Ref:@dbRow(Q3,F1079)')
+@WIZRPL(TF1081=@dbRow(Q3,F1081))</pre>
+
+<pre>@dbFind(Q2,F1034,29999,F65,,=C1)@Tools(RCT_LINE,,@fmt(CMP,@rptttl(C1,#)<0,Change@rptttl(-1*C1,,=C1),Balance),"@fmt(CMP,@FMT(COMA,TLZ_CHG,L,,'@WIZGET(TF1081)')=,'®rptttl(C1,$)','®Tools(RCT_AMT,Q3,F65C,$)')     ")
+@fmt(CMP,@FMT(COMA,TLZ_CHG,L,,'@WIZGET(TF1081)')=,,' [®rptttl(C1,$::®FMT(COMA,CUR,L,,'@WIZGET(TF1081)')) @ ®FMT(COMA,RAT,L,,'@WIZGET(TF1081)')]')</pre>
+
+<hr len="40">
+
+<p>@DBTABLE(Q5,SELECT F1034-7900 AS F1034 FROM SAL_TTL@dbHot(TABLEBYTERMINAL) WHERE F1032=@WIZGET(F1032) AND F1034 BETWEEN 7901 AND 7935 AND F1034 != 7908);</p>
+<pre>
+@wizRpl(PTC=@DBHOT(INI,SYSTEM.INI,POINTS,POINT@TOOLS(POINT_PROGRAM,@DBROW(Q5,F1034,#))_PAYMENT));
+@FMT(CMP,@wizGet(PTC)=,'®WIZRPL(PTC=®DBROW(Q1,F1148,L))','®WIZRPL(PTC=®TOOLS(DECODE_CARD,®FMT(COMA,LYC®wizGet(PTC),L,,®DBROW(Q1,F1254,L))))');
+@FMT(CMP,@WIZGET(PTC)<>,'®WIZRPL(PTC=1)','®WIZRPL(PTC=0)');
+@FMT(CMP,@WIZGET(PTC)@DBROW(Q5,F1034,#)=11,"
+®Tools(RCT_LINE,'@dbFind(Q2,F1034,@RPTTTL(@DBROW(Q5,F1034,#)+7900,#),F64,#)<>@dbRow(Q1,F1238,#)',THRIVE pts starting balance,'@dbRow(Q1,F1238,#)     ')
+®Tools(RCT_LINE,,'@dbFind(Q2,F1034,3401,F1039)','@dbFind(Q2,F1034,3401,F64,Z#)     ')
+®Tools(RCT_LINE,,'@dbFind(Q2,F1034,3407,F1039)','@dbFind(Q2,F1034,3407,F64,Z#)     ')
+®Tools(RCT_LINE,,'@dbFind(Q2,F1034,3411,F1039)','@dbFind(Q2,F1034,3411,F64,Z#)     ')");
+@FMT(CMP,@WIZGET(PTC)@DBROW(Q5,F1034,#)>11,"
+®Tools(RCT_LINE,'@dbFind(Q2,F1034,@RPTTTL(@DBROW(Q5,F1034,#)+7900,#),F64,#)<>@FMT(COMA,PTS@TOOLS(POINT_PROGRAM,@DBROW(Q5,F1034,#)),#,,@DBROW(Q1,F1254,L))',Points @DBROW(Q5,F1034,#) start,'@FMT(COMA,PTS@TOOLS(POINT_PROGRAM,@DBROW(Q5,F1034,#)),#,,@DBROW(Q1,F1254,L))     ')");
+@FMT(CMP,@WIZGET(PTC)=1,"
+®Tools(RCT_LINE,,'@dbFind(Q2,F1034,@RPTTTL(@DBROW(Q5,F1034,#)+7700,#),F1039)','@dbFind(Q2,F1034,@RPTTTL(@DBROW(Q5,F1034,#)+7700,#),F64,Z#)     ')
+®Tools(RCT_LINE,,'@dbFind(Q2,F1034,@RPTTTL(@DBROW(Q5,F1034,#)+7800,#),F1039)','@dbFind(Q2,F1034,@RPTTTL(@DBROW(Q5,F1034,#)+7800,#),F64,Z#)     ')
+®Tools(RCT_LINE,,'@dbFind(Q2,F1034,@RPTTTL(@DBROW(Q5,F1034,#)+7900,#),F1039)','@dbFind(Q2,F1034,@RPTTTL(@DBROW(Q5,F1034,#)+7900,#),F64,#)     ')");
+</pre>
+
+<pre>@Tools(RCT_LINE,@dbRow(Q1,F1242,#)<>@FMT(#,@dbFind(Q2,F1034,7501,F65,#)),'Previous customer balance','@dbRow(Q1,F1242,Z$)     ')
+@Tools(RCT_LINE,,'New charges','@dbFind(Q2,F1034,1206,F65,Z$)     ')
+@Tools(RCT_LINE,,'New Payments','@dbFind(Q2,F1034,201,F65,Z$)     ')
+@Tools(RCT_LINE,,'New customer balance','@dbFind(Q2,F1034,7501,F65,$)     ')</pre>
+@Tools(RCT_LINE,'@FMT(Z#,@dbFind(Q2,F1034,7501,F65,#)@WIZGET(PTC))&lt;&gt;','<hr len="40">',,)
+@WIZCLR(PTC);
+
+<pre>@Tools(RCT_LINE,,'Item count','@dbFind(Q2,F1034,3,F64,#)     ')
+@Tools(RCT_LINE,,'@FMT(UPPER,@dbFind(Q2,F1034,7531,F1039))','@dbFind(Q2,F1034,7531,F65,Z$,TS)     ',accum.disc)
+@Tools(RCT_LINE,,'@dbFind(Q2,F1034,3505,F1039)','@dbFind(Q2,F1034,3505,F65,Z$)     ',surcharge)</pre>
+
+<pre>@Tools(RCT_EFT,@dbRow(Q1,F1032,#))</pre>
+
+@FMT(CMP,@WIZEXIST(KD.STUB)=1,'®TOOLS(RCT_HTML,@WIZGET(KD.STUB))')
+
+@EXEC(Set=Printbmp)
+<center>@Tools(RCT_BMP,RCT_FOOTER.BMP)</center>
+@Tools(RCT_HTML,RCT_FOOTER.HTM)
+@ENDIF
+
+@IF(@FMT(CMP,@dbRow(Q1,F1067)=OPEN,0,1)@dbHot(INI,SETUP,RECEIPT,PrintRefundCode)=11)
+<center>
+<DIV Class="BARCODE" Type="CODE93" Height="100" Width="150" Align="CENTER" HRI="BELOW" >9701@FMT(R4,0000@STORE)@TER@dbRow(Q1,F1032,!0:6)</DIV>
+</center>
+@ENDIF
+
+@IF(@dbRow(Q1,F1068)=REFUND)
+<PRE>
+ 
+******* REFUNDED TRANSACTION *********
+ 
+SIGNATURE:____________________________
+ 
+REASON:_______________________________</PRE>
+@ENDIF
+
+@IF(@dbRow(Q1,F1068)=VOIDED)
+<PRE>
+ 
+******* CANCELLED TRANSACTION ********
+ 
+SIGNATURE:____________________________</PRE>
+@ENDIF
+
+</body>
+</html>

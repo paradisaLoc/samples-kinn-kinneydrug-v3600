@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>pda_rec_menu.htm</title>
+    <meta name="curhdr" content="pda" />
+    <link rel="stylesheet" href="../../Images/pda.css" type="text/css" />
+<script type="text/javascript" src="../../Images/pda.js">
+</script>
+  </head>
+
+  <body>
+    <div class="Hide" style="WIDTH: 100%">
+      @DBHOT(REGSET,@PROFILE\pda\MODEURL,,cgi=pda_rec_menu);<br />
+       @DBHOT(REGSET,@PROFILE\pda\MODEDSC,,RECV);
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="HdrCelTitle">@DBSELECT(SELECT F1606 FROM DRIL_FILE WHERE F1597='pdaREC')</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide">
+      @WIZSET(MENUPAGE=1);<br />
+       @dbTable(Q1,SELECT * FROM Dril_page WHERE F1597='pdaREC' AND F1603=@WIZGET(MENUPAGE) AND @DBHOT(LEVELFIELD)&gt;0 AND (F1604 is NULL or F1604= '' or F1604='@FMT(CMP,@DBHOT(HOT_MEM,TRSSTEP)=2,1,0)') ORDER BY F1598);
+    </div>
+
+    <table class="@FMT(CMP,@DBrow(Q1,RECORD_COUNT)&lt;&gt;0,,Hide)">
+      <tbody>
+        <tr>
+          <td><input class="BntDrilList" type="button" value="@DBROW(Q1,F1601)" onclick="document.location='Http:/Scripts/trs.exe?DRL=@DBROW(Q1,F1597):@DBROW(Q1,F1598,#)&amp;HOT_URL_BACK=pda_REC_MENU&amp;CN=@CNC&amp;TN=@TER&amp;DN=pda@FMT(CMP,@FMT(POS,FCT=3652,'@dbRow(Q1,F1605)')&gt;0,'&amp;ENTRY=®dbHot(REC_REG,F1101,#)')'" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><input class="BntSubMenu" type="button" value="Done" onclick="document.location='http:/scripts/trs.exe?SQI=pda_rec_close&amp;CN=@CNC&amp;tn=@TER&amp;dn=pda'"/></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

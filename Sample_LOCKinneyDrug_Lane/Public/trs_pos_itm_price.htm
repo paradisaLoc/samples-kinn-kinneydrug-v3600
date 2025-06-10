@@ -1,0 +1,395 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html class="InfoPrice" onkeydown="LocalKey()" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/pos_entry.css" type="text/css" />
+<script src="../../Images/sms.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+function SmsLoad() 
+{
+  @wizSet(CP=2)
+  top.BodyLoad(document);
+  top.CursorSetFocus(document,'@wizget(CS)','@wizget(CP)');
+}
+
+function LocalKey()
+{
+  if(window.event.keyCode==27)
+    document.all("CLOSE").click();
+}
+function SellKey(sF01)
+{
+  if (sF01.substr(0,3)=="002")
+   document.location='http:/scripts/trs.exe?BTN=CLOSE&amp;FCT=724&amp;ENTRY=@wizget(F1007)';
+  document.location='http:/scripts/trs.exe?BTN=CLOSE&amp;FCT=710&amp;ENTRY=@wizget(F01)';
+}
+
+</script>
+<style type="text/css">
+td.HidePos {
+  visibility: hidden;
+  }
+</style>
+
+    <title></title>
+  </head>
+
+  <body class="Info" onselectstart="document.selection.empty();" onload="SmsLoad()">
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+    </div>
+
+    <div class="HideTxt">
+      @wizrpl(FORM=PriceInfo)<br />
+      @wizset(STATE=STAYONTOP)<br />
+      @wizset(OPTIONS=BI0)<br />
+      @wizset(TOP=100)<br />
+      @wizset(LEFT=100)<br />
+      @wizset(WIDTH=500)<br />
+      @wizset(HEIGHT=450)<br />
+      @wizset(TITLE=Price Info)<br />
+    </div>
+
+    <div class="HideTxt">
+      @FMT(CMP,@wizget(F126)=,'®wizrpl(F126=1)')<br />
+      @dbVIEW(Q1,SELECT PRI.F01,PRI.F126,
+       PRI.F30,PRI.F31,PRI.F140,PRI.F142,PRI.F63,PRI.F62,<br />
+       PRI.F1014,PRI.F1015,PRI.F1013,PRI.F1012,PRI.F1011,PRI.F1209,<br />
+       PRI.F1007,PRI.F1006,PRI.F113,PRI.F169,PRI.F1203,PRI.F1204,PRI.F1205,PRI.F1206,<br />
+       POS.F01,POS.F02,ISNULL(BTL.F50,0)+ISNULL(BTL.F1595,0) AS F50,POS.F81,<br />
+       POS.F96,POS.F97,POS.F98,POS.F99,POS.F100,POS.F101,POS.F86,ISNULL(POS.F88,'0') AS F88,ISNULL(POS.F104,'0') AS F104,LOC.F117<br />
+      FROM POS_TAB POS<br>
+      JOIN PRICE_TAB PRI ON POS.F01=PRI.F01 AND PRI.F126=@wizget(F126) AND PRI.F1000='PAL'<br />
+      LEFT OUTER JOIN ALT_TAB ALT ON POS.F01=ALT.F01<br />
+      LEFT JOIN LOC_TAB LOC ON POS.F01=LOC.F01<br />
+      LEFT JOIN BTL_TAB BTL ON POS.F05=BTL.F05<br />
+      WHERE (POS.F01='@FMT(UPC,@wizget(F01))' or ALT.F154='@wizget(F01)'))<br />
+    </div>
+
+    <div class="HideTxt">
+      @FMT(CMP,@DATE(@dbROW(Q1,F1014),DIDF)@dbROW(Q1,F1015)&lt;@DIDF@FMT(L4,@NOW),'®wizrpl(PTYPE=NEXT)','®wizrpl(PTYPE=ACTIVE)')<br />
+      @FMT(CMP,@dbROW(Q1,F1014)=,'®wizrpl(PTYPE=ACTIVE)')<br />
+      @IF(@wizget(PTYPE)=NEXT)<br />
+       @wizrpl(TPRICE=@dbROW(Q1,F1013,$)/@dbROW(Q1,F1012,#))<br />
+       @wizrpl(TSOURCE=@dbROW(Q1,F1011,L))<br />
+       @wizrpl(TPOINT=@dbROW(Q1,F1209,#))<br />
+       @wizrpl(TPACKAGE=@dbROW(Q1,F140,$)/@dbROW(Q1,F142,#))<br />
+       @wizrpl(TLIMITED=@dbROW(Q1,F63,$)/@dbROW(Q1,F62,#))<br />
+      @ELSE<br />
+       @wizrpl(TPRICE=@dbROW(Q1,F1007,$)/@dbROW(Q1,F1006,#))<br />
+       @wizrpl(TSOURCE=@dbROW(Q1,F113,L))<br />
+       @wizrpl(TPOINT=@dbROW(Q1,F169,#))<br />
+       @wizrpl(TPACKAGE=@dbROW(Q1,F1203,$)/@dbROW(Q1,F1204,#))<br />
+       @wizrpl(TLIMITED=@dbROW(Q1,F1205,$)/@dbROW(Q1,F1206,#))<br />
+      @ENDIF<br />
+    </div>
+
+@IF(@dbRow(Q1,F88)@dbRow(Q1,F104)>00)
+
+    <div class="HideTxt">
+			@dbVIEW(Q1,SELECT
+			POS.F01,
+			POS.F02,
+			POS.F04,
+			OBJ.F17,
+			POS.F110,
+			BMP.F2929,
+			offerCode=POS.F01,
+			offerDesc=ISNULL(NULLIF(OBJ.F29,''),POS.F02),
+			offerBrand=OBJ.F155,
+			offerOwner=CASE WHEN POS.F104='1' THEN 'VENDOR' WHEN POS.F88='1' THEN 'STORE' ELSE NULL END,
+			offerBuyDesc=OBJ.F255,
+			offerBuyValue=ITM.F1204,
+			offerBuyType=CASE WHEN POS.F82='1' THEN 'WEIGHT' ELSE NULL END,
+			offerGetDesc=OBJ.F29,
+			offerValue=CASE WHEN ITM.F1208 LIKE '%CB%' AND ITM.F1203 IS NOT NULL THEN ITM.F1203 WHEN ITM.F1204 IS NOT NULL THEN ISNULL(ITM.F1203,1) WHEN ITM.F1225 IS NOT NULL THEN ITM.F1225 ELSE ITM.F1007 END,
+			offerLimitQty=ITM.F1206,
+			offerLimitAmt=ITM.F1205,
+			offerType=CASE WHEN ITM.F1208 LIKE '%CB%' THEN 'BUNDLE' WHEN ITM.F1204 IS NOT NULL THEN 'BOGO' WHEN ITM.F1225 IS NOT NULL THEN 'PERCENT' WHEN ISNULL(ITM.F1007,0)=0 AND ITM.F1209 IS NOT NULL THEN 'POINT' ELSE 'CENT' END,
+			offerPointGiven=ITM.F1209,
+			offerPointRedeem=ITM.F1232,
+			offerEmiDate=ITM.F137,
+			offerExpDate=ITM.F138,
+			offerLong=OBJ.F1962
+			FROM POS_TAB POS
+			JOIN (SELECT
+				PRI.F01,
+				PRI.F137,
+				PRI.F138,
+				F1007=CASE WHEN PRI.F1014 IS NULL OR PRI.F1014>'@DSSF' OR (PRI.F1014='@DSSF' AND PRI.F1015>'@NOW') THEN PRI.F1007 ELSE PRI.F1013 END,
+				F1006=CASE WHEN PRI.F1014 IS NULL OR PRI.F1014>'@DSSF' OR (PRI.F1014='@DSSF' AND PRI.F1015>'@NOW') THEN PRI.F1006 ELSE PRI.F1012 END,
+				F1203=CASE WHEN PRI.F1014 IS NULL OR PRI.F1014>'@DSSF' OR (PRI.F1014='@DSSF' AND PRI.F1015>'@NOW') THEN PRI.F1203 ELSE PRI.F1210 END,
+				F1204=CASE WHEN PRI.F1014 IS NULL OR PRI.F1014>'@DSSF' OR (PRI.F1014='@DSSF' AND PRI.F1015>'@NOW') THEN PRI.F1204 ELSE PRI.F1211 END,
+				F1205=CASE WHEN PRI.F1014 IS NULL OR PRI.F1014>'@DSSF' OR (PRI.F1014='@DSSF' AND PRI.F1015>'@NOW') THEN PRI.F1205 ELSE PRI.F1212 END,
+				F1206=CASE WHEN PRI.F1014 IS NULL OR PRI.F1014>'@DSSF' OR (PRI.F1014='@DSSF' AND PRI.F1015>'@NOW') THEN PRI.F1206 ELSE PRI.F1213 END,
+				F1224=CASE WHEN PRI.F1014 IS NULL OR PRI.F1014>'@DSSF' OR (PRI.F1014='@DSSF' AND PRI.F1015>'@NOW') THEN PRI.F1224 ELSE PRI.F1226 END,
+				F1225=CASE WHEN PRI.F1014 IS NULL OR PRI.F1014>'@DSSF' OR (PRI.F1014='@DSSF' AND PRI.F1015>'@NOW') THEN PRI.F1225 ELSE PRI.F1227 END,
+				F1208=CASE WHEN PRI.F1014 IS NULL OR PRI.F1014>'@DSSF' OR (PRI.F1014='@DSSF' AND PRI.F1015>'@NOW') THEN PRI.F1208 ELSE PRI.F1010 END,
+				F1209=CASE WHEN PRI.F1014 IS NULL OR PRI.F1014>'@DSSF' OR (PRI.F1014='@DSSF' AND PRI.F1015>'@NOW') THEN PRI.F1209 ELSE PRI.F1215 END,
+				F113=CASE WHEN PRI.F1014 IS NULL OR PRI.F1014>'@DSSF' OR (PRI.F1014='@DSSF' AND PRI.F1015>'@NOW') THEN PRI.F113 ELSE PRI.F1011 END,
+				F1232=CASE WHEN PRI.F1232 IS NULL THEN PRI.F1228 ELSE PRI.F1232 END
+				FROM PRICE_TAB PRI
+				WHERE PRI.F1000='PAL' AND PRI.F126=1
+			) ITM ON ITM.F01=POS.F01
+		JOIN OBJ_TAB OBJ ON OBJ.F01=ITM.F01
+		LEFT OUTER JOIN BMP_TAB BMP ON BMP.F01=POS.F01
+		WHERE POS.F01='@FMT(UPC,@wizget(F01))' AND ISNULL(POS.F86,'0')='0')
+    </div>
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <td class="HdrCel">COUPON @dbRow(Q1,OfferCode)</td>
+
+          <td class="HdrBtnCel"><input class="HdrBtnNew" style="WIDTH: 80px" datasrc="@ATTRIB(B)" onclick="document.location='http:/scripts/trs.exe?BTN=CLOSE&HTT=trs_pos_itm_price_ecl&amp;F01=@FMT(UPC,@wizget(F01))&amp;CN=PUBLIC'" type="button" value="Conditions" name="B1" /></td>
+
+          <td class="HdrBtnCel"><input class="HdrBtnNew" style="WIDTH: 80px" datasrc="@ATTRIB(B)" onclick="document.location='http:/scripts/trs.exe?FCT=30&amp;CN=PUBLIC'" type="button" value="Close" name="CLOSE" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="FrmTab" style="margin-top:10px">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <td class="EntVal" colspan="10"><input class="EntValTxt" style="WIDTH: 400px" tabindex="-1" readonly="readonly" value="@dbROW(Q1,offerDesc)" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+       </tbody>
+    </table>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <td class="EntCap">Owner</td>
+                  <td class="EntCap">Type</td>
+                  <td class="EntCap">Value</td>
+                  <td class="EntCap">Get</td>
+                  <td class="EntCap">Format</td>
+                  <td class="EntCap">Action</td>
+                </tr>
+                <tr>
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 60px;" tabindex="-1" readonly="readonly" value="@dbROW(Q1,offerOwner)" /></td>
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 80px;" tabindex="-1" readonly="readonly" value="@dbROW(Q1,offerType)" /></td>
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 40px;" tabindex="-1" readonly="readonly" value="@dbROW(Q1,offerValue)" /></td>
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 40px;" tabindex="-1" readonly="readonly" value="@dbROW(Q1,offerBuyValue)" /></td>
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 60px;" tabindex="-1" readonly="readonly" value="@dbROW(Q1,offerBuyType)" /></td>
+                  <td class="EntVal"><input class="EntBtn@fmt(CMP,@dbRow(Q1,F110,#)=0,, Hide)" style="WIDTH: 60px" datasrc="@ATTRIB(B)" onclick="SellKey('@dbRow(Q1,F01)')" type="button" value="Apply" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+       </tbody>
+    </table>
+
+    <table class="FrmTab" style="margin-top:10px">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <th class="EntHdr" colspan="10">Conditions</th>
+                </tr>
+                <tr>
+                  <td class="EntInp" colspan="10"><textarea class="EntTA" style="WIDTH: 400px" rows="3" cols="50" tabindex="-1" readonly="readonly">@dbROW(Q1,offerBuyDesc)</textarea></td>
+                </tr>
+                <tr>
+                  <th class="EntHdr" colspan="10">Details</th>
+                </tr>
+                <tr>
+                  <td class="EntInp" colspan="10"><textarea class="EntTA" style="WIDTH: 400px" rows="7" cols="50" tabindex="-1" readonly="readonly">@dbROW(Q1,offerLong)</textarea></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+       </tbody>
+    </table>
+
+@ELSE
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <td class="EntCap" style="WIDTH: 100px">Description</td>
+
+                  <td class="EntVal" colspan="3"><input class="EntValTxt" style="WIDTH: 313px" tabindex="-1" readonly="readonly" value="@fmt(cmp,@dbROW(Q1,F01,L)=n/a,'','®dbROW(Q1,F02,L)')@FMT(CMP,@dbROW(Q1,F01,L)=n/a,'ITEM NOT FOUND!')" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">UPC</td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 110px" tabindex="-1" readonly="readonly" value="@FMT(UPC,@wizget(F01))" /></td>
+
+                  <td class="EntCap" style="WIDTH: 100px">&nbsp; Taxes</td>
+
+                  <td class="EntVal"><input class="EntValNum" style="WIDTH: 85px" tabindex="-1" readonly="readonly" value="@fmt(cmp,@dbROW(Q1,F01,L)=n/a,'','®fmt(CMP,®dbROW(Q1,F81,#)=1,1)®fmt(CMP,®dbROW(Q1,F96,#)=1,2)®fmt(CMP,®dbROW(Q1,F97,#)=1,3)®fmt(CMP,®dbROW(Q1,F98,#)=1,4)®fmt(CMP,®dbROW(Q1,F99,#)=1,5)®fmt(CMP,®dbROW(Q1,F100,#)=1,6)®fmt(CMP,®dbROW(Q1,F101,#)=1,7)')" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Shelf</td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 110px" tabindex="-1" readonly="readonly" value="@fmt(cmp,@dbROW(Q1,F01,L)=n/a,'','®dbROW(Q1,F117,L)')" /></td>
+
+                  <td class="EntCap">&nbsp; Flag</td>
+
+                  <td class="EntVal"><input class="EntValTxt" style="WIDTH: 85px" tabindex="-1" readonly="readonly" value="@fmt(CMP,@dbROW(Q1,F86,#)=1,No Sell)" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <th class="EntHdr" colspan="4">PRICE</th>
+                </tr>
+
+                <tr>
+                  <td class="EntCap" style="WIDTH: 100px">Price Lvl</td>
+
+                  <td class="EntVal"><input class="EntValNum" style="WIDTH: 50px" tabindex="-1" readonly="readonly" value="@fmt(cmp,@dbROW(Q1,F01,L)=n/a,'','®wizget(F126)')" /></td>
+
+                  <td class="EntCap" style="WIDTH: 134px">&nbsp; Price</td>
+
+                  <td class="EntVal"><input class="EntValNum" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@fmt(cmp,@dbROW(Q1,F01,L)=n/a,'','®wizget(TPRICE)')" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Source</td>
+
+                  <td class="EntVal"><input class="EntValNum" style="WIDTH: 50px" tabindex="-1" readonly="readonly" value="@fmt(cmp,@dbROW(Q1,F01,L)=n/a,'','®wizget(TSOURCE)')" /></td>
+
+                  <td class="EntCap">&nbsp; With taxes</td>
+
+                  <td class="EntVal"><input class="EntValNum" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@fmt(cmp,@dbROW(Q1,F01,L)=n/a,'','®FMT($,®wizget(F1007TAX))')" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Points</td>
+
+                  <td class="EntVal"><input class="EntValNum" style="WIDTH: 50px" tabindex="-1" readonly="readonly" value="@fmt(cmp,@dbROW(Q1,F01,L)=n/a,'','®wizget(TPOINT)')" /></td>
+
+                  <td class="EntCap">&nbsp; Package</td>
+
+                  <td class="EntVal"><input class="EntValNum" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@fmt(cmp,@dbROW(Q1,F01,L)=n/a,'','®wizget(TPACKAGE)')" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Retail</td>
+
+                  <td class="EntVal"><input class="EntValNum" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@fmt(cmp,@dbROW(Q1,F01,L)=n/a,'','®dbROW(Q1,F30,$)/®dbROW(Q1,F31,#)')" /></td>
+
+                  <td class="EntCap">&nbsp; Limited</td>
+
+                  <td class="EntVal"><input class="EntValNum" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@fmt(cmp,@dbROW(Q1,F01,L)=n/a,'','®wizget(TLIMITED)')" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap @FMT(CMP,@wizget(ONHAND)=,'HidePos')">On hand</td>
+
+                  <td class="EntVal @FMT(CMP,@wizget(ONHAND)=,'HidePos')">
+                    <div class="HideTxt">
+                      @fmt(CMP,@wizget(ONHAND)=1,'®EXEC(®dbPlan(RPT_ITM_N,F01=@dbROW(Q1,F01),F1034=8501,F1056=@dbHot(HOT_MEM,CltLocalStore)))')
+                    </div>
+                    <input class="EntValNum" style="WIDTH: 50px" tabindex="-1" readonly="readonly" value="@WIZGET(F64)" /> 
+                  </td>
+
+                  <td class="EntCap">&nbsp; Bottle link fees</td>
+
+                  <td class="EntVal"><input class="EntValNum" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@fmt(cmp,@dbROW(Q1,F01,L)=n/a,'','®dbROW(Q1,F50,Z$)')" /> </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+       </tbody>
+    </table>
+
+    <table class="BtnTab" style="MARGIN-TOP: 20px" align="center">
+      <tbody>
+         <tr>
+          <td class="EntCap @FMT(CMP,@wizget(MOVEMENT)=,'HidePos')">Today</td>
+          <td class="EntVal @FMT(CMP,@wizget(MOVEMENT)=,'HidePos')">
+            <div class="HideTxt">
+               @WIZCLR(F64)<br />
+               @fmt(CMP,@wizget(MOVEMENT)=1,'®EXEC(®dbPlan(RPT_ITM_D,F01=@dbROW(Q1,F01),F1034=3,F1056=@dbHot(HOT_MEM,CltLocalStore),F254=@DSDF))')
+            </div>
+            <input class="EntValNum" style="WIDTH: 50px" readonly="readonly" value="@WIZGET(F64)" /> 
+          </td>
+
+          <td class="EntCap @FMT(CMP,@wizget(MOVEMENT)=,'HidePos')">Week</td>
+          <td class="EntVal @FMT(CMP,@wizget(MOVEMENT)=,'HidePos')">
+            <div class="HideTxt">
+               @WIZCLR(F64)<br />
+               @fmt(CMP,@wizget(MOVEMENT)=1,'®EXEC(®dbPlan(RPT_ITM_W,F01=@dbROW(Q1,F01),F1034=3,F1056=@dbHot(HOT_MEM,CltLocalStore),F254=@DSWF))')
+            </div>
+            <input class="EntValNum" style="WIDTH: 50px" readonly="readonly" value="@WIZGET(F64)" /> 
+          </td>
+
+          <td class="EntCap @FMT(CMP,@wizget(MOVEMENT)=,'HidePos')">Month</td>
+          <td class="EntVal @FMT(CMP,@wizget(MOVEMENT)=,'HidePos')">
+            <div class="HideTxt">
+               @WIZCLR(F64)<br />
+               @fmt(CMP,@wizget(MOVEMENT)=1,'®EXEC(®dbPlan(RPT_ITM_M,F01=@dbROW(Q1,F01),F1034=3,F1056=@dbHot(HOT_MEM,CltLocalStore),F254=@DSMF))')
+            </div>
+            <input class="EntValNum" style="WIDTH: 50px" readonly="readonly" value="@WIZGET(F64)" /> 
+          </td>
+
+          <td class="EntCap @FMT(CMP,@wizget(MOVEMENT)=,'HidePos')">Year</td>
+          <td class="EntVal @FMT(CMP,@wizget(MOVEMENT)=,'HidePos')">
+            <div class="HideTxt">
+               @WIZCLR(F64)<br />
+               @fmt(CMP,@wizget(MOVEMENT)=1,'®EXEC(®dbPlan(RPT_ITM_Y,F01=@dbROW(Q1,F01),F1034=3,F1056=@dbHot(HOT_MEM,CltLocalStore),F254=@DSYF))')
+            </div>
+            <input class="EntValNum" style="WIDTH: 50px" readonly="readonly" value="@WIZGET(F64)" /> 
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="BtnTab" style="MARGIN-TOP: 20px" align="center">
+      <tbody>
+        <tr>
+          <td class="BtnCel"><input class="EntBtn" style="WIDTH: 80px" datasrc="@ATTRIB(B)" onclick="document.location='http:/scripts/trs.exe?HTT=trs_pos_itm_price_lvl&amp;F01=@FMT(UPC,@wizget(F01))&amp;CN=PUBLIC'" type="button" value="Levels" name="B1" /></td>
+
+          <td class="BtnCel"><input class="EntBtn" style="WIDTH: 80px" datasrc="@ATTRIB(B)" onclick="document.location='http:/scripts/trs.exe?HTT=trs_pos_itm_price&amp;F01=@FMT(UPC,@wizget(F01))&amp;ONHAND=1&amp;F1007TAX=@wizget(F1007TAX)&amp;CN=PUBLIC'" type="button" value="OnHand" name="B1" /></td>
+
+          <td class="BtnCel"><input class="EntBtn" style="WIDTH: 80px" datasrc="@ATTRIB(B)" onclick="document.location='http:/scripts/trs.exe?HTT=trs_pos_itm_price&amp;F01=@FMT(UPC,@wizget(F01))&amp;MOVEMENT=1&amp;F1007TAX=@wizget(F1007TAX)&amp;CN=PUBLIC'" type="button" value="Movement" name="B2" /></td>
+
+          <td class="BtnCel"><input class="EntBtn" style="WIDTH: 80px" datasrc="@ATTRIB(B)" onclick="document.location='http:/scripts/trs.exe?FCT=30&amp;CN=PUBLIC'" type="button" value="Close" name="CLOSE" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+@ENDIF
+
+  </body>
+</html>
+

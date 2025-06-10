@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html class="ChildFix" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/sms_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_info.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_cube.css" type="text/css" />
+<script src="../../Images/sms.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+@DBHOT(REG,SET,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT*)
+
+function SmsLoad() 
+{
+  VariableInit('@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','Http:/Scripts/trs.exe');
+  top.BodyLoad(document);
+  top.CursorSetFocus(document,"@wizget(CS)","@wizget(CP)");
+}
+
+function ReadCubeKey(oWin)
+{
+  if (oWin.event.keyCode==33)
+    oWin.document.all("BtnPrev").click();
+  else if (oWin.event.keyCode==34)
+    oWin.document.all("BtnNext").click();
+}
+
+function GoUrl(sUrl)
+{
+  document.location='Http:/Scripts/Trs.exe?TN=@TER&amp;CN=@CNC&amp;'+sUrl;
+}
+</script>
+
+    <title>Flash Report - Daily)</title>
+  </head>
+
+  <body class="InfoRpt" onkeydown="ReadCubeKey(window)" onload="SmsLoad()">
+    <object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <td class="HdrCel">Daily flash report</td>
+
+          <td class="HdrBtnCel"><input class="HdrBtnNew" datasrc="@ATTRIB(B)" onclick="window.print()" type="button" value="Print" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+		@IF(@WIZEXIST(TARGET)=0)
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+				<tr>
+					<td class="EntCap">Target 1</td>
+					<td class="EntInp"><input class="EntGridTxt" style="WIDTH: 40px" value="@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET1)" name="USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET1" smsattrib="@ATTRIB(E:txt:F1000_RPT,sql=Script/CUB_KDLOC_DAILY_FLASH_RPT&amp;DATE=@WIZGET(DATE)&amp;FORM=@WIZGET(FORM)@FMT(CMP,@WIZEXIST(TARGET)=1,&amp;TARGET=®WIZGET(TARGET)))" /></td>
+					<td class="EntVal"><input class="EntValTxt" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT F1018 FROM STO_TAB WHERE F1000='@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET1)')" /></td>
+				</tr>
+				<tr>
+					<td class="EntCap">Target 2</td>
+					<td class="EntInp"><input class="EntGridTxt" style="WIDTH: 40px" value="@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET2)" name="USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET2" smsattrib="@ATTRIB(E:txt:F1000_RPT,sql=Script/CUB_KDLOC_DAILY_FLASH_RPT&amp;DATE=@WIZGET(DATE)&amp;FORM=@WIZGET(FORM)@FMT(CMP,@WIZEXIST(TARGET)=1,&amp;TARGET=®WIZGET(TARGET)))" /></td>
+					<td class="EntVal"><input class="EntValTxt" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT F1018 FROM STO_TAB WHERE F1000='@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET2)')" /></td>
+				</tr>
+				<tr>
+					<td class="EntCap">Target 3</td>
+					<td class="EntInp"><input class="EntGridTxt" style="WIDTH: 40px" value="@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET3)" name="USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET3" smsattrib="@ATTRIB(E:txt:F1000_RPT,sql=Script/CUB_KDLOC_DAILY_FLASH_RPT&amp;DATE=@WIZGET(DATE)&amp;FORM=@WIZGET(FORM)@FMT(CMP,@WIZEXIST(TARGET)=1,&amp;TARGET=®WIZGET(TARGET)))" /></td>
+					<td class="EntVal"><input class="EntValTxt" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT F1018 FROM STO_TAB WHERE F1000='@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET3)')" /></td>
+				</tr>
+								<tr>
+					<td class="EntCap">Target 4</td>
+					<td class="EntInp"><input class="EntGridTxt" style="WIDTH: 40px" value="@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET4)" name="USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET4" smsattrib="@ATTRIB(E:txt:F1000_RPT,sql=Script/CUB_KDLOC_DAILY_FLASH_RPT&amp;DATE=@WIZGET(DATE)&amp;FORM=@WIZGET(FORM)@FMT(CMP,@WIZEXIST(TARGET)=1,&amp;TARGET=®WIZGET(TARGET)))" /></td>
+					<td class="EntVal"><input class="EntValTxt" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT F1018 FROM STO_TAB WHERE F1000='@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET4)')" /></td>
+				</tr>
+				<tr>
+					<td class="EntCap">Target 5</td>
+					<td class="EntInp"><input class="EntGridTxt" style="WIDTH: 40px" value="@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET5)" name="USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET5" smsattrib="@ATTRIB(E:txt:F1000_RPT,sql=Script/CUB_KDLOC_DAILY_FLASH_RPT&amp;DATE=@WIZGET(DATE)&amp;FORM=@WIZGET(FORM)@FMT(CMP,@WIZEXIST(TARGET)=1,&amp;TARGET=®WIZGET(TARGET)))" /></td>
+					<td class="EntVal"><input class="EntValTxt" style="WIDTH: 80px" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT F1018 FROM STO_TAB WHERE F1000='@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET5)')" /></td>
+				</tr>				
+              </tbody>
+            </table>
+          </td>
+		@ENDIF
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+				<tr>
+					<td class="EntCap">Date</td>
+
+					<td class="EntInp"><input class="EntBtn" style="WIDTH: 20px" datasrc="@ATTRIB(B)" onclick="GoUrl('SQL=Script/CUB_KDLOC_DAILY_FLASH_RPT&amp;DATE=@DATE(@wizget(DATE),DSD-W1F)&amp;FORM=@WIZGET(FORM)@FMT(CMP,@WIZEXIST(TARGET)=1,&amp;TARGET=®WIZGET(TARGET))')" type="button" value="&lt;&lt;" name="BtnPrev" /> <input class="EntDat" style="WIDTH: 70px" datasrc="@ATTRIB(E:date,SQL=Script/CUB_KDLOC_DAILY_FLASH_RPT&amp;FORM=@WIZGET(FORM)@FMT(CMP,@WIZEXIST(TARGET)=1,&amp;TARGET=®WIZGET(TARGET)))" value="@DATE(@WIZGET(DATE),DWDF)" name="DATE$DW2S" /> <input class="EntBtn" style="WIDTH: 20px" datasrc="@ATTRIB(B)" onclick="GoUrl('SQL=Script/CUB_KDLOC_DAILY_FLASH_RPT&amp;DATE=@DATE(@wizget(DATE),DSD+W1F)&amp;FORM=@WIZGET(FORM)@FMT(CMP,@WIZEXIST(TARGET)=1,&amp;TARGET=®WIZGET(TARGET))')" type="button" value="&gt;&gt;" name="BtnNext" /></td>
+				</tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+	<div class="HideTxt">
+		@IF(@WIZEXIST(TARGET)=0)
+		@WIZRPL(TARGET_LST='@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET1)','@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET2)','@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET3)','@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET4)','@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET5)')
+		@DBTABLE(Q2,SELECT F1000,F1018 FROM STO_TAB WHERE F1000 IN (@WIZGET(TARGET_LST)) 
+		ORDER BY CHARINDEX(';'+F1000+';',';@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET1);@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET2);@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET3);@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET4);@dbHot(REG,USER@USER/Cube/CUB_KDLOC_DAILY_FLASH_RPT/TARGET5);'))
+		@dbView(Q1,
+		SELECT STO.F1000,MAX(STO.F1018) AS F1018,RPT.F1034
+		,SUM(RPT.F1301) AS F1301
+		,SUM(RPT.F1302) AS F1302
+		,SUM(RPT.F1303) AS F1303
+		,SUM(RPT.F1304) AS F1304
+		,SUM(RPT.F1305) AS F1305
+		,SUM(RPT.F1306) AS F1306
+		,SUM(RPT.F1307) AS F1307
+		,SUM(RPT.F1311) AS F1311
+		,SUM(RPT.F1312) AS F1312
+		,SUM(RPT.F1313) AS F1313
+		,SUM(RPT.F1314) AS F1314
+		,SUM(RPT.F1315) AS F1315
+		,SUM(RPT.F1316) AS F1316
+		,SUM(RPT.F1317) AS F1317
+		FROM STO_TAB STO
+		JOIN (SELECT DISTINCT F1056,F1000 FROM LNK_TAB) LNK ON LNK.F1000=STO.F1000
+		JOIN TMP_@WIZGET(SESSION) RPT ON RPT.F1056=LNK.F1056
+		WHERE STO.F1000 IN (@WIZGET(TARGET_LST))
+		GROUP BY STO.F1000,RPT.F1034)
+		@ELSEIF
+		@DBTABLE(Q2,SELECT DISTINCT LNK.F1056 AS F1000,ISNULL(STD.F1531,'') AS F1018 
+		FROM LNK_TAB LNK
+		LEFT OUTER JOIN STD_TAB STD ON STD.F1056=LNK.F1056 WHERE LNK.F1000='@WIZGET(TARGET)' ORDER BY F1000)
+		@dbView(Q1,
+		SELECT RPT.F1056 AS F1000,RPT.F1034
+		,SUM(RPT.F1301) AS F1301
+		,SUM(RPT.F1302) AS F1302
+		,SUM(RPT.F1303) AS F1303
+		,SUM(RPT.F1304) AS F1304
+		,SUM(RPT.F1305) AS F1305
+		,SUM(RPT.F1306) AS F1306
+		,SUM(RPT.F1307) AS F1307
+		,SUM(RPT.F1311) AS F1311
+		,SUM(RPT.F1312) AS F1312
+		,SUM(RPT.F1313) AS F1313
+		,SUM(RPT.F1314) AS F1314
+		,SUM(RPT.F1315) AS F1315
+		,SUM(RPT.F1316) AS F1316
+		,SUM(RPT.F1317) AS F1317
+		FROM (SELECT DISTINCT F1056,F1000 FROM LNK_TAB WHERE F1000='@WIZGET(TARGET)') LNK
+		JOIN TMP_@WIZGET(SESSION) RPT ON RPT.F1056=LNK.F1056
+		GROUP BY RPT.F1056,RPT.F1034)
+		@ENDIF
+	</div>
+
+    <table class="FrmTab" style="MARGIN-TOP: 15px">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="RptTab">
+              <tbody>
+				<tr>
+				 <th class="RptCap" style="WIDTH: 80px" colspan="3"></th>
+					<th class="RptCap" style="WIDTH: 80px">@DATE(@DATE(@WIZGET(DATE),DSD-006),LTR,D)</th>
+					<th class="RptCap" style="WIDTH: 80px">@DATE(@DATE(@WIZGET(DATE),DSD-005),LTR,D)</th>
+					<th class="RptCap" style="WIDTH: 80px">@DATE(@DATE(@WIZGET(DATE),DSD-004),LTR,D)</th>
+					<th class="RptCap" style="WIDTH: 80px">@DATE(@DATE(@WIZGET(DATE),DSD-003),LTR,D)</th>
+					<th class="RptCap" style="WIDTH: 80px">@DATE(@DATE(@WIZGET(DATE),DSD-002),LTR,D)</th>
+					<th class="RptCap" style="WIDTH: 80px">@DATE(@DATE(@WIZGET(DATE),DSD-001),LTR,D)</th>
+					<th class="RptCap" style="WIDTH: 80px">@DATE(@DATE(@WIZGET(DATE),DSD-000),LTR,D)</th>
+					<th class="RptCap" style="WIDTH: 90px">Week to Date</th>
+				</tr>
+
+				<tr>
+@RPTCLR(ST1;ST2;ST3;ST4;ST5;ST6;ST7;STT;SL1;SL2;SL3;SL4;SL5;SL6;SL7;SLT;TT1;TT2;TT3;TT4;TT5;TT6;TT7;TTT;TL1;TL2;TL3;TL4;TL5;TL6;TL7;TLT;AT1;AT2;AT3;AT4;AT5;AT6;AT7;ATT;AL1;AL2;AL3;AL4;AL5;AL6;AL7;ALT);				
+					<td class="RptCap" rowspan="9">@FMT(CMP,@WIZEXIST(TARGET)=0,"<a href='HTTP:/SCRIPTS/TRS.EXE?SQL=SCRIPT\CUB_KDLOC_DAILY_FLASH_RPT&amp;TARGET=®DBROW(Q2,F1000,L)&amp;DATE=®WIZGET(DATE)&amp;FORM=RPT®DBROW(Q2,F1000,L)®DATE(@WIZGET(DATE),DIDF)'>®DBROW(Q2,F1000,L)-®DBROW(Q2,F1018,L)</a>","®DBROW(Q2,F1000,L)-®DBROW(Q2,F1018,L)")</td>
+					<td class="RptCap" rowspan="3">$ Sales</td>
+					<td class="RptCap" style="WIDTH: 5px">TY</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1301,#:2,STT;ST1)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1302,#:2,STT;ST2)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1303,#:2,STT;ST3)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1304,#:2,STT;ST4)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1305,#:2,STT;ST5)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1306,#:2,STT;ST6)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1307,#:2,STT;ST7)</td>
+					<td class="RptCapNum">@RPTTTL(STT,#:2)</td>
+				</tr>
+
+				<tr>
+				 <td class="RptCap" style="WIDTH: 10px">LY</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1311,#:2,SLT;SL1)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1312,#:2,SLT;SL2)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1313,#:2,SLT;SL3)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1314,#:2,SLT;SL4)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1315,#:2,SLT;SL5)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1316,#:2,SLT;SL6)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3,F1317,#:2,SLT;SL7)</td>
+					<td class="RptCapNum">@RPTTTL(SLT,#:2)</td>
+				</tr>
+
+				<tr>
+					<td class="RptCap" style="WIDTH: 10px">%</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(ST1-SL1,#)*100/@FMT(CMP,'@RPTTTL(SL1,#)=0',1,'®RPTTTL(SL1,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(ST2-SL2,#)*100/@FMT(CMP,'@RPTTTL(SL2,#)=0',1,'®RPTTTL(SL2,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(ST3-SL3,#)*100/@FMT(CMP,'@RPTTTL(SL3,#)=0',1,'®RPTTTL(SL3,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(ST4-SL5,#)*100/@FMT(CMP,'@RPTTTL(SL4,#)=0',1,'®RPTTTL(SL4,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(ST5-SL5,#)*100/@FMT(CMP,'@RPTTTL(SL5,#)=0',1,'®RPTTTL(SL5,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(ST6-SL6,#)*100/@FMT(CMP,'@RPTTTL(SL6,#)=0',1,'®RPTTTL(SL6,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(ST7-SL7,#)*100/@FMT(CMP,'@RPTTTL(SL7,#)=0',1,'®RPTTTL(SL7,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(STT-SLT,#)*100/@FMT(CMP,'@RPTTTL(SLT,#)=0',1,'®RPTTTL(SLT,#)'),#:2)</td>
+				</tr>
+				
+				<tr>
+					<td class="RptCap" rowspan="3"># of Transactions</td>
+					<td class="RptCap" style="WIDTH: 5px">TY</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);3102,F1301,#,TTT;TT1)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);2,F1302,#,TTT;TT2)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);2,F1303,#,TTT;TT3)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);2,F1304,#,TTT;TT4)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);2,F1305,#,TTT;TT5)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);2,F1306,#,TTT;TT6)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);2,F1307,#,TTT;TT7)</td>
+					<td class="RptCapNum">@RPTTTL(TTT,#)</td>
+				</tr>
+
+				<tr>
+				 <td class="RptCap" style="WIDTH: 10px">LY</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);2,F1311,#,TLT;TL1)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);2,F1312,#,TLT;TL2)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);2,F1313,#,TLT;TL3)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);2,F1314,#,TLT;TL4)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);2,F1315,#,TLT;TL5)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);2,F1316,#,TLT;TL6)</td>
+					<td class="RptCapNum">@dbFind(Q1,F1000;F1034,@DBROW(Q2,F1000,L);2,F1317,#,TLT;TL7)</td>
+					<td class="RptCapNum">@RPTTTL(TLT,#)</td>
+				</tr>
+
+				<tr>
+					<td class="RptCap" style="WIDTH: 10px">%</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(TT1-TL1,#)*100/@FMT(CMP,'@RPTTTL(TL1,#)=0',1,'®RPTTTL(TL1,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(TT2-TL2,#)*100/@FMT(CMP,'@RPTTTL(TL2,#)=0',1,'®RPTTTL(TL2,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(TT3-TL3,#)*100/@FMT(CMP,'@RPTTTL(TL3,#)=0',1,'®RPTTTL(TL3,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(TT4-TL4,#)*100/@FMT(CMP,'@RPTTTL(TL4,#)=0',1,'®RPTTTL(TL4,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(TT5-TL5,#)*100/@FMT(CMP,'@RPTTTL(TL5,#)=0',1,'®RPTTTL(TL5,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(TT6-TL6,#)*100/@FMT(CMP,'@RPTTTL(TL6,#)=0',1,'®RPTTTL(TL6,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(TT7-TL7,#)*100/@FMT(CMP,'@RPTTTL(TL7,#)=0',1,'®RPTTTL(TL7,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(TTT-TLT,#)*100/@FMT(CMP,'@RPTTTL(TLT,#)=0',1,'®RPTTTL(TLT,#)'),#:2)</td>
+				</tr>
+
+				<tr>
+					<td class="RptCap" rowspan="3">Avg $/Transaction</td>
+					<td class="RptCap" style="WIDTH: 5px">TY</td>
+					<td class="RptCapNum">@RPTTTL(ST1/@FMT(CMP,'@RPTTTL(TT1,#)=0',1,'®RPTTTL(TT1,#)'),#:2,ATT;AT1)</td>
+					<td class="RptCapNum">@RPTTTL(ST2/@FMT(CMP,'@RPTTTL(TT2,#)=0',1,'®RPTTTL(TT2,#)'),#:2,ATT;AT2)</td>
+					<td class="RptCapNum">@RPTTTL(ST3/@FMT(CMP,'@RPTTTL(TT3,#)=0',1,'®RPTTTL(TT3,#)'),#:2,ATT;AT3)</td>
+					<td class="RptCapNum">@RPTTTL(ST4/@FMT(CMP,'@RPTTTL(TT4,#)=0',1,'®RPTTTL(TT4,#)'),#:2,ATT;AT4)</td>
+					<td class="RptCapNum">@RPTTTL(ST5/@FMT(CMP,'@RPTTTL(TT5,#)=0',1,'®RPTTTL(TT5,#)'),#:2,ATT;AT5)</td>
+					<td class="RptCapNum">@RPTTTL(ST6/@FMT(CMP,'@RPTTTL(TT6,#)=0',1,'®RPTTTL(TT6,#)'),#:2,ATT;AT6)</td>
+					<td class="RptCapNum">@RPTTTL(ST7/@FMT(CMP,'@RPTTTL(TT7,#)=0',1,'®RPTTTL(TT7,#)'),#:2,ATT;AT7)</td>
+					<td class="RptCapNum">@RPTTTL(STT/@FMT(CMP,'@RPTTTL(TTT,#)=0',1,'®RPTTTL(TTT,#)'),#:2)</td>
+				</tr>
+
+				<tr>
+				 <td class="RptCap" style="WIDTH: 10px">LY</td>
+					<td class="RptCapNum">@RPTTTL(SL1/@FMT(CMP,'@RPTTTL(TL1,#)=0',1,'®RPTTTL(TL1,#)'),#:2,ALT;AL1)</td>
+					<td class="RptCapNum">@RPTTTL(SL2/@FMT(CMP,'@RPTTTL(TL2,#)=0',1,'®RPTTTL(TL2,#)'),#:2,ALT;AL2)</td>
+					<td class="RptCapNum">@RPTTTL(SL3/@FMT(CMP,'@RPTTTL(TL3,#)=0',1,'®RPTTTL(TL3,#)'),#:2,ALT;AL3)</td>
+					<td class="RptCapNum">@RPTTTL(SL4/@FMT(CMP,'@RPTTTL(TL4,#)=0',1,'®RPTTTL(TL4,#)'),#:2,ALT;AL4)</td>
+					<td class="RptCapNum">@RPTTTL(SL5/@FMT(CMP,'@RPTTTL(TL5,#)=0',1,'®RPTTTL(TL5,#)'),#:2,ALT;AL5)</td>
+					<td class="RptCapNum">@RPTTTL(SL6/@FMT(CMP,'@RPTTTL(TL6,#)=0',1,'®RPTTTL(TL6,#)'),#:2,ALT;AL6)</td>
+					<td class="RptCapNum">@RPTTTL(SL7/@FMT(CMP,'@RPTTTL(TL7,#)=0',1,'®RPTTTL(TL7,#)'),#:2,ALT;AL7)</td>
+					<td class="RptCapNum">@RPTTTL(SLT/@FMT(CMP,'@RPTTTL(TLT,#)=0',1,'®RPTTTL(TLT,#)'),#:2)</td>
+				</tr>
+
+				<tr>
+					<td class="RptCap" style="WIDTH: 10px">%</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(AT1-AL1,#)*100/@FMT(CMP,'@RPTTTL(AL1,#)=0',1,'®RPTTTL(AL1,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(AT2-AL2,#)*100/@FMT(CMP,'@RPTTTL(AL2,#)=0',1,'®RPTTTL(AL2,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(AT3-AL3,#)*100/@FMT(CMP,'@RPTTTL(AL3,#)=0',1,'®RPTTTL(AL3,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(AT4-AL4,#)*100/@FMT(CMP,'@RPTTTL(AL4,#)=0',1,'®RPTTTL(AL4,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(AT5-AL5,#)*100/@FMT(CMP,'@RPTTTL(AL5,#)=0',1,'®RPTTTL(AL5,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(AT6-AL6,#)*100/@FMT(CMP,'@RPTTTL(AL6,#)=0',1,'®RPTTTL(AL6,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(AT7-AL7,#)*100/@FMT(CMP,'@RPTTTL(AL7,#)=0',1,'®RPTTTL(AL7,#)'),#:2)</td>
+					<td class="RptCapNum">@RPTTTL(@RPTTTL(ATT-ALT,#)*100/@FMT(CMP,'@RPTTTL(ALT,#)=0',1,'®RPTTTL(ALT,#)'),#:2)</td>
+				</tr>				
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

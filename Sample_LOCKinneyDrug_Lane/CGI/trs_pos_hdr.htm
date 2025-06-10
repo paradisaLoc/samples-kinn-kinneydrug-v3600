@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html class="Hdr" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html" />
+    <link rel="stylesheet" href="../../Images/pos_hdr.css" type="text/css" />
+
+    <title></title>
+  </head>
+
+  <body class="Hdr" scroll="no">
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+      Preserved Component - Not Visible!
+    </div>
+@IF(@FMT(COMA,DL.IdNumber,L,,@DBHOT(SAL_HDR,F1254,L))=)
+
+@WIZRPL(THRIVE_CUSTOMER=@DBSELECT(SELECT CASE 
+	WHEN (SELECT TOP 1 F1577 FROM CLL_TAB WHERE F1148='@dbHot(SAL_HDR,F1148)' AND F1578='PS' AND LEFT(F1577,2)='46' AND ISNULL(F1898,'0')='1') IS NOT NULL 
+		THEN (SELECT TOP 1 F1577 FROM CLL_TAB WHERE F1148='@dbHot(SAL_HDR,F1148)' AND F1578='PS' AND LEFT(F1577,2)='46' AND ISNULL(F1898,'0')='1') 
+	WHEN (SELECT F1148 FROM CLT_TAB WHERE F1148='@dbHot(SAL_HDR,F1148)' AND LEFT(F1148,2)='46') IS NOT NULL 
+		THEN (SELECT F1148 FROM CLT_TAB WHERE F1148='@dbHot(SAL_HDR,F1148)' AND LEFT(F1148,2)='46')
+	ELSE '' END));
+
+    <table class="FrmTab" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab" cellspacing="1" cellpadding="0">
+              <tbody>
+                <tr>
+                  <td class="EntCap">Code:</td>
+
+                  <td class="EntVal">@FMT(CMP,@WIZGET(THRIVE_CUSTOMER)=,"®dbHot(SAL_HDR,F1148)","®WIZGET(THRIVE_CUSTOMER)")</td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Name:</td>
+
+                  <td class="EntVal">@dbHot(SAL_HDR,F1155)</td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Points:</td>
+
+                  <td class="EntVal">@dbHot(SAL_HDR,F1238,#)</td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Balance:</td>
+
+                  <td class="EntVal">@dbHot(SAL_HDR,F1242,$)</td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Thrive:</td>
+
+                  <td class="EntVal">
+                     @FMT(CMP,@FMT(CMP,@FMT(POS,',@dbHot(SAL_HDR,F1152,#),',',2,3,4,5,')>0,1,0)@FMT(CMP,@FMT(POS,',@dbHot(SAL_HDR,F1152,#),',',@DBHOT(INI,KinneyDrug.ini,THRIVE,SHOPLEVEL),')>0,1,0)=11,BASIC)
+                     @FMT(CMP,@FMT(CMP,@FMT(POS,',@dbHot(SAL_HDR,F1152,#),',',12,13,14,15,')>0,1,0)@FMT(CMP,@FMT(POS,',@dbHot(SAL_HDR,F1152,#),',',@DBHOT(INI,KinneyDrug.ini,THRIVE,SHOPLEVEL),')>0,1,0)=11,PLATINUM)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+@ELSEIF
+    <table class="FrmTab" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab" cellspacing="1" cellpadding="0">
+              <tbody>
+                <tr>
+                  <td class="EntCap">Id #</td>
+
+                  <td class="EntVal">@FMT(COMA,DL.IdNumber,L,,@DBHOT(SAL_HDR,F1254,L)) @FMT(COMA,DL.IdType,L,,@DBHOT(SAL_HDR,F1254,L)) @FMT(COMA,DL.IdIssuingAgency,L,,@DBHOT(SAL_HDR,F1254,L))</td>		  
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Name</td>
+
+                  <td class="EntVal" colspan="3">@DBHOT(SAL_HDR,F1149,L) @DBHOT(SAL_HDR,F1150,L)</td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">DOB</td>
+
+                  <td class="EntVal">@DBHOT(SAL_HDR,F1520,DSDD)</td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Addr.</td>
+
+                  <td class="EntVal">@DBHOT(SAL_HDR,F1156,L) @DBHOT(SAL_HDR,F1158,L) @DBHOT(SAL_HDR,F1170,L) @DBHOT(SAL_HDR,F1159,L) </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+@ENDIF
+  </body>
+</html>
+

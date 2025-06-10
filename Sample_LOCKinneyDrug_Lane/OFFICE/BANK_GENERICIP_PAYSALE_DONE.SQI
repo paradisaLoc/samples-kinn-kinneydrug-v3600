@@ -1,0 +1,15 @@
+
+/* CARDTYPE=Z */
+@fmt(CMP,@fmt(ORD,@WIZGET(CARDTYPE))=90,®wizRpl(CREDIT=1));
+
+/* NOT PAYMENT */
+@fmt(CMP,@WIZGET(PAYTRANCODE)=104,®wizRpl(CREDIT=0));
+
+/* APPROVED AMOUNT SAME */
+@fmt(CMP,@dbHot(SAL_TTL_FIND,29999,F65,#:2)=@fmt(#:2,@wizGet(PAYAMNT)),®wizRpl(CREDIT=0));
+@fmt(CMP,@dbHot(SAL_TTL_FIND,29999,F65,#:2)=-@fmt(#:2,@wizGet(PAYAMNT)),®wizRpl(CREDIT=0));
+
+/* TAX EXEMPT */
+@fmt(CMP,@wizGet(CREDIT)=1,'®post(CN=CONSOLE,ENTRY=1234567,FCT=739)®post(CN=CONSOLE,FCT=385)');
+
+@wizRpl(PaySendEot=TENDERS);

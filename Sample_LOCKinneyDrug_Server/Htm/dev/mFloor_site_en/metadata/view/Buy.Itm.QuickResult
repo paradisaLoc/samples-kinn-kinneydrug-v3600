@@ -1,0 +1,214 @@
+{
+    "type": "Ext.form.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "buyitmquickresult",
+        "designer|userClassName": "Buy.Itm.QuickResult",
+        "itemId": null,
+        "layout": "fit",
+        "scrollable": false,
+        "smsAction": "runquery",
+        "smsHost": "buyhost",
+        "smsResultUrl": "cgi=mFloor_xml_grid.xml&ExtGridUsp=mFloor_buy_itm_search",
+        "smsToolbar": "Result",
+        "smsToolbarKeep": "buyrecstart;buyordstart;buydsdstart"
+    },
+    "designerId": "85e2c064-9999-4f9c-ae3a-5c0ced1fd1c4",
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "smsToolbar",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "smsResultUrl",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "smsHost",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "smsAction",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "smsToolbarKeep",
+            "type": "string"
+        }
+    ],
+    "cn": [
+        {
+            "type": "Ext.TitleBar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "container|align": "center",
+                "docked": "top",
+                "height": null,
+                "itemId": null,
+                "minHeight": null,
+                "title": "Quick search"
+            },
+            "name": "MyTitleBar37",
+            "designerId": "1103b481-e8d1-4a39-8720-17a3e22982ea",
+            "cn": [
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "cls": [
+                            "sms-title-close-btn"
+                        ],
+                        "iconCls": null,
+                        "itemId": "closeBtn",
+                        "margin": null,
+                        "text": null,
+                        "ui": null
+                    },
+                    "name": "MyButton133",
+                    "designerId": "4939efb2-c722-45db-8c7b-ad98e4014880",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "smsExec",
+                            "type": "string"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.Toolbar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "sms-child-tool"
+                ],
+                "container|align": null,
+                "container|pack": "center",
+                "defaults": null,
+                "docked": "top",
+                "ui": "light"
+            },
+            "name": "MyToolbar18",
+            "designerId": "48b7df53-cb4b-4805-9e7c-b8bb4221f56d",
+            "cn": [
+                {
+                    "type": "Ext.field.Search",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "label": null,
+                        "labelWidth": null,
+                        "layout|flex": 1,
+                        "name": "FindVendor",
+                        "placeHolder": "Type in item name or code",
+                        "width": null
+                    },
+                    "name": "MySearchField17",
+                    "designerId": "6b68af46-be05-427b-aa90-9bcbbc5443fe"
+                }
+            ]
+        },
+        {
+            "type": "Ext.Label",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "sms-result-info"
+                ],
+                "docked": "top",
+                "height": null,
+                "html": "or select an item",
+                "itemId": null
+            },
+            "name": "MyLabel16",
+            "designerId": "77a227b4-433f-40f1-80f5-bdafcee59615"
+        },
+        {
+            "type": "Ext.dataview.List",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "sms-result-grid"
+                ],
+                "emptyText": "No record found",
+                "itemCls": null,
+                "itemId": "resultGrid",
+                "store": null,
+                "ui": null
+            },
+            "name": "MyList12",
+            "designerId": "ff889b98-94cb-4a07-ae4a-f2ed3cbf36af",
+            "cn": [
+                {
+                    "type": "Ext.XTemplate",
+                    "reference": {
+                        "name": "itemTpl",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|displayName": "itemTpl",
+                        "implHandler": [
+                            "<table class=\"sms-itm-result-table\">",
+                            "    <tr>",
+                            "        <td class=\"sms-itm-result-icon\"></td>",
+                            "        <td>",
+                            "            <table><tr><td class=\"sms-itm-result-desc\" colspan=\"2\">{F02}</td></tr></table>",
+                            "            <table>",
+                            "                <tr>",
+                            "                    <td class=\"sms-itm-result-title\">Code</td>",
+                            "                    <td class=\"sms-itm-result-title\">Vnd code</td>",
+                            "                    <td class=\"sms-itm-result-title\">Net cost</td>",
+                            "                </tr>",
+                            "                <tr>",
+                            "                    <td class=\"sms-itm-result-data\">{F01}</td>",
+                            "                    <td class=\"sms-itm-result-data\">{F26}</td>",
+                            "                    <td class=\"sms-itm-result-data\">{F196S}</td>",
+                            "                </tr>",
+                            "            </table>",
+                            "        </td>",
+                            "        <td class=\"sms-itm-result-arrow\"></td>",
+                            "    </tr>",
+                            "</table>"
+                        ]
+                    },
+                    "name": "tpl12",
+                    "designerId": "630d4b7f-3d30-4ede-8add-dc94807edc29"
+                }
+            ]
+        }
+    ]
+}

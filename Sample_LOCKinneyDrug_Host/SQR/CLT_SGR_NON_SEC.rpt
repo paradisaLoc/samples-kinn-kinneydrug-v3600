@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+
+<html>
+
+  <head>
+    <desc>
+      <input type="hidden" class="HidParam" id="RPT_NAME" value="Customer Multi Totals" /> <input type="hidden" class="HidParam" id="RPT_FILENAME" value="clt_sgr_non_sec" /> <input type="hidden" class="HidParam" id="RPT_PARENT" value="rpt_clt_ttl" /> <input type="hidden" class="HidParam" id="RPT_PRIORITY" value="1" /> <input type="hidden" class="HidParam" id="RPT_DESC" value="This report displays all the available totalizers by customer. You can narrow the query by selecting a totalizer section. CRITERIA: Period, Customer, Totalizer section and Target" /> <input type="hidden" class="HidParam" id="RPT_GROUP" value="1.Totals" /> <input type="hidden" class="HidParam" id="RPT_WIZARD" value="yes" />
+    </desc>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="CurHdr" content="ScreenRpt" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="PRAGMA" content="No_Cache" />
+    <link rel="stylesheet" href="../../Images/sms_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_rpt.css" type="text/css" />
+<script type="text/javascript" src="../../Images/rpt.js">
+        
+</script>
+
+    <title></title>
+  </head>
+
+  <body class="Main" onload="@wizset(CURPOS=0)InitRpt(document,@wizget(CURPOS),'@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','http:/scripts/trs.exe')">
+    <object class="ComDialog" id="cDialog" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <th class="HdrCel" id="RptTitle">Customer Multi Totals</th>
+
+          <th class="HdrBtnCel"><input class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" onfocus="ActivateField(this)" accesskey="Z" onclick="SubmitReport('@wizget(DN)')" type="button" value="Launch" name="BtnSubmit" /></th>
+
+          <th class="HdrBtnCel"><input class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" onfocus="ActivateField(this)" onclick="PrintReport('@wizget(DN)')" type="button" value="Print" name="BtnPrint" /></th>
+
+          <th class="HdrBtnCel"><input class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" onfocus="ActivateField(this)" onclick="ReportAddTo(this,'@wizget(DN)','T')" type="button" value="Add" name="BtnTask" /></th>
+
+          <th class="HdrBtnCel"><input class="HdrBtnNew" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" onfocus="ActivateField(this)" onclick="document.location='http:/scripts/trs.exe?htt=sqr\\' + RPT_FILENAME.value + '.rpt&amp;CN=@CNC&amp;TN=@TER';" type="button" value="Reset" name="BtnReset" /></th>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="EntTab" style="LEFT: 50px; POSITION: absolute; TOP: 70px">
+      <tbody>
+        <tr>
+          <th class="EntHdr" colspan="2">PERIOD</th>
+        </tr>
+
+        <tr>
+          <td class="EntPeriod" id="oPeriodSrc" initval="@wizset(DETAIL=0)@wizget(DETAIL)" detail_periods="@dbhot(DETAIL_PERIODS)" detail_names="@dbhot(DETAIL_NAMES)" detail_details="@dbhot(DETAIL_DETAILS)">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="EntTab" style="LEFT: 200px; POSITION: absolute; TOP: 70px">
+      <tbody>
+        <tr>
+          <th class="EntHdr" id="oDateSrc" colspan="4" initval="@wizset(REFRESH_DATE=1)@wizget(REFRESH_DATE)" initformat="@dbHOT(REGIONAL,SHORTDATEFORMAT)" initformatsql="@dbHOT(REGIONAL,SQLDATEFORMAT)" initweek="@dbHOT(WEEKSTART)" initdatereg="@wizset(DATE=@DWDD)@wizget(DATE)">DATE RANGE</th>
+
+          <td>
+          </td>
+        </tr>
+
+        <tr>
+          <th class="EntCap">Start</th>
+
+          <td class="EntInp"><input class="EntDat" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" ondblclick="ShowDateExt(window,this,'Select a date','D')" style="WIDTH: 90px" onfocus="SaveValue(this)" onchange="ValidateField(window,this,'date')" value="@wizget(START)" name="START" /></td>
+
+          <td class="EntVal" style="PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; WIDTH: 0%; PADDING-TOP: 0px" rowspan="2"><input class="EntBtn" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" style="WIDTH: 60px" onfocus="ActivateField(this)" onclick="GotoNextPreviousDate('-')" type="button" value="Past" name="BtnDatPas" /><br />
+          <input class="EntBtn" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" style="WIDTH: 60px" onfocus="ActivateField(this)" onclick="GotoNextPreviousDate('+')" type="button" value="Future" name="BtnDatFut" /> </td>
+        </tr>
+
+        <tr>
+          <th class="EntCap">Stop</th>
+
+          <td class="EntInp"><input class="EntDat" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" ondblclick="ShowDateExt(window,this,'Select a date','F')" style="WIDTH: 90px" onfocus="SaveValue(this)" onchange="ValidateField(window,this,'date')" value="@wizget(STOP)" name="STOP" /></td>
+        </tr>
+
+        <tr>
+          <td class="EntVal" id="oDateDesc" colspan="4">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <input class="HidParam" type="hidden" value="CLT_SGR_NON_SEC" name="SQR" /><input class="HidParam" type="hidden" value="@CNC" name="CN" /><input class="HidParam" type="hidden" value="@TER" name="TN" />
+
+    <table class="EntTab" style="LEFT: 200px; POSITION: absolute; TOP: 140px">
+      <tbody>
+        <tr>
+          <th class="EntHdr" colspan="3">CUSTOMER RANGE</th>
+        </tr>
+
+        <tr>
+          <th class="EntCap">From</th>
+
+          <td class="EntInp"><input class="EntGrid" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" ondblclick="@TOOLS(ShowGrid,F1148_THRIVE)" style="WIDTH: 140px" onfocus="SaveValue(this)" datasrc="@wizset(D1148=0)" onchange="@TOOLS(ValidateField,txt,F1148)" value="@wizget(D1148)" name="D1148" /></td>
+
+          <td class="EntVal"><input class="EntValTxt" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT CLT.F1155 FROM CLT_TAB CLT LEFT OUTER JOIN CLL_TAB CLL ON CLT.F1148=CLL.F1148 AND CLL.F1577='@wizget(D1148)' AND CLL.F1578='PS' AND ISNULL(CLL.F1898,'0')='1' WHERE ISNULL(CLL.F1577,CLT.F1148)='@wizget(D1148)')" /></td>
+        </tr>
+
+        <tr>
+          <th class="EntCap">To</th>
+
+          <td class="EntInp"><input class="EntGrid" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" ondblclick="@TOOLS(ShowGrid,F1148_THRIVE)" style="WIDTH: 140px" onfocus="SaveValue(this)" datasrc="@wizset(F1148=ZZZ)" onchange="@TOOLS(ValidateField,txt,F1148)" value="@wizget(F1148)" name="F1148" /></td>
+
+          <td class="EntVal"><input class="EntValTxt" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT CLT.F1155 FROM CLT_TAB CLT LEFT OUTER JOIN CLL_TAB CLL ON CLT.F1148=CLL.F1148 AND CLL.F1577='@wizget(F1148)' AND CLL.F1578='PS' AND ISNULL(CLL.F1898,'0')='1' WHERE ISNULL(CLL.F1577,CLT.F1148)='@wizget(F1148)')" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="EntTab" style="LEFT: 200px; POSITION: absolute; TOP: 210px">
+      <tbody>
+        <tr>
+          <th class="EntHdr" colspan="3">TOTALIZER SECTION RANGE</th>
+        </tr>
+
+        <tr>
+          <th class="EntCap">From</th>
+
+          <td class="EntInp"><input class="EntGrid" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" ondblclick="@TOOLS(ShowGrid,F1179)" style="WIDTH: 60px" onfocus="SaveValue(this)" datasrc="@wizset(D1179=0)" onchange="ValidateField(window,this,'integer',999)" value="@wizget(D1179)" name="D1179" /></td>
+
+          <td class="EntVal"><input class="EntValTxt" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT F1183 FROM TZS_TAB WHERE F1179='@wizget(D1179)')" /></td>
+        </tr>
+
+        <tr>
+          <th class="EntCap">To</th>
+
+          <td class="EntInp"><input class="EntGrid" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" ondblclick="@TOOLS(ShowGrid,F1179)" style="WIDTH: 60px" onfocus="SaveValue(this)" datasrc="@wizset(F1179=9999)" onchange="ValidateField(window,this,'integer')" value="@wizget(F1179)" name="F1179" /></td>
+
+          <td class="EntVal"><input class="EntValTxt" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT F1183 FROM TZS_TAB WHERE F1179='@wizget(F1179)')" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="EntTab" style="LEFT: 200px; POSITION: absolute; TOP: 280px">
+      <tbody>
+        <tr>
+          <th class="EntHdr" colspan="2">TARGET</th>
+        </tr>
+
+        <tr>
+          <td class="EntInp"><input class="EntGrid" onkeydown="ReadKeyStroke(window,this)" onblur="LeaveField(this)" ondblclick="@TOOLS(ShowGrid,F1000_RPT)" style="WIDTH: 70px" onfocus="SaveValue(this)" datasrc="@wizset(TARGET=@TOOLS(PopupDefault,F1000_RPT,FIRST,RAL))" onchange="@TOOLS(ValidateField,txt,F1000_RPT)" value="@wizget(TARGET)" name="TARGET" /></td>
+
+          <td class="EntVal"><input class="EntValTxt" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT F1018 FROM STO_TAB WHERE F1000='@wizget(TARGET)')" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

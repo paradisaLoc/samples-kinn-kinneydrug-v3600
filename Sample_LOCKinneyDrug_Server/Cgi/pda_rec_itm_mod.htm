@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>pda_rec_itm_mod.htm</title>
+    <meta name="curhdr" content="pda" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="Scanner" content="@dbHot('setup.ini',[PDA_SCANNER]Global_Scanner)" />
+    <meta http-equiv="OnKey@DBHOT(REG,@PROFILE\pda\HOTKEY_F01)" content="Javascript:onkey('HOT_IDX_F01$SCAN');" />
+    <link rel="stylesheet" href="../../Images/pda.css" type="text/css" />
+<script type="text/javascript" src="../../Images/pda.js">
+</script>
+<script type="text/javascript">
+
+function SmsLoad() {
+  @WIZSET(hotKey=@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYLEFT),@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYUP),@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYRIGHT),@DBHOT(REG,@PROFILE\pda\HOTKEY_KEYDOWN));
+  VariableInit(@FMT(CMP,'@WIZGET(hotKey)&lt;&gt;,,,','®WIZGET(hotKey)'));
+  BodyLoad('@WIZGET(CP)');
+}
+</script>
+  </head>
+
+  <body onload="SmsLoad();">
+    <span class="Hide" id="sets">@dbHot(REC_REG,SET,REC_REG[*);</span> 
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="HdrCelTitle">Item Counts</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="Hide" style="WIDTH: 100%">
+      @RPTCLR(P1);<br />
+	   @dbView(Q1,SELECT ISNULL(SUM(F1003),0) AS F1003 From REC_REG WHERE F1032=@dbHot(REC_HDR,F1032,#) AND F01='@DBHOT(HOT_IDX,F01)');
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="EntCap">Code&nbsp;</td>
+
+          <td class="EntVal">
+            <form action="http:/scripts/trs.exe" method="get">
+              <input datafld="scan" class="CODE" onblur="EntBlur(this)" onfocus="EntFocus(this)" onkeydown="EntKeyDown(this)" datasrc="" value="@dbHot(HOT_IDX,F01)" name="HOT_IDX_F01$SCAN" scanner="@dbHot('setup.ini',[PDA_SCANNER]HOT_IDX_F01)" /><input class="submit" type="submit" value="GO" name="BtnGo" /><input class="Hide" type="hidden" value="@CNC" name="CN" /><input class="Hide" type="hidden" value="@TER" name="TN" /><input class="Hide" type="hidden" value="pda" name="DN" /><input class="Hide" type="hidden" value="@DBHOT(REG,@PROFILE\pda\HOT_PRM)" name="HOT_PRM_F01" /><input class="Hide" type="hidden" value="FCT=3510" name="RETPAGE" /><input class="Hide" type="hidden" value="pda_SKU_SCANNING" name="SQI" /><input class="Hide" type="hidden" value="1" name="HOT" /><input class="Hide" type="hidden" value="@RPTTTL(P1,#):0@FMT(CMP,@DBHOT(REG,@PROFILE\pda\BUY_REC_CP)&lt;&gt;,':@DBHOT(REG,@PROFILE\pda\BUY_REC_CP)')" name="CP" /><input class="Hide" type="hidden" value="@DBHOT(REG,@PROFILE\pda\BUY_REC_GOTOEXIST)" name="@FMT(CMP,@DBHOT(REG,@PROFILE\pda\BUY_REC_GOTOEXIST)&lt;&gt;,GOTOEXIST)" /><input class="Hide" type="hidden" value="@DBHOT(REG,@PROFILE/pda/SET_F126)" name="HOT_IDX_F126" /><input class="Hide" type="hidden" value="D" name="HOT_PRM_F126" /><input class="Hide" type="hidden" name="HOT_IDX_F1184" /><input class="Hide" type="hidden" value="@DBHOT(REG,@PROFILE\PDA\BUY_REC_QTY)" name="unitQty" />
+            </form>
+          </td>
+
+          <td><input class="BntHelp" onclick="document.location='http:/scripts/trs.exe?CGI=pda_rec_itm_search&amp;HOT_URL_BACK=pda_REC_ITM_MOD&amp;GOTOEXIST=@DBHOT(REG,@PROFILE\pda\BUY_REC_GOTOEXIST)&amp;CN=@CNC&amp;tn=@TER&amp;dn=pda&amp;unitQty=@DBHOT(REG,@PROFILE\PDA\BUY_REC_QTY)&amp;CP=@RPTTTL(P1,#):0:@FMT(CMP,@DBHOT(REG,@PROFILE\pda\BUY_REC_CP)&lt;&gt;,'@DBHOT(REG,@PROFILE\pda\BUY_REC_CP)',1)'" type="button" value="?" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="EntCap">Vendor code&nbsp;</td>
+
+          <td class="EntVal"><input class="EntValTxt" readonly="readonly" style="WIDTH: 150px" value="@dbHot(REC_REG,F26)" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr class="@FMT(CMP,@FMT(M1:26,@dbHot(REC_REG,F1041))&lt;&gt;,,Hide)">
+          <td class="EntVal"><input class="EntValTxt" style="WIDTH: 215px" readonly="readonly" value="@FMT(M1:26,@DBHOT(REC_REG,F1041))" /></td>
+        </tr>
+
+        <tr class="@FMT(CMP,@FMT(M2:26,@dbHot(REC_REG,F1041))&lt;&gt;,,Hide)">
+          <td class="EntVal"><input class="EntValTxt" style="WIDTH: 215px" readonly="readonly" value="@FMT(M2:26,@DBHOT(REC_REG,F1041))" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="EntCap">Line number&nbsp;</td>
+
+          <td class="EntVal"><input class="EntValTxt" readonly="readonly" style="WIDTH: 60px" value="@dbHot(REC_REG,F1101,#)" /></td>
+        </tr>
+
+        <tr>
+          <td class="EntCap">Format&nbsp;</td>
+
+          <td class="EntVal"><input class="EntValTxt" readonly="readonly" style="WIDTH: 60px" value="@dbHot(REC_REG,F19,#)" /></td>
+
+          <td class="EntVal"><input class="EntValTxt" readonly="readonly" style="WIDTH: 80px" value="CASE" /></td>
+        </tr>
+
+        <tr>
+          <td class="EntCap">Base cost&nbsp;</td>
+
+          <td class="EntVal"><input class="EntValTxt" readonly="readonly" style="WIDTH: 60px" value="@dbHot(REC_REG,F38,#:2)" />&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td class="EntCap">Net cost&nbsp;</td>
+
+          <td class="EntVal"><input class="EntValTxt" readonly="readonly" style="WIDTH: 60px" value="@dbHot(REC_REG,F151,#:2)" /></td>
+        </tr>
+
+        <tr>
+          <td class="EntCap">Total count&nbsp;</td>
+
+          <td class="EntVal"><input class="EntValTxt" readonly="readonly" style="WIDTH: 60px" value="@DBROW(Q1,F1003,#)" /></td>
+
+          <td class="EntVal"><input class="EntValTxt" readonly="readonly" style="WIDTH: 80px" value="CASE" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="EntCap">Case&nbsp;</td>
+
+          <td>
+            <form action="http:/scripts/trs.exe" method="get">
+              <input class="EntNum" onblur="EntBlur(this)" onfocus="EntFocus(this)" onkeydown="EntKeyDown(this)" style="WIDTH: 70px" value="@dbHot(REC_REG,F1003,Z#)" name="ENTRY" /><input class="submit" type="submit" value="Go" name="BtnGo" /><input class="Hide" type="hidden" value="@CNC" name="CN" /><input class="Hide" type="hidden" value="@TER" name="TN" /><input class="Hide" type="hidden" value="pda" name="DN" /><input class="Hide" type="hidden" value="3010" name="FCT" /><input class="Hide" type="hidden" value="@RPTTTL(P1,#):0:-@RPTTTL(P1,#)" name="CP" /><input class="Hide" type="hidden" value="pda_rec_itm_mod" name="HOT_URL_BACK" /><input class="Hide" type="hidden" value="1:0" name="HOT_URL_MARK" />&nbsp;
+            </form>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="EntCap">
+            <div class="Hide" style="WIDTH: 100%">
+              @RPTTTL(1,,P1);
+            </div>
+            Total&nbsp;
+          </td>
+
+          <td>
+            <form action="http:/scripts/trs.exe" method="get">
+              <input class="EntNum" onblur="EntBlur(this)" onfocus="EntFocus(this)" onkeydown="EntKeyDown(this)" style="WIDTH: 70px" value="@dbHot(REC_REG,F65,Z#:2)" name="ENTRY" /><input class="submit" type="submit" value="GO" name="BtnGo" /><input class="Hide" type="hidden" value="@CNC" name="CN" /><input class="Hide" type="hidden" value="@TER" name="TN" /><input class="Hide" type="hidden" value="pda_rec_itm_mod" name="CGI" /><input class="Hide" type="hidden" value="pda" name="DN" /><input class="Hide" type="hidden" value="3630" name="FCT" /><input class="Hide" type="hidden" value="@RPTTTL(P1,#):0:-@RPTTTL(P1,#)" name="CP" /><input class="Hide" type="hidden" value="2:0" name="HOT_URL_MARK" />
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tr>
+        <td>
+        </td>
+      </tr>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><input class="BntGeneral" onclick="document.location='http:/scripts/trs.exe?fct=3650&amp;HOT_URL_BACK=pda_rec_itm_mod&amp;CN=@CNC&amp;tn=@TER&amp;dn=pda'" type="button" value="DELETE" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><input class="BntSubMenu" type="button" value="MENU" onclick="document.location='http:/scripts/trs.exe?cgi=pda_rec_menu&amp;HOT_URL_BACK=@WIZGET(OLD_HTT)&amp;CN=@CNC&amp;tn=@TER&amp;dn=pda'"/></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

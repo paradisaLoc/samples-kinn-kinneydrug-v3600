@@ -1,0 +1,16 @@
+
+// APPLICATION /////////////////////////////////////////////////////////////////////////////
+
+
+
+@include sms-title-btn(
+	$ui-css: 'sms-title-print-act-btn',
+	$ui-bgcolor: blue,
+	$ui-icon: '../images/base_titlebtn_print.png'
+);
+
+@include sms-title-btn(
+	$ui-css: 'sms-title-verify-btn',
+	$ui-bgcolor: blue,
+	$ui-icon: '../images/base_titlebtn_verify.png'
+);

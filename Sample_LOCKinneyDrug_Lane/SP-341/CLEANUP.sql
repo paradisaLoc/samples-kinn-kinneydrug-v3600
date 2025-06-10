@@ -1,0 +1,14 @@
+/* Delete Unnecessary Files */
+@WIZRPL(SRC_PATH=@OFFICEtrs_pos_tlzs_balancethrive.sqi);
+@EXEC(XCH=DEL);
+
+@WIZRPL(SRC_PATH=@OFFICETRS_POS_FCT307.SQI);
+@EXEC(XCH=DEL);
+
+/* COPY BASE SCRIPT SKIPPED FROM UPGRADE FROM V341 to V350 */
+DELETE FROM DSS_TAB WHERE F2729='Sample_LOCKinneyDrug_Lane' AND F2731='sms_tools_coma.sql';
+
+@WIZRPL(SRC_PATH=@RUNOPTIONS\APPLICATION_SMSPRO\USP\sms_tools_coma.sql);
+@WIZRPL(TAR_PATH=@OFFICEUSP\);
+@EXEC(XCH=COPY);
+@TOOLS(INSTALL_USP,Usp\sms_tools_coma.sql);

@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html style="OVERFLOW: hidden;border:none;" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/kmk.css" type="text/css" />
+    <meta name="SMS-L_DSG" content="true" />
+
+<script>
+function SmsLoad()
+{
+  if (@dbhot(price_tab,f30,#:2)!=@dbhot(price_tab,f1007,#:2)) 
+    SaleBlink();
+}
+
+function SaleBlink()
+{
+  SALEINFO.className = (SALEINFO.className=='') ? 'InfoSaleBlink' : '';
+  setTimeout("SaleBlink()",500);
+}
+
+</script>
+
+<style type="text/css">
+
+span.InfoSaleBlink
+{
+  Color:red;
+}
+</style>
+
+    <title>Item information</title>
+  </head>
+
+  <body class="main" onLoad="SmsLoad();" onclick="parent.t1.focus();parent.t1.select();" style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; WIDTH: 315px; HEIGHT: 180px; COLOR: #ffffff; OVERFLOW: hidden; BORDER-TOP: medium none; BORDER-RIGHT: medium none">
+	<div class="hide">
+		@RPTCLR(TP);<br>
+		@WIZSET(ROUNDUP=0.005);<br>
+		@dbhot(price_tab,F1007,,TP);<br>
+		@FMT(CMP,@dbhot(price_tab,F1224,#)&gt;0,'®dbhot(price_tab,F1224,,-TP)');<br>
+		@FMT(CMP,@dbhot(price_tab,F1225,#)&gt;0,'®rptttl(®dbhot(price_tab,F1007,#)*®dbhot(price_tab,F1225,#)/100+@WIZGET(ROUNDUP),,-TP)');<br>
+		@WizRPL(DollarPrice=@FMT(nul,@FMT(S1:@RPTTTL(@FMT(LEN,@RPTTTL(TP,#:2))-3,#),@RPTTTL(TP,#:2))));<br>
+		@WizRPL(CentPrice=@FMT(!0:2,@FMT(nul,'@FMT(r2,@RPTTTL(TP,#:2))')));
+	</div>
+	
+    <table width="315" height="180">
+      <tbody>
+        <tr>
+          <td align="middle" valign="top">
+            <table>
+              <tr>
+                <td align="left">
+                  <br />
+					<center>
+					  <Font Color="#ffc001">
+						<span id="SALEINFO" style="Margin: 0px; Font-Size: 20px; Font-Weight:bold;">
+						  @fmt(cmp,'@dbhot(price_tab,f30,#:2)&lt;&gt;@dbhot(price_tab,f1007,#:2)',ITEM IS ON SALE,)
+						</span>
+					  </font><br />
+					  <span class="EntValTxt" style="FONT-SIZE: 22px">@fmt(cmp,'@dbhot(POS_TAB,F01)=',Item not found!&lt;/br&gt;Please see a clerck for more information.,@dbhot(POS_TAB,F02))</span>
+					</center>
+                </td>
+              </tr>
+
+              <tr>
+                <td align="middle">
+                  <table>
+                    <tr>
+                      <td align="right" valign="top">
+					    <p style="MARGIN: 0px; FONT-SIZE: 25px">@FMT(cmp,@dbhot(price_tab,F1006,#)&gt;1','@fmt(nul,@dbhot(price_tab,F1006,#))@fmt(cmp,'@dbhot(price_tab,F1006,#)&lt;&gt;n/a',/&nbsp;)',)</p>
+                      </td>
+
+                      <td align="right" valign="top">
+                        <p style="MARGIN: 0px; FONT-SIZE: 30px; FONT-WEIGHT: bold">@FMT(CMP,'@FMT(nul,@FMT(S1:@RPTTTL(@FMT(LEN,@RPTTTL(TP,#:2))-3,#),@RPTTTL(TP,#:2)))=',,$)</p>
+                      </td>
+
+                      <td align="middle" valign="top">
+						  <table>
+							<tr>
+							  <td align="right" valign="top">
+								<p style="MARGIN: 0px; FONT-SIZE: 75px">@FMT(CMP,'@FMT(nul,@FMT(S1:@RPTTTL(@FMT(LEN,@RPTTTL(TP,#:2))-3,#),@RPTTTL(TP,#:2)))=',®WizGet(CentPrice),®WizGet(DollarPrice))</p>
+							  </td>
+
+							  <td align="left" valign="top">
+								<p style="MARGIN: 0px; FONT-SIZE: 50px">@FMT(CMP,'@FMT(nul,@FMT(S1:@RPTTTL(@FMT(LEN,@RPTTTL(TP,#:2))-3,#),@RPTTTL(TP,#:2)))=',,®WizGet(CentPrice))</p>
+							  </td>
+							</tr>
+						  </table>
+                      </td>
+
+					  <td align="left" valign="top">
+					    <p style="MARGIN: 0px; FONT-SIZE: 35px; FONT-WEIGHT: bold">@FMT(CMP,'@FMT(nul,@FMT(S1:@RPTTTL(@FMT(LEN,@RPTTTL(TP,#:2))-3,#),@RPTTTL(TP,#:2)))=',¢)</p>
+					  </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

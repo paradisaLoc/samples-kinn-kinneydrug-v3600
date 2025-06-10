@@ -1,0 +1,6 @@
+/* Import: KinneyDrugs item changes */
+
+@WIZRPL(KINNEYDRUG.INI[IMPORT]ITEMLOAD=0);
+@DBHOT(KINNEYDRUG.INI,SET,KINNEYDRUG.INI[*);
+
+@EXEC(SQI=KDLOC_ItemImport_all);

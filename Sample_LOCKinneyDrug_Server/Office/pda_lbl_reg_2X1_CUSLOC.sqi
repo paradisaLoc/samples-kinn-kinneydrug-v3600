@@ -1,0 +1,16 @@
+<meta http-equiv="Print_Continue" content="\1B\45\5A{PRINT,STOP 305:" />
+<meta http-equiv="Print_Continue" content="@0,40:SK08B|Unit price|" />
+<meta http-equiv="Print_Continue" content="@0,240:SK08B|YOU PAY|" />
+<meta http-equiv="Print_Continue" content="@17,30:SK08B,HIGH 2|@WIZGET(PRICE)|" />
+<meta http-equiv="Print_Continue" content="@05,210:SK16B,HIGH 2,WIDE 1|@DBHOT(PRICE_TAB,F30,$)|" />
+<meta http-equiv="Print_Continue" content="@58,40:SK08B|@WIZGET(F1806)|" />
+<meta http-equiv="Print_Continue" content="@105,15:SK08N|@DBHOT(ALT_LUP,F154)|" />
+<meta http-equiv="Print_Continue" content="@102,250:SK08N|@DBHOT(OBJ_TAB,F21,#)|" />
+<meta http-equiv="Print_Continue" content="@102,275:SK08N|@DBHOT(OBJ_TAB,F17,#)|" />
+<meta http-equiv="Print_Continue" content="@125,15:SK08B|@FMT(2JS,@FMT(M1:20,@DBHOT(POS_TAB,F02,RAW)))|" />
+<meta http-equiv="Print_Continue" content="@125,310:SK08N|@DMDD/@D2DD|" />
+<meta http-equiv="Print_Continue" content="@150,15:SK06B|@DBHOT(OBJ_TAB,F22)|" />
+<meta http-equiv="Print_Continue" content="@151,140:SK06B|@DBHOT(OBJ_TAB,F23)|" />
+<meta http-equiv="Print_Continue" content="@170,15:SK08B|@FMT(#,@DBHOT(OBJ_TAB,F01))|" />
+<meta http-equiv="Print_Continue" content="@170,170:BC128,HIGH 4,WIDE 2|@DBHOT(ALT_LUP,F154)|" />
+<meta http-equiv="Print_Finish" content="}{LP}" />

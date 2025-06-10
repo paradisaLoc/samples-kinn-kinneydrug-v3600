@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>trs_cus_panel_alt</title>
+    <meta name="CurHdr" content="ScreenCus" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/sms_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/sms_info.css" type="text/css" />
+<script src="../../Images/sms.js" type="text/javascript">
+</script> 
+<script type="text/javascript">
+
+@IF(@WIZGET(LIST)=1)
+@dbHot(BROWSER,SELECT F01, MAX(F155) AS F155, MAX(F29) AS F29, MAX(F22) AS F22
+FROM 
+    (SELECT DISTINCT OBJ.F01, OBJ.F155, OBJ.F29, OBJ.F22 FROM ALLOW_BAT ALLOW JOIN OBJ_TAB OBJ ON ALLOW.F01=OBJ.F01 WHERE F222=@WIZGET(F222) 
+    ) QRY
+GROUP BY F01);
+@ENDIF
+
+@IF(@WIZGET(UPDATE)=1)
+@DBVIEW(Q1,SELECT ROW_NUMBER() over (order by F1000,F902,F27,F1184) as CNT,F1000,F902,F27,F1184 FROM ALLOW_BAT WHERE F01='@DBHOT(HOT_IDX,F01)');
+@WIZRPL(F1000_CNT=@DBSELECT(SELECT COUNT(*) FROM ALLOW_BAT WHERE F01='@DBHOT(HOT_IDX,F01)'));
+@FMT(CMP,@WIZGET(F1000_CNT)=0,®WIZRPL(CNT=@DBFIND(Q1,F902,@DBHOT(HOT_IDX,F902),CNT,#)));
+@FMT(CMP,@WIZGET(F1000_CNT)=1,®WIZRPL(CNT=@DBFIND(Q1,F902,@DBHOT(HOT_IDX,F902),CNT,#)));
+@WIZINIT;
+@WIZFIL(CNT,,SELECT CAST(ROW_NUMBER() over (order by F1000,F902,F27,F1184) AS VARCHAR(2)) as CNT,CAST(F902 AS VARCHAR(10)) AS BATCH,F1000 AS TARGET,F27 AS VENDOR,F1184 AS FORMAT FROM ALLOW_BAT WHERE F01='@DBHOT(HOT_IDX,F01)');
+@WIZFIL(FRM,label=SELECT A TARGET,field=CNT,default=1);
+@WIZDISPLAY;
+@MACSIL(UPDATE ALLOW_BAT SET F222=@WIZGET(F222) WHERE F01='@DBHOT(HOT_IDX,F01)' AND F902='@DBFIND(Q1,CNT,@WIZGET(CNT),F902)' AND F1000='@DBFIND(Q1,CNT,@WIZGET(CNT),F1000)');
+@exec(FRM=UPDATE);
+@ENDIF
+
+@IF(@WIZGET(UPDATE)=2)
+@DBVIEW(Q1,SELECT ROW_NUMBER() over (order by F902,F1000,F27,F1184) as CNT,F1000,F902,F27,F1184 FROM ALLOW_BAT WHERE F01='@DBHOT(HOT_IDX,F01)');
+@WIZRPL(F1000_CNT=@DBSELECT(SELECT COUNT(*) FROM ALLOW_BAT WHERE F01='@DBHOT(HOT_IDX,F01)'));
+@FMT(CMP,@WIZGET(F1000_CNT)=0,®WIZRPL(CNT=@DBFIND(Q1,F902,@DBHOT(HOT_IDX,F902),CNT,#)));
+@FMT(CMP,@WIZGET(F1000_CNT)=1,®WIZRPL(CNT=@DBFIND(Q1,F902,@DBHOT(HOT_IDX,F902),CNT,#)));
+@WIZINIT;
+@WIZFIL(CNT,,SELECT CAST(ROW_NUMBER() over (order by F1000,F902,F27,F1184) AS VARCHAR(2)) as CNT,CAST(F902 AS VARCHAR(10)) AS BATCH,F1000 AS TARGET,F27 AS VENDOR,F1184 AS FORMAT FROM ALLOW_BAT WHERE F01='@DBHOT(HOT_IDX,F01)');
+@WIZFIL(FRM,label=SELECT A TARGET,field=CNT,default=1);
+@WIZDISPLAY;
+@WIZINIT;
+@WIZEDIT(CONFIRM=NO,All items in browser? Type YES to confirm);
+@WIZDISPLAY;
+@FMT(CMP,@WIZGET(CONFIRM)=YES,"®MACSIL(UPDATE ALLOW_BAT SET F222=@WIZGET(F222) WHERE F01 in (@DBHOT(SUBQUERY)) AND F902='@DBFIND(Q1,CNT,@WIZGET(CNT),F902)' AND F1000='@DBFIND(Q1,CNT,@WIZGET(CNT),F1000)')®exec(FRM=UPDATE)");
+@ENDIF
+
+@IF(@WIZGET(MODIF)=1)
+@MACSIL(UPDATE KINNEYINV_TAB SET F6000='@FMT(2QUOT,@WIZGET(F6000))' WHERE F222=@WIZGET(F222));
+@ENDIF
+
+@IF(@WIZGET(MODIF)=2)
+@MACSIL(UPDATE KINNEYINV_TAB SET F6001='@FMT(2QUOT,@WIZGET(F6001))' WHERE F222=@WIZGET(F222));
+@ENDIF
+
+@IF(@WIZGET(DELETE)=1)
+@MACSIL(delete kinneyinv_tab WHERE F222=@WIZGET(F222));
+@ENDIF
+
+@IF(@WIZGET(ADD)=1)
+@WIZRPL(USER@USER/Kinney_invlist/UPC=)
+@WIZRPL(USER@USER/Kinney_invlist/ALT=)
+@WIZRPL(USER@USER/Kinney_invlist/Invoice=)
+@MACSIL(BEGIN
+IF((SELECT COUNT(*) FROM kinneyinv_tab )=0)
+ INSERT INTO KINNEYINV_TAB (F222,F6000,F6001) VALUES ('100000','@WIZGET(TDESC)','')
+ELSE
+ INSERT INTO KINNEYINV_TAB (F222,F6000,F6001) SELECT CAST(CAST(MAX(F222) AS INT)+1 AS VARCHAR(12)) AS F222,'@WIZGET(TDESC)' AS F6000,'' AS F6001 FROM kinneyinv_tab WHERE ISNUMERIC(F222)=1
+END);
+@ENDIF
+
+@IF(@WIZGET(DUPLICATE)=1);
+@WIZRPL(USER@USER/Kinney_invlist/UPC=)
+@WIZRPL(USER@USER/Kinney_invlist/ALT=)
+@WIZRPL(USER@USER/Kinney_invlist/Invoice=)
+@WIZRPL(F222_FROM=@WIZGET(F222));
+@FMT(CMP,@dbSELECT(SELECT COUNT(*) FROM ALLOW_BAT WHERE F902='@dbHot(HEADER_BAT,F902)' AND F222='@wizget(F222_FROM)')<>0,"®WIZRPL(OUT=®TOOLS(MESSAGEDLG,'The destination batch contains an invoice number. Please fix the issues.',,Ok))");
+@FMT(CMP,@dbSELECT(SELECT ISNULL(F6000,'') FROM KINNEYINV_TAB WHERE F222='@wizget(F222_FROM)')=,"®WIZRPL(OUT=®TOOLS(MESSAGEDLG,'Please select an invoice with a description?',,Ok))");
+@FMT(CMP,@dbHot(HEADER_BAT,F909)=,"®WIZRPL(OUT=®TOOLS(MESSAGEDLG,'Batch start date missing?',,Ok))");
+@FMT(CMP,@dbHot(HEADER_BAT,F907)=,"®WIZRPL(OUT=®TOOLS(MESSAGEDLG,'Batch end date missing?',,Ok))");
+@FMT(CMP,@DBHOT(HEADER_BAT,F916)<>BAT_EXE,"®WIZRPL(OUT=®TOOLS(MESSAGEDLG,'Open the header batch with an open batch?',,Ok))");
+@FMT(CMP,@WIZGET(OUT)=1,,®WIZRPL(DUPLICATE=2));
+@ENDIF
+
+@IF(@WIZGET(DUPLICATE)=2);
+@WIZRPL(F222_TO=@DBSELECT(BEGIN
+INSERT INTO KINNEYINV_TAB (F222,F6000,F6001)
+OUTPUT inserted.F222
+SELECT (SELECT CAST(CAST(MAX(F222) AS INT)+1 AS VARCHAR(12)) FROM KINNEYINV_TAB WHERE ISNUMERIC(F222)=1) AS F222,F6000,F6001 FROM KINNEYINV_TAB WHERE F222='@WIZGET(F222_FROM)'
+END))
+@EXEC(SQI=SCRIPT\KDLOC_SKU_ITM_QRY_DUP_INV);
+@ENDIF
+
+@FMT(CMP,@WIZEXIST(NEWLINES)=1,'®dbHot(REGSET,USER@USER/Kinney_invlist/LINES,,"®wizget(NEWLINES)")')
+@WIZRPL(LINES=@dbHot(REG,USER@USER/Kinney_invlist/LINES))
+@FMT(CMP,@wizget(LINES)=,'®wizrpl(LINES=10)®dbHot(REGSET,USER@USER/Kinney_invlist/LINES,,"®wizget(LINES)")')
+@FMT(CMP,@WIZEXIST(PageNum)=1,'®dbHot(REGSET,USER@USER/Kinney_invlist/PageNum,,"®wizget(PageNum)")')
+@WIZRPL(PageNum=@dbHot(REG,USER@USER/Kinney_invlist/PageNum))
+@RPTTTL(@WIZGET(PageNum)*@WIZGET(LINES),,=PageStop)
+@RPTTTL(PageStop-@WIZGET(LINES)+1,,=PageStart)
+
+@FMT(CMP,"@WIZGET(USER@USER/Kinney_invlist/UPC)=",,'®WIZRPL(USER@USER/Kinney_invlist/UPC=®FMT(UPC,®WIZGET(USER@USER/Kinney_invlist/UPC)))')
+@FMT(CMP,"@WIZGET(USER@USER/Kinney_invlist/ALT)=",,'®WIZRPL(USER@USER/Kinney_invlist/ALT=®FMT(UPC,®WIZGET(USER@USER/Kinney_invlist/ALT)))')
+@FMT(CMP,"@WIZGET(Default/Kinney_invlist/CODE_FLD)=F01",'®WIZRPL(USER@USER/Kinney_invlist/ALT=)')
+@FMT(CMP,"@WIZGET(Default/Kinney_invlist/CODE_FLD)=F154",'®WIZRPL(USER@USER/Kinney_invlist/UPC=)')
+@dbHot(REG,SET,USER@USER/KINNEY_INVLIST*)
+
+@WIZRPL(KINNEYINVQUERY=SELECT * FROM KINNEYINV_TAB WHERE 1=1 
+@FMT(CMP,@dbHot(REG,USER@USER/Kinney_invlist/Invoice,,)=,," AND F222=@dbHot(REG,USER@USER/Kinney_invlist/Invoice,,)")
+@FMT(CMP,@dbHot(REG,USER@USER/Kinney_invlist/UPC,,)=,," AND F222 IN (SELECT DISTINCT F222 FROM ALLOW_BAT WHERE F01='®dbHot(REG,USER@USER/Kinney_invlist/UPC,,)' UNION ALL SELECT DISTINCT F222 FROM OALLOW_BAT WHERE F01='®dbHot(REG,USER@USER/Kinney_invlist/UPC,,)')")
+@FMT(CMP,@dbHot(REG,USER@USER/Kinney_invlist/ALT,,)=,," AND F222 IN (SELECT DISTINCT F222 FROM ALLOW_BAT WHERE F01 IN (SELECT DISTINCT F01 FROM ALT_TAB WHERE F154='®dbHot(REG,USER@USER/Kinney_invlist/ALT,,)') UNION ALL SELECT DISTINCT F222 FROM OALLOW_BAT WHERE F01 IN (SELECT DISTINCT F01 FROM ALT_TAB WHERE F154='®dbHot(REG,USER@USER/Kinney_invlist/ALT,,)'))"));
+
+@WIZRPL(LastPage=@DBSELECT(SELECT CEILING(COUNT(*)/@FMT(#:2,@WIZGET(LINES))) FROM (@WIZGET(KINNEYINVQUERY)) t))	
+
+function SmsLoad() 
+{
+  top.VariableInit('@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','Http:/Scripts/trs.exe');
+  top.BodyLoad(document);
+}
+
+function GoUrl(Url) {
+document.location="Http:/Scripts/Trs.exe?TN=@TER&CN=@CNC&"+Url
+}
+
+function NewInvoice()
+{
+
+var sDesc=document.comdialog.get_prompt(sDesc,'Please enter new invoice\'s description');
+if(sDesc=='')
+ alert('Description is required');
+else
+ document.location='http:/Scripts/trs.exe?HTT=Script/SKU_BAT_KDLOC_AdBatch_InvList&amp;ADD=1&amp;TDESC=' + sDesc + '&amp;CN=@CNC&amp;PageNum=1';
+}
+
+</script>
+  </head>
+
+  <body onload="SmsLoad()" class="Child">
+    <object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+      @dbHot(KINNEYINV_TAB,SET,KINNEYINV_TAB[*)<br />
+    </div>
+
+    <table class="FrmTab" style="width:100%">
+      <tbody>
+        <tr>
+          <td class="FrmCel" style="width:100%">
+            <table class="EntTab" style="width:100%">
+              <tbody>
+                <tr>
+                  <td class="EntCap">Invoice</td>
+
+                  <td class="EntVal">
+				   <input class="EntDat" id="" datasrc="@attrib(E:num:KDLOC_F222,'Http:/Scripts/Trs.exe?TN=@TER&CN=@CNC&amp;HTT=@FMT(2JS,@WIZGET(OLD_HTT))&amp;PageNum=1')" style="WIDTH: 100px" size="17" value="@dbHot(REG,USER@USER/Kinney_invlist/Invoice,,)" name="USER@USER/Kinney_invlist/Invoice" />
+				   <input class="EntBtn" onclick="NewInvoice()" type="button" value="New" />
+				  </td>
+                  <td class="EntCap">Code</td>
+                  <td class="EntInp"><select class="EntList" size="1" datasrc="@ATTRIB(S)"  truevalue="@DBHOT(REGVALUE,USER@USER/Kinney_invlist/CODE_FLD,STRING,F01)" name="USER@USER/Kinney_invlist/CODE_FLD" >
+                    <option value="F01" selected="selected">
+                      Main code
+                    </option>
+
+                    <option value="F154">
+                      Alternate code
+                    </option>
+                  </select></td>
+
+@IF(@DBHOT(REGVALUE,USER@USER/Kinney_invlist/CODE_FLD,STRING,F01)=F154)
+                  <td class="EntVal"><input class="EntDat" id="" datasrc="@attrib(E:txt:F154,'Http:/Scripts/Trs.exe?TN=@TER&CN=@CNC&amp;HTT=@FMT(2JS,@WIZGET(OLD_HTT))&amp;PageNum=1')" style="WIDTH: 120px" size="17" value="@dbHot(REG,USER@USER/Kinney_invlist/ALT,,)" name="USER@USER/Kinney_invlist/ALT" /></td>
+@ELSE
+                  <td class="EntVal"><input class="EntDat" id="" datasrc="@attrib(E:txt:F01,'Http:/Scripts/Trs.exe?TN=@TER&CN=@CNC&amp;HTT=@FMT(2JS,@WIZGET(OLD_HTT))&amp;PageNum=1')" style="WIDTH: 120px" size="17" value="@dbHot(REG,USER@USER/Kinney_invlist/UPC,,)" name="USER@USER/Kinney_invlist/UPC" /></td>
+@ENDIF
+                  <td class="EntVal" style="text-align:right">
+                   <input class="EntBtn" datasrc="@ATTRIB(B@FMT(CMP,@WIZGET(PageNum)=1,9))" onclick="GoUrl('HTT=@FMT(2JS,@WIZGET(OLD_HTT))&amp;PageNum=1')" type="button" value="|&lt;" />
+                   <input class="EntBtn" datasrc="@ATTRIB(B@FMT(CMP,@WIZGET(PageNum)=1,9))" onclick="GoUrl('HTT=@FMT(2JS,@WIZGET(OLD_HTT))&amp;PageNum=@RPTTTL(@WIZGET(PageNum)-1,#)')" type="button" value="&lt;" />
+                   @WIZGET(PageNum)/@WIZGET(LastPage) page(s)
+                   <input class="EntBtn" datasrc="@ATTRIB(B@FMT(CMP,@WIZGET(PageNum)=@WIZGET(LastPage),9))" onclick="GoUrl('HTT=@FMT(2JS,@WIZGET(OLD_HTT))&amp;PageNum=@RPTTTL(@WIZGET(PageNum)+1,#)')" type="button" value="&gt;" />
+                   <input class="EntBtn" datasrc="@ATTRIB(B@FMT(CMP,@WIZGET(PageNum)=@WIZGET(LastPage),9))" onclick="GoUrl('HTT=@FMT(2JS,@WIZGET(OLD_HTT))&amp;PageNum=@WIZGET(LastPage)')" type="button" value="&gt;|" />
+				   Show <input datasrc="@attrib(E_P:NUM,'Http:/Scripts/Trs.exe?TN=@TER&CN=@CNC&amp;HTT=@FMT(2JS,@WIZGET(OLD_HTT))&amp;NEWLINES='+this.value)" class="EntNum" value="@WIZGET(LINES)" size="2" name="LINES" /> line(s) per page
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <td class="EntScroll">
+                    <div>
+            <div class="HideTxt">
+            @dbTable(Q1,WITH SUB AS (
+             SELECT ROW_NUMBER () OVER (ORDER BY F222 DESC) as F1301,*
+             FROM (@WIZGET(KINNEYINVQUERY))t)
+            SELECT * FROM SUB WHERE F1301 BETWEEN @RPTTTL(PageStart,#) and @RPTTTL(PageStop,#));
+			@WIZCLR(KINNEYINVQUERY);
+            </div>
+
+                      <table class="EntTab">
+                        <tbody>
+                          <tr>
+                            <th class="EntCap"></th>
+
+                            <th class="EntCap">Number</th>
+
+                            <th class="EntCap">Duplicate</th>
+
+                            <th class="EntCap">Ad Copy</th>
+
+                            <th class="EntCap">Note</th>
+
+                            <th class="EntCap">Delete</th>
+
+                            <th class="EntCap">
+                            </th>
+                          </tr>
+
+                          <tr>
+                            <td class="RptHdr RptHdrBtn"><input class="EntBtn" onclick="document.location='http:/Scripts/trs.exe?htt=Script/SKU_BAT_KDLOC_AdBatch_InvList&amp;F222=@dbROW(Q1,F222,#)&amp;UPDATE=1&amp;CN=@CNC'" type="button" value="<<<" /></td>
+
+                            <td class="EntVal"><a href="http:/Scripts/trs.exe?htt=Script/SKU_BAT_KDLOC_AdBatch_InvList&amp;F222=@dbROW(Q1,F222,#)&amp;LIST=1&amp;CN=@CNC" style="WIDTH: 60px" tabindex="-1" readonly="readonly" size="10" value="@dbROW(Q1,F222,#)" />@dbROW(Q1,F222,#)</a><input class="EntBtn" onclick="document.location='http:/Scripts/trs.exe?htt=Script/SKU_BAT_KDLOC_AdBatch_InvList&amp;F222=@dbROW(Q1,F222,#)&amp;UPDATE=2&amp;CN=@CNC'" type="button" value="Global" /></td>
+							
+                            <td class="RptHdr RptHdrBtn"><input class="EntBtn" onclick="document.location='http:/Scripts/trs.exe?htt=Script/SKU_BAT_KDLOC_AdBatch_InvList&amp;F222=@dbROW(Q1,F222,#)&amp;DUPLICATE=1&amp;CN=@CNC'" type="button" value="Duplicate" /></td>
+
+                            <td class="EntInp"><input datasrc="@ATTRIB(E:txt:F6000,'http:/Scripts/trs.exe?htt=Script/SKU_BAT_KDLOC_AdBatch_InvList&F222=@dbROW(Q1,F222,#)&MODIF=1')" class="EntTxt" style="HEIGHT: 15px; WIDTH: 350px" size="1" value="@dbROW(Q1,F6000,RAW)" name="F6000" /></td>
+
+                            <td class="EntInp"><input datasrc="@ATTRIB(E:txt:F6000,'http:/Scripts/trs.exe?htt=Script/SKU_BAT_KDLOC_AdBatch_InvList&F222=@dbROW(Q1,F222,#)&MODIF=2')" class="EntTxt" style="HEIGHT: 15px; WIDTH: 150px" size="1" value="@dbROW(Q1,F6001,RAW)" name="F6001" /></td>
+
+                            <td class="RptHdr RptHdrBtn"><input class="EntBtn" onclick="document.location='http:/Scripts/trs.exe?htt=Script/SKU_BAT_KDLOC_AdBatch_InvList&amp;F222=@dbROW(Q1,F222,#)&amp;DELETE=1&amp;CN=@CNC'" type="button" value="Del" /></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

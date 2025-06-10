@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<html>
+
+  <head>
+    <desc>
+      <input type="hidden" class="HidParam" id="RPT_NAME" value="Kinney Drug Duplicate Invoice" /> <input type="hidden" class="HidParam" id="RPT_FILENAME" value="kdloc_sku_itm_qry_dup_inv" /> <input type="hidden" class="HidParam" id="RPT_PARENT" value="" /> <input type="hidden" class="HidParam" id="RPT_PRIORITY" value="" /> <input type="hidden" class="HidParam" id="RPT_DESC" value="" /> <input type="hidden" class="HidParam" id="RPT_GROUP" value="" /> <input type="hidden" class="HidParam" id="RPT_WIZARD" value="yes" />
+    </desc>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="CurHdr" content="ScreenRpt" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="PRAGMA" content="No_Cache" />
+    <link rel="stylesheet" href="../../Images/pro_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/pro_rpt.css" type="text/css" />
+<script type="text/javascript" src="../../Images/rpt.js">
+</script>
+
+    <title></title>
+  </head>
+
+  <body onload="@wizset(CURPOS=null)InitRpt(document,@wizget(CURPOS),'@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','http:/scripts/trs.exe');" class="Main">
+    <div style="POSITION: absolute; BACKGROUND-COLOR: white; VISIBILITY: hidden; TOP: -200px; LEFT: 0px" id="gen_sets">
+      @FMT(CMP,@WIZGET(STYPE)=2,®WIZRPL(PTYPE=0))<br />
+    </div>
+    <object id="cDialog" class="ComDialog" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <table class="HdrTab">
+      <tbody>
+        <tr>
+          <th id="RptTitle" class="HdrCel">Kinney Drug Duplicate Invoice</th>
+
+          <th class="HdrBtnCel"><input accesskey="Z" onblur="LeaveField(this)" onkeydown="ReadKeyStroke(window,this)" class="HdrBtnNew" onfocus="ActivateField(this)" onclick="SubmitReport('@wizget(DN)')" name="BtnSubmit" value="Launch" type="button" /></th>
+
+          <th class="HdrBtnCel"><input onblur="LeaveField(this)" onkeydown="ReadKeyStroke(window,this)" class="HdrBtnNew" onfocus="ActivateField(this)" onclick="document.location='http:/scripts/trs.exe?htt=Script\\' + RPT_FILENAME.value + '.rpt&amp;CN=@CNC&amp;TN=@TER';" name="BtnReset" value="Reset" type="button" /></th>
+        </tr>
+      </tbody>
+    </table>
+    <input class="HidParam" name="SQI" value="Script\\kdloc_sku_itm_qry_dup_inv" type="hidden" /><input class="HidParam" name="CN" value="@CNC" type="hidden" /><input class="HidParam" name="TN" value="@TER" type="hidden" /><input class="HidParam" name="RPTDIR" value="Script" type="hidden" />
+
+    <table style="POSITION: absolute; WIDTH: 227px; HEIGHT: 40px; TOP: 50px; LEFT: 10px" class="EntTab">
+      <tbody>
+        <tr>
+          <th class="EntHdr" colspan="3">INVOICE NUMBER</th>
+        </tr>
+
+        <tr>
+          <td>FROM</td>
+
+          <td class="EntInp"><input onblur="LeaveField(this)" style="WIDTH: 60px" onkeydown="ReadKeyStroke(window,this)" datasrc="@wizset(F222_FROM=0)" class="EntNum" onfocus="SaveValue(this)" name="F222_FROM" value="@wizget(F222_FROM)" /></td>
+
+          <td class="EntVal"><input class="EntValTxt" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT F6000 FROM KINNEYINV_TAB WHERE F222='@wizget(F222_FROM)')" /></td>
+        </tr>
+
+        <tr>
+          <td>TO</td>
+
+          <td class="EntInp"><input onblur="LeaveField(this)" style="WIDTH: 60px" onkeydown="ReadKeyStroke(window,this)" datasrc="@wizset(F222_TO=0)" class="EntNum" onfocus="SaveValue(this)" name="F222_TO" value="@wizget(F222_TO)" /></td>
+
+          <td class="EntVal"><input class="EntValTxt" tabindex="-1" readonly="readonly" value="@dbSELECT(SELECT F6000 FROM KINNEYINV_TAB WHERE F222='@wizget(F222_TO)')" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p> </p>
+
+    <table style="POSITION: absolute; WIDTH: 227px; HEIGHT: 40px; TOP: 120px; LEFT: 10px" class="EntTab">
+      <tbody>
+        <tr><td>
+
+    <p>Insure you have the focus on the new batch # in the Batch Header Window, which you are planning to copy items from an existing invoice number</p>
+
+    <p>All items items containing the original invoice number you enter in the FROM will be duplicated in the new batch under the new invoice number you enter in the TO. 
+You must create the new invoice number before you enter it.
+</p>
+
+   
+    </td></tr></tbody></table>
+  </body>
+</html>
+

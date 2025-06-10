@@ -1,0 +1,417 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html class="Child" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/pro_info.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/pro_form.css" type="text/css" />
+    <link rel="stylesheet" href="../../Images/pro_cube.css" type="text/css" />
+
+    <title></title>
+<script src="../../Images/sms.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+@FMT(CMP,@WIZGET(USER@USER/Script/ITM_RPT_BUDGET_PERIOD)=,,'®wizset(USER@USER/Script/ITM_RPT_BUDGET_START=®DATE(@DSDD,DS®WIZGET(USER@USER/Script/ITM_RPT_BUDGET_PERIOD)D))®wizset(USER@USER/Script/ITM_RPT_BUDGET_STOP=®DATE(@DSDD,DS®WIZGET(USER@USER/Script/ITM_RPT_BUDGET_PERIOD)F))');
+@FMT(CMP,@FMT(CMP,@DATE(@wizget(USER@USER/Script/ITM_RPT_BUDGET_STOP),DJDD)<@DATE(@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_START,STRING),DJDD),1)@FMT(CMP,@wizget(USER@USER/Script/ITM_RPT_BUDGET_STOP)<>,1)=11,'®wizrpl(USER@USER/Script/ITM_RPT_BUDGET_START=®DATE(®wizget(USER@USER/Script/ITM_RPT_BUDGET_STOP),DS®DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_PERIOD,STRING)D))');
+@FMT(CMP,@DATE(@wizget(USER@USER/Script/ITM_RPT_BUDGET_START),DJDD)>@DATE(@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING),DJDD),'®wizrpl(USER@USER/Script/ITM_RPT_BUDGET_STOP=®DATE(®wizget(USER@USER/Script/ITM_RPT_BUDGET_START),DS®DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_PERIOD,STRING)F))');
+@DBHOT(REG,SET,USER@USER/Script/ITM_RPT_BUDGET_*)
+
+@FMT(CMP,@DBHOT(HOT_IDX,F126)=,®EXEC(HOT_IDX_F126=1));
+function SmsLoad(sDetail) 
+{
+ VariableInit('@dbHot(DBALIAS)','@DBHOT(DBUSERNAME)','@DBHOT(DBPASSWORD)','Http:/Scripts/trs.exe');
+ PeriodButtonCreate(BtnPeriod,'CN=@CNC&amp;TN=@TER&amp;htt=Script\\\\sku_itm_RPT_BUDGET&amp;USER@USER/Script/ITM_RPT_BUDGET_PERIOD=','@dbhot(DETAIL_PERIODS)','@dbhot(DETAIL_NAMES)','@dbhot(DETAIL_DETAILS)','&amp;USER@USER/Script/ITM_RPT_BUDGET_DETAIL=');
+ top.BodyLoad(document);
+ var sDetail='@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_PERIOD,STRING)';
+ if(document.all("Date_"+sDetail) != null)
+  EntSetHighLight(document.all("Date_"+sDetail),1,'EntBtnDef');
+}
+
+function ReadKey(oWin)
+{
+ if (oWin.event.keyCode==33)
+  oWin.document.all("BtnPrev").click();
+ else if (oWin.event.keyCode==34)
+  oWin.document.all("BtnNext").click();
+}
+
+function GoUrl(sUrl)
+{
+ document.location='Http:/Scripts/Trs.exe?TN=@TER&amp;CN=@CNC&amp;'+sUrl;
+}
+
+function ResetForecast()
+{
+ if (confirm('Are you sure you want to reset the forecast for every item in the browser?'))
+  document.location='Http:/Scripts/Trs.exe?TN=@TER&amp;CN=@CNC&amp;htt=Script/sku_itm_rpt_budget&amp;BUDGET_RESET=1';
+}
+
+function GenPrevWeek()
+{
+ if (confirm('Are you sure you want to calculate the forecast based on sales of last week?'))
+  document.location='Http:/Scripts/Trs.exe?TN=@TER&amp;CN=@CNC&amp;htt=Script/sku_itm_rpt_budget&amp;BUDGET_WEEK=1';
+}
+
+function GenPrevWeekActiveItem()
+{
+ document.location='Http:/Scripts/Trs.exe?TN=@TER&amp;CN=@CNC&amp;htt=Script/sku_itm_rpt_budget&amp;BUDGET_WEEK=1&amp;ACTIVE_ITEM=1';
+}
+
+function GenSmart()
+{
+ if (confirm('Are you sure you want to calculate the forecast based on sales at comparable price?'))
+  document.location='Http:/Scripts/Trs.exe?TN=@TER&amp;CN=@CNC&amp;sql=Script/sku_itm_rpt_budget_gen&amp;DETAIL=@DBHOT(REG,USER@USER/Script/ITM_RPT_BUDGET_DETAIL)&amp;DATE=@DBHOT(REG,USER@USER/Script/ITM_RPT_BUDGET_STOP)&amp;F1056=@DBHOT(REG,USER@USER/Script/ITM_RPT_BUDGET_STORE)';
+}
+
+function GenSmartActiveItem()
+{
+ document.location='Http:/Scripts/Trs.exe?TN=@TER&amp;CN=@CNC&amp;sql=Script/sku_itm_rpt_budget_gen&amp;pageback=sku_itm_rpt_budget&amp;subquery="@DBHOT(HOT_IDX,F01)"&amp;DETAIL=@DBHOT(REG,USER@USER/Script/ITM_RPT_BUDGET_DETAIL)&amp;DATE=@DBHOT(REG,USER@USER/Script/ITM_RPT_BUDGET_STOP)&amp;F1056=@DBHOT(REG,USER@USER/Script/ITM_RPT_BUDGET_STORE)';
+}
+
+
+</script>
+<style type="text/css">
+tr.Blank {
+    display: none;
+}
+TD.UP {
+    color: #33CC33;
+} 
+TD.DOWN {
+    color: #FF1F01;
+} 
+</style>
+  </head>
+
+  <body class="Child" onkeydown="ReadKey(window)" onload="SmsLoad()">
+    <object id="comdialog" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px" height="10" width="100" classid="clsid:327DC737-2BAD-48A3-9B4E-B42D5378C78A">
+    </object> 
+
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+    </div>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <td class="EntCap">Period</td>
+
+                  <td class="EntInp" id="BtnPeriod" colspan="3">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Start</td>
+
+                  <td class="EntInp"><input class="EntBtn" style="WIDTH: 20px" datasrc="@ATTRIB(B0)" onclick="GoUrl('htt=Script\\sku_itm_RPT_BUDGET&amp;USER@USER/Script/ITM_RPT_BUDGET_START=@DATE(@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_START,STRING),DSD-@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_PERIOD,STRING)1D)')" type="button" value="&lt;&lt;" name="BtnPrev" /></td>
+
+                  <td class="EntInp"><input class="EntDat" style="WIDTH: 70px" datasrc="@ATTRIB(E0A:date)" value="@DATE(@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_START,STRING),DWDF)" name="USER@USER/Script/ITM_RPT_BUDGET_START$DW2S" /></td>
+
+                  <td class="EntInp"><input class="EntBtn" style="WIDTH: 20px" datasrc="@ATTRIB(B0)" onclick="GoUrl('htt=Script\\sku_itm_RPT_BUDGET&amp;USER@USER/Script/ITM_RPT_BUDGET_START=@DATE(@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_START,STRING),DSD+@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_PERIOD,STRING)1D)')" type="button" value="&gt;&gt;" name="BtnNext" /></td>
+                </tr>
+
+                <tr>
+                  <td class="EntCap">Stop</td>
+
+                  <td class="EntInp"><input class="EntBtn" style="WIDTH: 20px" datasrc="@ATTRIB(B0)" onclick="GoUrl('htt=Script\\sku_itm_RPT_BUDGET&amp;USER@USER/Script/ITM_RPT_BUDGET_STOP=@DATE(@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING),DSD-@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_PERIOD,STRING)1F)')" type="button" value="&lt;&lt;" /></td>
+
+                  <td class="EntInp"><input class="EntDat" style="WIDTH: 70px" datasrc="@ATTRIB(E0A:date)" value="@DATE(@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING),DWDF)" name="USER@USER/Script/ITM_RPT_BUDGET_STOP$DW2S" /></td>
+
+                  <td class="EntInp"><input class="EntBtn" style="WIDTH: 20px" datasrc="@ATTRIB(B0)" onclick="GoUrl('htt=Script\\sku_itm_RPT_BUDGET&amp;USER@USER/Script/ITM_RPT_BUDGET_STOP=@DATE(@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING),DSD+@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_PERIOD,STRING)1F)')" type="button" value="&gt;&gt;" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+
+          <td class="FrmCel">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <td class="EntCap">Store</td>
+
+                  <td class="EntInp" colspan="2"><input class="EntGridTxt" style="WIDTH: 40px" datasrc="@ATTRIB(E0A:txt:F1530)" value="@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STORE,STRING)" name="USER@USER/Script/ITM_RPT_BUDGET_STORE" /></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <td class="EntCap" colspan="2">Forecast date</td>
+                </tr>
+
+                <tr>
+                  <td class="EntVal">@DATE(@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING),DWDF)</td>
+
+                  <td class="EntVal"><input class="EntBtn" datasrc="@ATTRIB(B)" onclick="GoUrl('htt=Script\\sku_itm_rpt_budget&amp;BUDGET_QTY=1')" type="button" value="Create" name="Add" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="FrmCel" colspan="2">
+            <table class="EntTab">
+              <tbody>
+                <tr>
+                  <td class="EntCap">Sum like codes</td>
+
+                  <td class="EntVal"><input class="EntChk" datasrc="@ATTRIB(C0A)" type="checkbox" size="19" value="1" name="USER@USER/Script/ITM_RPT_BUDGET_LIKE" truevalue="@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_LIKE,STRING)" /> @DBHOT(PRICE_TAB,F122)</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="HideTxt">
+      @IF(@WIZGET(BUDGET_DEL)&lt;&gt;)<br />
+      @MACSIL(DELETE FROM RPT_ITM_D WHERE F01='@DBHOT(HOT_IDX,F01)' AND F1056='@WIZGET(BUDGET_F1056)' AND F1057='@WIZGET(BUDGET_F1057)' AND F254='@WIZGET(BUDGET_F254)' AND F1034=3710);<br />
+      @MACSIL(DELETE FROM RPT_ITM_W WHERE F01='@DBHOT(HOT_IDX,F01)' AND F1056='@WIZGET(BUDGET_F1056)' AND F1057='@WIZGET(BUDGET_F1057)' AND F254='@WIZGET(BUDGET_F254)' AND F1034=3710);<br />
+      @ENDIF
+    </div>
+
+    <div class="HideTxt">
+      @IF(@WIZGET(BUDGET_RESET)&lt;&gt;)<br />
+      @MACSIL(DELETE FROM RPT_ITM_D WHERE F01 IN (@DBHOT(SUBQUERY)) AND F1056='@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STORE,STRING)' AND F254='@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING)' AND F1034=3710);<br />
+      @MACSIL(DELETE FROM RPT_ITM_W WHERE F01 IN (@DBHOT(SUBQUERY)) AND F1056='@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STORE,STRING)' AND F254='@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING)' AND F1034=3710);<br />
+      @ENDIF
+    </div>
+
+    <div class="HideTxt">
+      @IF(@WIZGET(BUDGET_WEEK)&lt;&gt;)<br />
+      @WIZSET(DATE=@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING))<br />
+      @WIZSET(SUBQUERY=@DBHOT(SUBQUERY))<br />
+      @FMT(CMP,@WIZGET(ACTIVE_ITEM)=1,®WIZRPL(SUBQUERY="@DBHOT(HOT_IDX,F01)"));
+      @WIZCLR(CALCULATE_TABLE);<br />
+      @EXEC(SQI=PRICE_CALCULATE);<br />
+      @WIZCLR(CALCULATE_TABLE);<br />
+      @EXEC(SQI=COST_CALCULATE);<br />
+      @WIZSET(BUDGET_F1056=@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STORE,STRING));<br />
+      @WIZSET(BUDGET_F1057=901);<br />
+      @WIZSET(BUDGET_F254=@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING));<br />
+      <br />
+      @UPDATE_BATCH(JOB=ADDRPL,TAR=RPT_ITM_D,<br />
+      KEY=F01=:F01 AND F1056=:F1056 AND F1057=:F1057 AND F1034=:F1034 AND F254=:F254,<br />
+      SRC=SELECT RPT.F01, '@WIZGET(BUDGET_F1056)' as F1056, '@WIZGET(BUDGET_F1057)' as F1057,<br />
+      '@WIZGET(BUDGET_F254)' as F254, 3710 as F1034,<br />
+      SUM(RPT.F64) as F64,MAX(PRI.F1007)*SUM(RPT.F64) as F65,<br />
+      (CASE WHEN ISNULL(MAX(F223),'1')<>'1' AND '@WIZGET(DATE)' BETWEEN MAX(F202) AND MAX(F203)
+       THEN MAX(F1140)-(ISNULL(MAX(F201),0)/ISNULL(MAX(F19),1)) ELSE MAX(F1140) END)*SUM(RPT.F64) as F1301,
+      0 as F67,'@DSSF' as F253<br />
+      FROM RPT_ITM_D RPT<br />
+      JOIN (SELECT F01, MAX(CASE WHEN F1012 IS NULL THEN F1007/F1006 ELSE F1013/F1012 END) as F1007<br />
+            FROM @WIZGET(PRICE_CALCULATE) GROUP BY F01) PRI ON RPT.F01=PRI.F01<br />
+      JOIN @WIZGET(COST_CALCULATE) COS ON RPT.F01=COS.F01<br />
+      WHERE RPT.F01 IN (@WIZGET(SUBQUERY)) AND RPT.F254 BETWEEN<br />
+      '@DATE(@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING),DSD-@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_PERIOD,STRING)1D)' AND<br />
+      '@DATE(@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING),DSD-@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_PERIOD,STRING)1F)' AND<br />
+      RPT.F1034=3 GROUP BY RPT.F01);<br />
+
+      @UPDATE_BATCH(JOB=ADDRPL,TAR=RPT_ITM_W,<br />
+      KEY=F01=:F01 AND F1056=:F1056 AND F1057=:F1057 AND F1034=:F1034 AND F254=:F254,<br />
+      SRC=SELECT RPT.F01, '@WIZGET(BUDGET_F1056)' as F1056, '@WIZGET(BUDGET_F1057)' as F1057,<br />
+      '@DATE(@WIZGET(BUDGET_F254),DSWF)' as F254, 3710 as F1034,<br />
+      SUM(RPT.F64) as F64,MAX(PRI.F1007)*SUM(RPT.F64) as F65,<br />
+      (CASE WHEN ISNULL(MAX(F223),'1')<>'1' AND '@WIZGET(DATE)' BETWEEN MAX(F202) AND MAX(F203)
+       THEN MAX(F1140)-(ISNULL(MAX(F201),0)/ISNULL(MAX(F19),1)) ELSE MAX(F1140) END)*SUM(RPT.F64) as F1301,
+      0 as F67,'@DSSF' as F253<br />
+      FROM RPT_ITM_D RPT<br />
+      JOIN (SELECT F01, MAX(CASE WHEN F1012 IS NULL THEN F1007/F1006 ELSE F1013/F1012 END) as F1007<br />
+            FROM @WIZGET(PRICE_CALCULATE) GROUP BY F01) PRI ON RPT.F01=PRI.F01<br />
+      JOIN @WIZGET(COST_CALCULATE) COS ON RPT.F01=COS.F01<br />
+      WHERE RPT.F01 IN (@WIZGET(SUBQUERY)) AND RPT.F254 BETWEEN<br />
+      '@DATE(@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING),DSD-@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_PERIOD,STRING)1D)' AND<br />
+      '@DATE(@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING),DSD-@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_PERIOD,STRING)1F)' AND<br />
+      RPT.F1034=3 GROUP BY RPT.F01);<br />
+      @ENDIF
+    </div>
+
+    <div class="HideTxt">
+      @IF(@WIZGET(BUDGET_QTY)&lt;&gt;)<br />
+      @FMT(CMP,@WIZGET(BUDGET_PRICE)=,'®WIZRPL(DATE=®DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING))®WIZCLR(CALCULATE_TABLE)®EXEC(SQI=PRICE_CALCULATE)®WIZRPL(BUDGET_PRICE=®WIZGET(PRICE_CALCULATED))®WIZCLR(CALCULATE_TABLE)®EXEC(SQI=COST_CALCULATE)®WIZRPL(BUDGET_COST=®WIZGET(COST_CALCULATED))');<br />
+      @FMT(CMP,@WIZGET(BUDGET_COST)=,®WIZRPL(BUDGET_COST=0));<br />
+      @FMT(CMP,@WIZGET(BUDGET_PRICE)=,®WIZRPL(BUDGET_PRICE=0));<br />
+      @WIZSET(BUDGET_F1056=@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STORE,STRING));<br />
+      @WIZSET(BUDGET_F1057=901);<br />
+      @WIZSET(BUDGET_F254=@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING));<br />
+      <br />
+      @UPDATE_BATCH(JOB=ADDRPL,TAR=RPT_ITM_D,<br />
+      KEY=F01=:F01 AND F1056=:F1056 AND F1057=:F1057 AND F1034=:F1034 AND F254=:F254,<br />
+      SRC=SELECT '@DBHOT(HOT_IDX,F01)' as F01, '@WIZGET(BUDGET_F1056)' as F1056, '@WIZGET(BUDGET_F1057)' as F1057,<br />
+      '@WIZGET(BUDGET_F254)' as F254, 3710 as F1034,<br />
+      @WIZGET(BUDGET_QTY) as F64,<br />
+      @WIZGET(BUDGET_QTY)*@WIZGET(BUDGET_PRICE) as F65,<br />
+      @WIZGET(BUDGET_QTY)*@WIZGET(BUDGET_COST) as F1301,<br />
+      0 as F67,'@DSSF' as F253);<br />
+
+      @UPDATE_BATCH(JOB=ADDRPL,TAR=RPT_ITM_W,<br />
+      KEY=F01=:F01 AND F1056=:F1056 AND F1057=:F1057 AND F1034=:F1034 AND F254=:F254,<br />
+      SRC=SELECT '@DBHOT(HOT_IDX,F01)' as F01, '@WIZGET(BUDGET_F1056)' as F1056, '@WIZGET(BUDGET_F1057)' as F1057,<br />
+      '@DATE(@WIZGET(BUDGET_F254),DSWF)' as F254, 3710 as F1034,<br />
+      @WIZGET(BUDGET_QTY) as F64,<br />
+      @WIZGET(BUDGET_QTY)*@WIZGET(BUDGET_PRICE) as F65,<br />
+      @WIZGET(BUDGET_QTY)*@WIZGET(BUDGET_COST) as F1301,<br />
+      0 as F67,'@DSSF' as F253);<br />
+      @ENDIF
+    </div>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">
+            <div class="HideTxt">
+              @RPTCLR(TQ;TA;TC;CN1,AVGA,AVGC);<br />
+              @WIZRPL(SESSION=ITMRPTDAT@TER);<br />
+              @MACSIL(CREATE TABLE #TMP_@WIZGET(SESSION)(@dbDCT(F1056,F1057,F254,F64,F65,F1301)));<br />
+              <br />
+              @DBEXEC(INSERT INTO #TMP_@WIZGET(SESSION) (F1056,F1057,F254,F64,F65,F1301)<br />
+              SELECT MAX(RPT.F1056),MAX(RPT.F1057),RPT.F254,SUM(RPT.F64),SUM(RPT.F65),SUM(RPT.F1301)<br />
+              FROM RPT_ITM_D RPT<br />
+              WHERE (RPT.F01='@DBHOT(HOT_IDX,F01)' @FMT(CMP,@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_LIKE,STRING)=1,"OR RPT.F01 IN (SELECT F01 FROM PRICE_TAB WHERE F122='@DBHOT(PRICE_TAB,F122)' AND F122&lt;&gt;'' AND F122 IS NOT NULL)")) AND<br />
+              RPT.F254 BETWEEN '@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_START,STRING)' AND '@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING)' AND<br />
+              RPT.F1034=3710 AND RPT.F1056='@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STORE,STRING)'<br />
+              GROUP BY RPT.F254 ORDER BY RPT.F254);<br />
+              <br />
+              @DBTABLE(Q1,SELECT * FROM #TMP_@WIZGET(SESSION) ORDER BY F254);
+            </div>
+
+            <table class="RptTab" id="Rpt">
+              <tbody>
+                <tr>
+                  <th class="RptCap">Date</th>
+
+                  <th class="RptCap">Price</th>
+
+                  <th class="RptCap">Cost</th>
+
+                  <th class="RptCap">Qty</th>
+
+                  <th class="RptCap">Ext.P</th>
+
+                  <th class="RptCap">Ext.C</th>
+
+                  <th class="RptCap">Profit</th>
+
+                  <th class="RptCap">GP</th>
+
+                  <th class="RptCap">Do</th>
+                </tr>
+
+                <tr>
+                  <td class="RptValCapTxt">@DBROW(Q1,F254,DWDF)@RPTTTL(1,,CN1)</td>
+
+                  <td class="RptValNum">@RPTCLR(P1;C1)@RPTTTL(@DBROW(Q1,F65,#)/@DBROW(Q1,F64,#),$:2,P1)@RPTTTL(@DBROW(Q1,F1301,#)/@DBROW(Q1,F64,#),,C1)</td>
+
+                  <td class="RptValNum">@RPTTTL(@DBROW(Q1,F1301,#)/@DBROW(Q1,F64,#),$)</td>
+
+                  <td class="RptInp"><input class="RptNum" id="" datasrc="@ATTRIB(E:qty,htt=Script//sku_itm_rpt_budget&amp;BUDGET_PRICE=@RPTTTL(P1,#)&amp;BUDGET_COST=@RPTTTL(C1,#)&amp;BUDGET_F254=@dbRow(Q1,F254,DSDF)&amp;BUDGET_F1056=@dbRow(Q1,F1056)&amp;BUDGET_F1057=@dbRow(Q1,F1057))" size="4" value="@DBROW(Q1,F64,Z#,TQ)" name="BUDGET_QTY" /></td>
+
+                  <td class="RptValNum">@RPTCLR(LA;LC;EC)@DBROW(Q1,F65,Z$,TA;=LA)</td>
+
+                  <td class="RptValNum">@DBROW(Q1,F1301,$,=EC)</td>
+
+                  <td class="RptValNum">@DBROW(Q1,F1301,,=LC)@RPTTTL(LA-LC,Z$,TC)</td>
+
+                  <td class="RptValNum">@FMT(MARGIN:1,@RPTTTL(LC,#),@RPTTTL(LA,#))</td>
+
+                  <td class="RptVal"><input class="RptBtn" datasrc="@ATTRIB(B)" onclick="GoUrl('htt=Script\\sku_itm_rpt_budget&amp;BUDGET_F1056=@dbRow(Q1,F1056)&amp;BUDGET_F1057=@dbRow(Q1,F1057)&amp;BUDGET_F254=@dbRow(Q1,F254,DSDF)&amp;BUDGET_DEL=1')" type="button" value="del" name="BUDGET_DEL" /></td>
+                </tr>
+
+                <tr>
+                  <th class="RptTtlSep" colspan="9">
+                  </th>
+                </tr>
+
+                <tr>
+                  <th class="RptTtlTxt">Total</th>
+
+                  <th class="RptTtlTxt"></th>
+                  <th class="RptTtlTxt"></th>
+
+                  <th class="RptTtlNum">@RPTTTL(TQ,Z#)</th>
+
+                  <th class="RptTtlNum">@RPTTTL(TA,Z$)</th>
+
+                  <th class="RptTtlNum">@RPTTTL(EC,Z$)</th>
+
+                  <th class="RptTtlNum">@RPTTTL(TC,Z$)</th>
+
+                  <th class="RptTtlNum">@RPTTTL(TC/TA*100,%:1)</th>
+
+                  <th class="RptTtlTxt">
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">Use active item in browser</td>
+        </tr>
+
+        <tr>
+          <td class="FrmCel"><input class="EntBtn" style="WIDTH: 200px" datasrc="@ATTRIB(B)" onclick="GenPrevWeekActiveItem()" type="button" value="Generate using previous sales" name="Add" /></td>
+        </tr>
+
+        <tr>
+          <td class="FrmCel"><input class="EntBtn" style="WIDTH: 200px" datasrc="@ATTRIB(B)" onclick="GenSmartActiveItem()" type="button" value="Generate smart quantity" name="Add" /></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <table class="FrmTab">
+      <tbody>
+        <tr>
+          <td class="FrmCel">Use all items in browser</td>
+        </tr>
+
+        <tr>
+          <td class="EntVal"><input class="EntBtn" style="WIDTH: 200px" datasrc="@ATTRIB(B)" onclick="ResetForecast()" type="button" value="Reset Forecast" name="Add" /></td>
+        </tr>
+
+        <tr>
+          <td class="FrmCel"><input class="EntBtn" style="WIDTH: 200px" datasrc="@ATTRIB(B)" onclick="GenPrevWeek()" type="button" value="Generate using previous sales" name="Add" /></td>
+        </tr>
+
+        <tr>
+          <td class="FrmCel"><input class="EntBtn" style="WIDTH: 200px" datasrc="@ATTRIB(B)" onclick="GenSmart()" type="button" value="Generate smart quantity" name="Add" /></td>
+        </tr>
+
+        <tr>
+          <td class="FrmCel"><input class="EntBtn" style="WIDTH: 200px" datasrc="@ATTRIB(B)" onclick="GoUrl('sql=Script\\cub_itm_cost_sum&amp;USER@USER/Cube/cub_itm_cost_sum/F04=FromBrowser&amp;Form=cub_itm_cost_sum&amp;TITLE=@FMT(2URL,Item margin summary)&amp;USER@USER/Cube/cub_itm_cost_sum/F1034=3710&amp;USER@USER/Cube/cub_itm_cost_sum/START=@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_START,STRING)&amp;USER@USER/Cube/cub_itm_cost_sum/STOP=@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING)&amp;USER@USER/Cube/cub_itm_cost_sum/DETAIL=D&amp;USER@USER/Cube/cub_itm_cost_sum/PERIOD=D&amp;USER@USER/Cube/cub_itm_cost_sum/OPENDATE=1&amp;USER@USER/Cube/cub_itm_cost_sum/TARGET=@FMT(CMP,@DBHOT(INI,SYSTEM,SMS,TARGETMULTI)=1,@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STORE,STRING),RAL)')" type="button" value="Show Forecast" name="Add" /></td>
+        </tr>
+
+        <tr>
+          <td class="FrmCel"><input class="EntBtn" style="WIDTH: 200px" datasrc="@ATTRIB(B)" onclick="GoUrl('sqr=ITM_O1R_SUB_FORCAST&amp;F1027=1&amp;START=@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_START,STRING)&amp;STOP=@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STOP,STRING)&amp;DETAIL=D&amp;TARGET=@FMT(CMP,@DBHOT(INI,SYSTEM,SMS,TARGETMULTI)=1,@DBHOT(REGVALUE,USER@USER/Script/ITM_RPT_BUDGET_STORE,STRING),RAL)')" type="button" value="Report Forecast by sub" name="Add" /></td>
+        </tr>
+
+        <tr>
+          <td class="FrmCel">Analysis</td>
+        </tr>
+
+        
+	<tr>
+          <td class="FrmCel"><input class="EntBtn" style="WIDTH: 200px" onkeydown="" onblur="" onfocus="" onclick="GoUrl('sql=Script\\cub_itm_AdBatch_History&amp;USER@USER/Cube/cub_itm_AdBatch_History/F1034=3&amp;USER@USER/Cube/cub_itm_AdBatch_History/F04=FromBrowser&amp;Form=cub_itm_AdBatch_History&amp;TITLE=@FMT(2URL,Ad Batch Item History)')" type="button" value="Ad Batch Item History" name="Add" /></td>
+        </tr>
+	<tr>
+          <td class="FrmCel"><input class="EntBtn" style="WIDTH: 200px" onkeydown="" onblur="" onfocus="" onclick="GoUrl('sql=Script\\cub_itm_cost_sum&amp;USER@USER/Cube/cub_itm_cost_sum/F1034=3&amp;USER@USER/Cube/cub_itm_cost_sum/F04=FromBrowser&amp;Form=cub_itm_cost_sum&amp;TITLE=@FMT(2URL,Item margin summary)')" type="button" value="Item movement cube" name="Add" /></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </body>
+</html>
+

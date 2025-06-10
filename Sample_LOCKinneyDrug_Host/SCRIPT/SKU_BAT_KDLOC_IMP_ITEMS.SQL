@@ -1,0 +1,13 @@
+/* Import: 1.KinneyDrugs Items */
+
+@WIZRPL(NAME=KinneyItems);
+@WIZRPL(FILE_TYPE=IMPORT);
+@WIZRPL(DIR_NAME=@RUNLinks\Item\);
+@WIZRPL(FILE_NAME=Kinney_Items_Vendor.*.txt);
+@WIZRPL(FILE_TYPE2=ASCII);
+@WIZRPL(CHAR_DELIMITER=#9);
+@WIZRPL(MAP_FILE=Xch_KinneyDrugs_HQItems.SQM);
+@WIZRPL(SAVE_DIR=@RUNLinks\Item\Backup\);
+@WIZRPL(DEL_FILE=1);
+@WIZRPL(TARGET=941);
+@EXEC(XCH=RECV);

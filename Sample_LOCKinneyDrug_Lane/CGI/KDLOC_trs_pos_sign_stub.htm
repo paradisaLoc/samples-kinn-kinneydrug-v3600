@@ -1,0 +1,54 @@
+&nbsp;
+
+** Drive-Thru transaction **
+
+&nbsp;
+
+@IF(@WIZGET(KD.SIGNRXACK)=1)
+@FMT(L30,I Acknowledge receipt of)  YES / NO
+<b>@DBHOT(SAL_REG_FIND,F1081 LIKE '%RXTOSEND%' AND F1069<>1 AND F1070=0,F64,#)</b> prescrption(s)
+@ENDIF
+
+@IF(@WIZGET(KD.SIGNEASYCAP)=1)
+@FMT(L30,EZ Caps)  YES / NO
+@ENDIF
+
+@IF(@WIZGET(KD.COUNSELING)=1)
+@FMT(L30,Counselling (by Pharmacist)?)  YES / NO
+@ENDIF
+
+&nbsp;
+
+@IF(@WIZGET(KD.SIGNHIPAA)=1)
+<b>HIPAA</b>
+Your signature certifies receipt of
+Kinney Drugs Notice Of Privacy
+Practices and consent to securely
+share your data with your healthcare provider(s).
+@ENDIF
+
+@IF(@WIZGET(KD.SignMethcheck)=1)
+<b>METHCHECK</b>
+As you may be aware, many cold and
+allergy medications containing
+pseudoephedrine are regulated by state
+and federal laws.  Sales of these
+medications are monitored to help stop
+the illicit manufacture of
+methamphetamine and other dangerous
+drugs.
+@ENDIF
+
+@IF(@WIZGET(KD.SIGNCREDIT)=1)
+<b>PAYMENT</b>
+CARDHOLDER WILL PAY CARD ISSUER
+ABOVE AMOUNT PURSUANT TO
+CARD HOLDER AGREEMENT
+@ENDIF
+
+@IF(@WIZGET(KD.SignMcKesson)@WIZGET(KD.SignMethcheck)@WIZGET(KD.SIGNCREDIT)<>000)
+<center>PLEASE SIGN IN THE BOX BELOW</center>
+<center>©EXEC(Set=Printbmp)©Tools(RCT_BMP,CAPCODE2.BMP)</center>
+@ENDIF
+
+&nbsp;

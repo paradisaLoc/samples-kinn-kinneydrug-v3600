@@ -1,0 +1,60 @@
+/* If the gift card warning has already been displayed, exit. */
+@FMT(CMP,@dbHot(HOT_WIZ,GET,GIFT_CARD_WARNING_DISPLAYED)=1,'®fmt(CHR,26)');
+
+/* Get the total of the gift cards excluding voids and refunds. */
+@WIZRPL(GIFT_CARD_SUM=@DBSELECT(SELECT SUM(REG.F65) AS Total FROM SAL_REG REG JOIN SDP_TAB SDP ON REG.F04 = SDP.F04 WHERE SDP.F03 IN (@DBHOT(CONFIG,##GIFT_CARD_WARN_DEPT:43)) AND F1069 = '0' AND F1070 = '0' AND F1032 = @FMT(#,@DBHOT(SAL_HDR,F1032,#))));
+
+/* exit if the gift card total is less than the limit. */
+@FMT(CMP,@FMT(!0:15:2,@WIZGET(GIFT_CARD_SUM))<@FMT(!0:15:2,@DBHOT(CONFIG,##GIFT_CARD_WARN_LIMIT:199.99)),'®fmt(CHR,26)');
+
+/* Pinpad display info. */
+@WIZRPL(DSPMSG=Pinpad Fraud Prompt. Waiting on customer.);
+@WIZRPL(Title=*PREPAID CARD AWARENESS*);
+@WIZRPL(Line1=COMMON SCAMS INCLUDE BUYING CARDS FOR PEOPLE IN );
+@WIZRPL(Line2=TROUBLE, IRS TAXES, EMAIL OR TEXT FROM YOUR BOSS.);
+@WIZRPL(Line3=NEVER PROVIDE CARD INFORMATION TO SOMEONE YOU DO);
+@WIZRPL(Line4=NOT KNOW; LIKE CARD # OR PIN #. IF YOU FEEL YOU);
+@WIZRPL(Line5=ARE THE VICTIM OF FRAUD, CANCEL YOUR PURCHASE.);
+@WIZRPL(Prompt=CARD PURCHASES ARE NON-REFUNDABLE);
+@WIZRPL(Button2=Continue);
+@WIZRPL(Button4=Cancel); 
+@WIZRPL(DSPFORM=40);
+@WIZCLR(KbdKEY);
+@wizRpl(pad_custom_prompt=1);
+
+/* Prompt on pinpad when an error is raised @fmt(CHR,27) is returned */
+@fmt(CMP,1=1,"
+  ®winWait(1)
+  ®wizRpl(rsp=®fmt(ORD,®exec(XCH=PADENTER)))
+  ®wizRpl(err=®fmt(ORD,®fmt(CHR,27)))
+  ®fmt(CMP,®wizGet(rsp)=®wizGet(err),'
+    ®fmt(CHR,174)exec(MSG=_)
+    ®fmt(CHR,174)wizRpl(DSPMSG=)
+    ®fmt(CHR,174)wizClr(Title)
+    ®fmt(CHR,174)wizClr(Line1)
+    ®fmt(CHR,174)wizClr(Line2)
+    ®fmt(CHR,174)wizClr(Line3)
+    ®fmt(CHR,174)wizClr(Line4)
+    ®fmt(CHR,174)wizClr(Line5)
+    ®fmt(CHR,174)wizClr(Button2)
+    ®fmt(CHR,174)wizClr(Button4)
+    ®fmt(CHR,174)wizClr(Prompt)
+    ®fmt(CHR,174)fmt(CHR,26)')");
+
+@winWait(1);
+@tools(PADDISPLAY,9,,);
+@exec(MSG=_);
+@wizRpl(DSPMSG=_);
+
+/* Accept only button 2 and 4, prmpt for warning again on any other: timeout, closed, etc. */
+@fmt(CMP,@fmt(POS,|@wizGet(KbdKEY)|,|2|4|)>0,,'®exec(SQI=KDLOC_GiftCard_Warning)®fmt(CHR,26)');
+
+/* Set persistent parameter that the warning was displayed and acknowledge. */
+@dbHot(HOT_WIZ,RPLT,GIFT_CARD_WARNING_DISPLAYED,1);
+
+/* Record selected key to the journal in F1081 and recalculate */
+@wizRpl(ADDTOF1081=@fmt(CMP,@wizExist(ADDTOF1081)=1,'®wizGet(ADDTOF1081),')SKU=GiftWarn;@fmt(CMP,@wizGet(KBDKEY)=2,'OK','CANCEL'));
+@exec(FCT=695);
+
+/* If cancel was selected display prompt else exit. */
+@fmt(CMP,@wizGet(KBDKEY)=4,"®exec(MSG='!Customer has requested Gift Cards to be VOIDED')");

@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+<script type="text/javascript">
+
+@WIZRPL(TITLE=SMSPAYMENT POINT HISTORY);
+
+@FMT(CMP,@DBHOT(HOT_IDX,F1148)<>','®WIZSET(D1148=@DBHOT(HOT_IDX,F1148))®WIZSET(F1148=@DBHOT(HOT_IDX,F1148))');
+
+@WIZINIT;
+@WIZFIL(D1148=0,F1148=ZZZ,SELECT F1148,F1155 FROM CLT_TAB ORDER BY F1148);
+@WIZDISPLAY;
+
+@WIZINIT;
+@WIZFIL(POINT=1,,SELECT F1034%100 AS F1034,F1039 FROM TLZ_TAB WHERE F1034 BETWEEN 7901 AND 7935 ORDER BY F1034);
+@WIZDISPLAY;
+
+@WIZRPL(POINT=@FMT(#,@WIZGET(POINT)));
+
+@WIZRPL(DEL_TRS_PAY=@DBHOT(PAY_SERVER_CONFIG.INI,[POINT@WIZGET(Point)]DEL_TRS_PAY));
+@WIZRPL(DEL_RPT_PAY_M=@DBHOT(PAY_SERVER_CONFIG.INI,[POINT@WIZGET(Point)]DEL_RPT_PAY_M));
+@FMT(CMP,@WIZISBLANK(DEL_TRS_PAY)=1,"®WIZRPL(DEL_TRS_PAY=®DBHOT(PAY_SERVER_CONFIG.INI,[SCHEDULE]POINT_DEL_TRS_PAY))");
+@FMT(CMP,@WIZISBLANK(DEL_RPT_PAY_M)=1,"®WIZRPL(DEL_RPT_PAY_M=®DBHOT(PAY_SERVER_CONFIG.INI,[SCHEDULE]POINT_DEL_RPT_PAY_M))");
+@FMT(CMP,@WIZGET(DEL_TRS_PAY)@WIZGET(DEL_RPT_PAY_M)@DBHOT(PAY_SERVER_CONFIG.INI,[SCHEDULE]Point_Purge_Days)=,"®WIZRPL(PURGETRS=0)","®WIZRPL(PURGETRS=1)");
+
+@IF(@WIZGET(TEOM)<>)
+@dbTable(Q1,SELECT 1 FROM SYS_TAB);
+@WIZRPL(F94=@RPTTTL(@DATE(@WIZGET(TEOM),DAYS,@DSD+030)/30+1,#:0))
+@WIZRPL(DATE=@WIZGET(TEOM))
+<dbtable>@EXEC(SQI=RPT_PAY_EOM)@WIZRPL(DATE=@DATE(@WIZGET(DATE),DSD+M1F));</dbtable>
+@ENDIF
+
+@IF(@WIZGET(TMONTH)<>)
+@WIZRPL(DATE=@WIZGET(TMONTH))
+@EXEC(SQI=RPT_PAY_MONTH)
+@ENDIF
+
+@MACSIL(CREATE TABLE TMP_@STORE@TER (F254 DATE(7) NOT NULL,F253 DATE(7),
+F1301 MONEY,F1302 MONEY,F1303 MONEY,F1304 MONEY,F1305 MONEY,F1306 MONEY,F1307 MONEY,
+PRIMARY KEY (F254)));
+
+@WIZRPL(DATE=@DSMF);
+@dbView(Q1,SELECT ISNULL(MIN(F254),GETDATE()) as F254 FROM TRS_PAY WHERE F1148 BETWEEN '@WIZGET(D1148)' AND '@WIZGET(F1148)');
+@FMT(CMP,@DBROW(Q1,F254,DIDF)<@DATE(@WIZGET(DATE),DIDF),'®WIZRPL(DATE=®dbRow(Q1,F254,DSMF))');
+@dbView(Q1,SELECT ISNULL(MIN(F254),GETDATE()) as F254 FROM RPT_PAY_M WHERE F1148 BETWEEN '@WIZGET(D1148)' AND '@WIZGET(F1148)');
+@FMT(CMP,@DBROW(Q1,F254,DIDF)<@DATE(@WIZGET(DATE),DIDF),'®WIZRPL(DATE=®dbRow(Q1,F254,DSMF))');
+@FMT(CMP,@WIZGET(PURGETRS)=0,'®WIZRPL(DATE=®DATE(®DATE(®WIZGET(DATE),DSM-35),DSMF))');
+
+@dbTable(Q1,SELECT 1 FROM SYS_TAB)
+<dbtable>@MACSIL(INSERT TMP_@STORE@TER (F254,F253) VALUES ('@WIZGET(DATE)','@DATE(@WIZGET(DATE),DSMD)'))@WIZRPL(DATE=@DATE(@WIZGET(DATE),DSD+M1F))@FMT(CMP,@DATE(@WIZGET(DATE),DIDF)<=@DIMF,®WIZRPL(F94=9999),®WIZRPL(F94=0))</dbtable>
+
+@MACSIL(UPDATE TMP_@STORE@TER SET F1301=0,F1302=0,F1303=0,F1304=0,F1305=0,F1306=0,F1307=0);
+
+@DBEXEC(UPDATE TMP
+	SET	
+		F1301 = TMP.F1301+RPT.F1301,
+		F1302 = TMP.F1302+RPT.F1302,
+		F1303 = TMP.F1303+RPT.F1303
+	FROM TMP_@STORE@TER TMP 
+		JOIN (SELECT RPT.F254,
+			SUM(CASE
+				WHEN TLZ.F1710='CLT+79@FMT(R2,00@WIZGET(POINT))' THEN RPT.F64
+				ELSE 0 END) as F1301,
+			SUM(CASE
+				WHEN TLZ.F1710='CLT-79@FMT(R2,00@WIZGET(POINT))' THEN RPT.F64
+				ELSE 0 END) as F1302,
+			SUM(CASE 
+				WHEN (RPT.F1034=7461 OR RPT.F1034 BETWEEN 7952 AND 7985) THEN RPT.F64
+				ELSE 0 END) as F1303
+			FROM RPT_PAY_M RPT
+				JOIN TLZ_TAB TLZ ON TLZ.F1034=RPT.F1034
+			WHERE (TLZ.F1710 LIKE 'CLT_79@FMT(R2,00@WIZGET(POINT))' OR RPT.F1034=CASE WHEN @WIZGET(POINT)=1 THEN 7461 ELSE @RPTTTL(@WIZGET(POINT)+7950,#) END)
+				AND RPT.F1148 BETWEEN '@WIZGET(D1148)' AND '@WIZGET(F1148)'
+			GROUP BY F254) RPT ON RPT.F254=TMP.F254)
+
+@DBEXEC(UPDATE TMP
+	SET
+		F1304 = TMP.F1304+RPT.F1304,
+		F1305 = TMP.F1305+RPT.F1305
+	FROM TMP_@STORE@TER TMP
+	JOIN (SELECT TMP2.F254,SUM(TMP2.F1304) AS F1304,SUM(TMP2.F1305) AS F1305
+		FROM (SELECT SUBTMP.F254,
+			ISNULL((SELECT SUM(RPT.F64) FROM TRS_PAY RPT JOIN TLZ_TAB TLZ ON RPT.F1034=TLZ.F1034 WHERE RPT.F1148 BETWEEN '@WIZGET(D1148)' AND '@WIZGET(F1148)' AND RPT.F254 BETWEEN SUBTMP.F253 AND SUBTMP.F254 AND TLZ.F1710 LIKE '___+79@FMT(R2,00@WIZGET(POINT))'),0) as F1304,
+			ISNULL((SELECT SUM(RPT.F64) FROM TRS_PAY RPT JOIN TLZ_TAB TLZ ON RPT.F1034=TLZ.F1034 WHERE RPT.F1148 BETWEEN '@WIZGET(D1148)' AND '@WIZGET(F1148)' AND RPT.F254 BETWEEN SUBTMP.F253 AND SUBTMP.F254 AND TLZ.F1710 LIKE '___-79@FMT(R2,00@WIZGET(POINT))'),0) as F1305
+			FROM TMP_@STORE@TER SUBTMP
+			) TMP2
+		GROUP BY TMP2.F254) RPT ON RPT.F254=TMP.F254)
+
+function ConfirmCalcul(ExecDate,TotalDay)
+{
+  if (@DBHOT(USERLEVEL) == 7)
+   {
+    if (TotalDay != 0) 
+      {if (confirm('Are you sure you want to recalculate '+ExecDate))
+        document.location="http:/Scripts/trs.exe?TN=@TER&CN=@CNC&DN=@wizGet(DN)&@fmt(CMP,@wizGet(DN)=eSuite,SQI=eSuite_script_bug_eom_pay_pts,HTT=sqr_clt_htt_pay_verif)&D1148=@WIZGET(D1148)&F1148=@WIZGET(F1148)&POINT=@WIZGET(POINT)&TMONTH="+ExecDate;}
+    else 
+    {if (confirm('BE AWARE! the DAY column is zero, it might be because the daily total was purged. Recalculate will override the MONTH. Are you sure you want to recalculate '+ExecDate))
+        document.location="http:/Scripts/trs.exe?TN=@TER&CN=@CNC&DN=@wizGet(DN)&@fmt(CMP,@wizGet(DN)=eSuite,SQI=eSuite_script_bug_eom_pay_pts,HTT=sqr_clt_htt_pay_verif)&D1148=@WIZGET(D1148)&F1148=@WIZGET(F1148)&POINT=@WIZGET(POINT)&TMONTH="+ExecDate;}
+   }
+  else
+    alert("You don't have the right to re-calculate")
+}
+
+function ConfirmCalculEOM(ExecDate)
+{
+  if (@DBHOT(USERLEVEL) == 7)
+   {
+      if (confirm('Are you sure you want to recalculate '+ExecDate))
+        document.location="http:/Scripts/trs.exe?TN=@TER&CN=@CNC&DN=@wizGet(DN)&@fmt(CMP,@wizGet(DN)=eSuite,SQI=eSuite_script_bug_eom_pay_pts,HTT=sqr_clt_htt_pay_verif)&D1148=@WIZGET(D1148)&F1148=@WIZGET(F1148)&POINT=@WIZGET(POINT)&TEOM="+ExecDate;
+   }
+  else
+    alert("You don't have the right to re-calculate")
+}
+
+</script>
+<style type="text/css">
+a.hide{
+visibility: hidden;
+}
+</style>
+<style type="text/css">
+td.high{
+  color:#FF3300;
+  font-weight:bold;
+  background-color:#E0DFE3;
+}
+</style>
+
+    <title></title>
+  </head>
+
+  <body>
+    <div id="gen_sets" style="VISIBILITY: hidden; POSITION: absolute; TOP: -200px; BACKGROUND-COLOR: white">
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <input onclick="document.location='http:/Scripts/trs.exe?TN=@TER&CN=@CNC&DN=@wizGet(DN)&@fmt(CMP,@wizGet(DN)=eSuite,SQI=eSuite_script_bug_eom_pay_pts,HTT=sqr_clt_htt_pay_verif)&D1148=@WIZGET(D1148)&F1148=@WIZGET(F1148)&POINT=@WIZGET(POINT)'" type="button" value="Refresh this page" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input onclick="window.print()" type="button" value="Print this page" /><br /><br />
+            @dbTable(Q1,SELECT * FROM TMP_@STORE@TER);<br />
+            @dbRow(Q1,F1303,,=NB)@WIZRPL(MIN=2)<br />
+            Point Program @WIZGET(POINT)<br />
+            @FMT(CMP,@WIZGET(D1148)<>@WIZGET(F1148),'Customer range: @WIZGET(D1148) to @WIZGET(F1148)','Customer: @WIZGET(D1148)')<br />
+            <p class="@FMT(CMP,@WIZGET(PURGETRS)=0,,hide)">The oldest balance available is @RPTTTL(NB,#) on the month of: @dbRow(Q1,F254,DWDF)&nbsp;&nbsp;&nbsp;</p>
+            <p>
+            <table border="1">
+              <tbody>
+                <tr>
+                  <th>
+                  </th>
+
+                  <th>
+                  </th>
+
+                  <th colspan="2">GIVEN</th>
+
+                  <th>
+                  </th>
+
+                  <th colspan="2">REDEEM</th>
+
+                  <td>
+                  </td>
+
+                  <th colspan="3">BALANCE</th>
+                </tr>
+
+                <tr>
+                  <th>DATE</th>
+
+                  <th>
+                  </th>
+
+                  <th>DAY</th>
+
+                  <th>MONTH</th>
+
+                  <th>
+                  </th>
+
+                  <th>DAY</th>
+
+                  <th>MONTH</th>
+
+                  <td>
+                  </td>
+
+                  <th>SUM</th>
+
+                  <th>EOM</th>
+
+                  <th>DIFF</th>
+                </tr>
+
+                <tr>
+                  <td>@dbRow(Q1,F254,DWDF)</td>
+
+                  <td>
+                  </td>
+
+                  <td>@dbRow(Q1,F1304,#)</td>
+
+                  <td>@dbRow(Q1,F1301,#,NB)</td>
+
+                  <td><a class="@FMT(CMP,@dbRow(Q1,F1304,#)=@dbRow(Q1,F1301,#),hide)" href="javascript:ConfirmCalcul('@dbRow(Q1,F254)',@dbRow(Q1,F1304,#))">**</a></td>
+
+                  <td>@dbRow(Q1,F1305,#)</td>
+
+                  <td>@dbRow(Q1,F1302,#,-NB)</td>
+
+                  <td><a class="@FMT(CMP,@dbRow(Q1,F1305,#)=@dbRow(Q1,F1302,#),hide)" href="javascript:ConfirmCalcul('@dbRow(Q1,F254)',@dbRow(Q1,F1305,#))">**</a></td>
+
+                  <td>@rptttl(NB,#)</td>
+
+                  <td>@dbRow(Q1,F1303,#)</td>
+
+                  <td><a class="@FMT(CMP,@RPTTTL(NB-@dbRow(Q1,F1303,#),Z#)=,hide)" href="javascript:ConfirmCalculEOM('@dbRow(Q1,F254)')">@RPTTTL(NB-@dbRow(Q1,F1303,#),Z#)*</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td align=right><b>CURRENT BALANCE IS @FMT(#,@dbSelect(SELECT SUM(F64) AS F64 FROM RPT_PAY_N WHERE F1148 BETWEEN '@WIZGET(D1148)' AND '@WIZGET(F1148)' AND F1034=79@FMT(R2,00@WIZGET(POINT))));</b> </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>* Click on the amount to recalculate the end of month from that date<br />
+    ** Click on this to recalculate the corresponding month.</p>
+
+    <p>The DAY column shows the monthly total of the daily reports (TRS_PAY)<br />
+    The MONTH column gives the monthly total (RPT_PAY_M)<br />
+    The SUM column is the carry over from previous month plus given minus redeem of the month<br />
+    The EOM column is what the system has as end of month total<br />
+    The DIFF column show the discrepancy between the Sum column and the EOM column</p>
+  </body>
+</html>
+

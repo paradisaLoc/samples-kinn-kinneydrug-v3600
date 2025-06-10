@@ -1,0 +1,1089 @@
+{
+    "type": "Ext.form.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "itminfo",
+        "designer|userClassName": "Itm.Info",
+        "layout": "fit",
+        "margin": null,
+        "padding": null,
+        "scrollable": false,
+        "smsHost": "itmhost",
+        "smsToolbar": "Info"
+    },
+    "designerId": "2aaa9a48-7925-445e-a9b2-b6f43777bf45",
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "smsToolbar",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "smsHost",
+            "type": "string"
+        }
+    ],
+    "cn": [
+        {
+            "type": "Ext.TitleBar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": "top",
+                "height": null,
+                "title": null,
+                "width": null
+            },
+            "name": "MyTitleBar49",
+            "designerId": "1473fab1-fde4-4c41-bc9b-c8207f60573b",
+            "cn": [
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "cls": [
+                            "sms-title-close-btn"
+                        ],
+                        "icon": null,
+                        "iconAlign": null,
+                        "iconCls": null,
+                        "itemId": "closeBtn",
+                        "margin": null,
+                        "text": null,
+                        "ui": null
+                    },
+                    "name": "MyButton159",
+                    "designerId": "356704a1-d13f-4f9b-a392-77e65b0a675c"
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "cls": [
+                            "sms-title-tasks-btn"
+                        ],
+                        "icon": null,
+                        "iconAlign": null,
+                        "iconCls": null,
+                        "itemId": "tasksBtn",
+                        "margin": null,
+                        "text": null,
+                        "ui": null
+                    },
+                    "name": "MyButton",
+                    "designerId": "73d2823b-61be-4293-9cef-d112b665b6d9"
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "align": "right",
+                        "cls": [
+                            "sms-title-print-act-btn"
+                        ],
+                        "docked": null,
+                        "hidden": false,
+                        "icon": null,
+                        "iconAlign": null,
+                        "iconCls": null,
+                        "itemId": "printActBtn",
+                        "margin": null,
+                        "maxHeight": null,
+                        "maxWidth": null,
+                        "minHeight": null,
+                        "minWidth": null,
+                        "padding": null,
+                        "smsExec": "jsFct=TasksCtrl.labelPrintView",
+                        "text": null,
+                        "ui": null,
+                        "width": null
+                    },
+                    "name": "MyButton161",
+                    "designerId": "1738766f-3bb2-452d-a2f6-c3ac89b053a4",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "smsExec",
+                            "type": "string"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.Toolbar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "sms-child-tool"
+                ],
+                "container|align": null,
+                "container|pack": "center",
+                "defaults": null,
+                "docked": "top",
+                "ui": null,
+                "width": null
+            },
+            "name": "MyToolbar22",
+            "designerId": "9257b80c-ee5f-4491-903e-80950465308a",
+            "cn": [
+                {
+                    "type": "Ext.field.Search",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "clearIcon": null,
+                        "itemId": "searchEdit",
+                        "label": null,
+                        "labelWidth": null,
+                        "layout|flex": 1,
+                        "name": null,
+                        "placeHolder": "Enter item code",
+                        "width": null
+                    },
+                    "name": "MySearchField20",
+                    "designerId": "5a609120-82c4-427f-a51a-335248b0e4f1",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "smsResultUrl",
+                            "type": "string"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "scrollable": "vertical"
+            },
+            "name": "MyContainer221",
+            "designerId": "02e4a0d1-76fe-424b-b83a-96b0612d7770",
+            "cn": [
+                {
+                    "type": "Ext.form.FieldSet",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "docked": null,
+                        "height": null,
+                        "layout": null,
+                        "title": null
+                    },
+                    "name": "MyFieldSet4",
+                    "designerId": "7befa5ba-8e2f-4ed7-87af-501cda80bbf3",
+                    "cn": [
+                        {
+                            "type": "Ext.Container",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "height": 30,
+                                "layout": "hbox"
+                            },
+                            "name": "MyContainer2",
+                            "designerId": "7e3d9db1-8b6c-49ed-b3a6-126945fad441",
+                            "cn": [
+                                {
+                                    "type": "Ext.field.Text",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": false,
+                                        "cls": [
+                                            "sms-displayfield"
+                                        ],
+                                        "label": null,
+                                        "name": "F01",
+                                        "readOnly": true,
+                                        "width": 150
+                                    },
+                                    "name": "MyTextField6",
+                                    "designerId": "ae72c763-7982-4cf1-99fc-d2d53fe21008"
+                                },
+                                {
+                                    "type": "Ext.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "cls": [
+                                            "sms-label-title"
+                                        ],
+                                        "html": "Item Information",
+                                        "layout|flex": 1
+                                    },
+                                    "name": "MyLabel",
+                                    "designerId": "ce8ad076-d32a-42c8-a4bf-464f25d6501f"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.form.FieldSet",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "height": null,
+                        "itemId": null,
+                        "margin": null,
+                        "padding": null,
+                        "title": null,
+                        "width": null
+                    },
+                    "name": "MyFieldSet34",
+                    "designerId": "aec1c6b3-c55c-4492-8c4d-11ad6f7f1981",
+                    "cn": [
+                        {
+                            "type": "Ext.Container",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "height": null,
+                                "layout": "hbox"
+                            },
+                            "name": "MyContainer222",
+                            "designerId": "085ab50e-5145-47e8-bd31-7f2a9be27d3c",
+                            "cn": [
+                                {
+                                    "type": "Ext.field.Text",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": false,
+                                        "height": null,
+                                        "label": "POS description",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "margin": null,
+                                        "name": "F02",
+                                        "readOnly": true,
+                                        "style": null,
+                                        "width": 300
+                                    },
+                                    "name": "MyTextField259",
+                                    "designerId": "03be2b47-e61c-4143-9569-2780c43a3c3c"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.Container",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout": "hbox",
+                                "margin": null
+                            },
+                            "name": "MyContainer1",
+                            "designerId": "267c18c0-d2d3-4d3b-b378-10444e7c25b6",
+                            "cn": [
+                                {
+                                    "type": "Ext.Container",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "layout": "vbox",
+                                        "layout|flex": null
+                                    },
+                                    "name": "MyContainer223",
+                                    "designerId": "2104c6dd-aebc-4b17-ada4-f73c8d71a469",
+                                    "cn": [
+                                        {
+                                            "type": "Ext.Container",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "hidden": true,
+                                                "layout": "hbox"
+                                            },
+                                            "name": "MyContainer224",
+                                            "designerId": "8750944e-f261-4df6-a7a6-ed3927e9f0f3",
+                                            "cn": [
+                                                {
+                                                    "type": "Ext.field.Number",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "clearIcon": null,
+                                                        "cls": [
+                                                            "sms-priceamt"
+                                                        ],
+                                                        "designer|createAlias": "currencyfield",
+                                                        "inputCls": null,
+                                                        "label": "Active price",
+                                                        "labelAlign": "top",
+                                                        "labelWidth": null,
+                                                        "margin": null,
+                                                        "name": "F1007",
+                                                        "readOnly": true,
+                                                        "width": 150
+                                                    },
+                                                    "name": "MyNumberField80",
+                                                    "designerId": "af04d676-2da2-416c-8f84-6dfcf9be60d2"
+                                                },
+                                                {
+                                                    "type": "Ext.field.Number",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "clearIcon": null,
+                                                        "cls": [
+                                                            "sms-priceqty"
+                                                        ],
+                                                        "inputCls": null,
+                                                        "label": "Qty",
+                                                        "labelAlign": "top",
+                                                        "labelWidth": null,
+                                                        "name": "F1006",
+                                                        "readOnly": true,
+                                                        "width": 100
+                                                    },
+                                                    "name": "MyNumberField81",
+                                                    "designerId": "cb094190-cd7d-4873-b0d0-c2725d29df1a"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.form.FieldSet",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "height": null,
+                        "margin": null,
+                        "padding": null,
+                        "title": null
+                    },
+                    "name": "MyFieldSet36",
+                    "designerId": "4d15bdcd-0526-4b70-8306-169e88873165",
+                    "cn": [
+                        {
+                            "type": "Ext.Container",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout": "hbox",
+                                "margin": null,
+                                "padding": null
+                            },
+                            "name": "MyContainer226",
+                            "designerId": "1e3e8590-3802-4a01-8cd5-002f3e7b7cde",
+                            "cn": [
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "cls": [
+                                            "sms-priceamt"
+                                        ],
+                                        "designer|createAlias": "currencyfield",
+                                        "inputCls": null,
+                                        "label": "Regular",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "margin": null,
+                                        "name": "UnitPrice",
+                                        "readOnly": true,
+                                        "value": null,
+                                        "width": 170
+                                    },
+                                    "name": "MyNumberField84",
+                                    "designerId": "d4e528f8-bb29-4d1e-a001-913c9a4a268d"
+                                },
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "cls": [
+                                            "sms-priceqty"
+                                        ],
+                                        "inputCls": null,
+                                        "label": "Qty",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "name": "F31s",
+                                        "readOnly": true,
+                                        "value": null,
+                                        "width": 100
+                                    },
+                                    "name": "MyNumberField85",
+                                    "designerId": "1c5c145d-ae75-4845-acde-2e1c3cfd59dc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.Container",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "hidden": true,
+                                "layout": "hbox"
+                            },
+                            "name": "MyContainer3",
+                            "designerId": "2bd5b4fe-0208-42d9-8da5-c98847f1b4e1",
+                            "cn": [
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "cls": [
+                                            "sms-priceamt"
+                                        ],
+                                        "designer|createAlias": "currencyfield",
+                                        "inputCls": null,
+                                        "label": "Tpr price",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "margin": null,
+                                        "name": "F181",
+                                        "readOnly": true,
+                                        "width": 150
+                                    },
+                                    "name": "MyNumberField90",
+                                    "designerId": "6ef86520-b95d-4c45-b3eb-2509c787a79f"
+                                },
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "cls": [
+                                            "sms-priceqty"
+                                        ],
+                                        "inputCls": null,
+                                        "label": "Qty",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "name": "F182",
+                                        "readOnly": true,
+                                        "width": 100
+                                    },
+                                    "name": "MyNumberField91",
+                                    "designerId": "4233cfc8-e507-4694-96b6-5d4bc0a2b871"
+                                },
+                                {
+                                    "type": "Ext.Container",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": null,
+                                        "layout": "hbox"
+                                    },
+                                    "name": "MyContainer7",
+                                    "designerId": "57062842-e2c8-4403-9a4a-c1c37f5aeb2e"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.Container",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout": "hbox",
+                                "margin": null,
+                                "padding": null
+                            },
+                            "name": "MyContainer227",
+                            "designerId": "aadc464a-798c-43d7-be81-73f264950964",
+                            "cn": [
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "cls": [
+                                            "sms-priceamt"
+                                        ],
+                                        "designer|createAlias": "currencyfield",
+                                        "inputCls": null,
+                                        "label": "Sale price",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "margin": null,
+                                        "name": "F136",
+                                        "readOnly": true,
+                                        "width": 170
+                                    },
+                                    "name": "MyNumberField88",
+                                    "designerId": "20794066-d5ac-4434-8432-d56627b88c4e"
+                                },
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "cls": [
+                                            "sms-priceqty"
+                                        ],
+                                        "inputCls": null,
+                                        "label": "Qty",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "name": "F135S",
+                                        "readOnly": true,
+                                        "value": null,
+                                        "width": 100
+                                    },
+                                    "name": "MyNumberField89",
+                                    "designerId": "4e8ea926-048b-492d-bb01-3a7574b9efa7"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.Container",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "hidden": true,
+                                "layout": "hbox",
+                                "margin": null,
+                                "padding": null
+                            },
+                            "name": "MyContainer10",
+                            "designerId": "4ee8d362-d859-452a-8a35-79c270db79a7",
+                            "cn": [
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "cls": [
+                                            "sms-priceamt"
+                                        ],
+                                        "designer|createAlias": "currencyfield",
+                                        "inputCls": null,
+                                        "label": "Instore",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "margin": null,
+                                        "name": "F1133",
+                                        "readOnly": true,
+                                        "width": 150
+                                    },
+                                    "name": "MyNumberField86",
+                                    "designerId": "bc5587aa-24e1-4f23-b607-992d7d7f34ba"
+                                },
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "cls": [
+                                            "sms-priceqty"
+                                        ],
+                                        "inputCls": null,
+                                        "label": "Qty",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "name": "F1134",
+                                        "readOnly": true,
+                                        "width": 100
+                                    },
+                                    "name": "MyNumberField87",
+                                    "designerId": "861775fc-6297-49d1-b079-0424aad90eb2"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.Container",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "hidden": false,
+                                "layout": "hbox",
+                                "margin": null,
+                                "padding": null
+                            },
+                            "name": "MyContainer6",
+                            "designerId": "5388e14e-32c7-4f72-a7f4-e483e6a31a88",
+                            "cn": [
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "cls": [
+                                            "sms-priceamt"
+                                        ],
+                                        "designer|createAlias": "currencyfield",
+                                        "inputCls": null,
+                                        "label": "Sale Thrive Price",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "margin": null,
+                                        "name": "STP",
+                                        "readOnly": true,
+                                        "width": 170
+                                    },
+                                    "name": "MyNumberField86",
+                                    "designerId": "5d7451af-27a7-4161-8ca4-29263deb9405"
+                                },
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "cls": [
+                                            "sms-priceqty"
+                                        ],
+                                        "inputCls": null,
+                                        "label": "Qty",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "name": "STPQty",
+                                        "readOnly": true,
+                                        "width": 100
+                                    },
+                                    "name": "MyNumberField87",
+                                    "designerId": "8bb419ba-0583-4094-9070-6df22f02c9c7"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.field.Text",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "clearIcon": false,
+                                "height": null,
+                                "label": "eCoupon description",
+                                "labelAlign": "top",
+                                "labelWidth": null,
+                                "margin": null,
+                                "name": "F1033",
+                                "readOnly": true,
+                                "style": null,
+                                "width": 300
+                            },
+                            "name": "MyTextField259",
+                            "designerId": "7fa7b9c5-020c-4bdb-b751-0de4e52967de"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.form.FieldSet",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "height": null,
+                        "margin": null,
+                        "title": null
+                    },
+                    "name": "MyFieldSet",
+                    "designerId": "5279dabd-c402-4abc-8c8f-0e4fba2e30eb",
+                    "cn": [
+                        {
+                            "type": "Ext.Container",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout": "hbox",
+                                "margin": null,
+                                "padding": null
+                            },
+                            "name": "MyContainer",
+                            "designerId": "1da78c50-7a38-4f8b-8437-bdcd7e237de4",
+                            "cn": [
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "cls": [
+                                            "sms-priceamt"
+                                        ],
+                                        "designer|createAlias": "currencyfield",
+                                        "inputCls": null,
+                                        "label": "Net Cost",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "margin": null,
+                                        "name": "F196",
+                                        "readOnly": true,
+                                        "width": 170
+                                    },
+                                    "name": "MyNumberField101",
+                                    "designerId": "9e3ac155-d9a1-4b08-a4f8-e91d24173759"
+                                },
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "cls": [
+                                            "sms-priceqty"
+                                        ],
+                                        "inputCls": null,
+                                        "label": "Case",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "name": "F19",
+                                        "readOnly": true,
+                                        "width": 100
+                                    },
+                                    "name": "MyNumberField102",
+                                    "designerId": "4669211e-9f74-4c91-9ba6-b6975d992326"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.Container",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout": "hbox",
+                                "margin": null,
+                                "padding": null
+                            },
+                            "name": "MyContainer228",
+                            "designerId": "f20109d2-fa7c-4bf7-bb40-9b9ad24194ca",
+                            "cn": [
+                                {
+                                    "type": "Ext.field.Text",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "inputCls": null,
+                                        "itemId": null,
+                                        "label": "Shelf Id",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "layout|flex": null,
+                                        "margin": null,
+                                        "name": "F117",
+                                        "readOnly": true,
+                                        "width": 150
+                                    },
+                                    "name": "MyTextField274",
+                                    "designerId": "0e0dcda0-662e-46a8-acaf-5c01a4b327df"
+                                },
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "cls": [
+                                            "sms-number"
+                                        ],
+                                        "inputCls": null,
+                                        "itemId": null,
+                                        "label": "Face Position",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "layout|flex": null,
+                                        "margin": null,
+                                        "name": "F1030",
+                                        "readOnly": true,
+                                        "width": 150
+                                    },
+                                    "name": "MyNumberField99",
+                                    "designerId": "d3cbec22-d491-4247-a30b-af5aba8f6bae"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.Container",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout": "hbox",
+                                "padding": null
+                            },
+                            "name": "MyContainer229",
+                            "designerId": "be01d777-21de-46ff-a069-2347e22e54f3",
+                            "cn": [
+                                {
+                                    "type": "Ext.field.Text",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "inputCls": null,
+                                        "itemId": null,
+                                        "label": "Tax Flags",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "margin": null,
+                                        "name": "F81S",
+                                        "readOnly": true,
+                                        "width": 150
+                                    },
+                                    "name": "MyTextField281",
+                                    "designerId": "41e00de6-9208-46e6-93ac-0a9aec9ba9cd"
+                                },
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "itemId": null,
+                                        "label": "Restrict",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "margin": null,
+                                        "name": "F170",
+                                        "readOnly": true,
+                                        "width": 150
+                                    },
+                                    "name": "MyNumberField98",
+                                    "designerId": "0848c9ac-f42b-4b3b-a468-75645d9fcaff"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.Container",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout": "hbox",
+                                "padding": null
+                            },
+                            "name": "MyContainer230",
+                            "designerId": "38d2f6ba-a2e9-4253-a498-95a2b191cceb",
+                            "cn": [
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "inputCls": null,
+                                        "itemId": null,
+                                        "label": "Sub dept",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "layout|flex": null,
+                                        "margin": null,
+                                        "name": "F04",
+                                        "readOnly": true,
+                                        "width": 150
+                                    },
+                                    "name": "MyNumberField92",
+                                    "designerId": "49c11fb4-27ed-49dd-b94f-3b16440ede8d"
+                                },
+                                {
+                                    "type": "Ext.field.Number",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "clearIcon": null,
+                                        "inputCls": null,
+                                        "itemId": null,
+                                        "label": "Bottle Deposit",
+                                        "labelAlign": "top",
+                                        "labelWidth": null,
+                                        "layout|flex": null,
+                                        "margin": null,
+                                        "name": "F05",
+                                        "readOnly": true,
+                                        "width": 150
+                                    },
+                                    "name": "MyNumberField93",
+                                    "designerId": "c2f2232d-0c62-4828-8db2-9bdd5e2b923c"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.form.FieldSet",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "title": null
+                    },
+                    "name": "MyFieldSet1",
+                    "designerId": "1d0fd661-ecc4-41fe-935a-6bde4cdd8bb8"
+                }
+            ]
+        }
+    ]
+}

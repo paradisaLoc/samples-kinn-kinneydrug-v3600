@@ -1,0 +1,172 @@
+{
+    "type": "Ext.form.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "trsstart",
+        "designer|userClassName": "Trs.Start",
+        "itemId": null,
+        "padding": null,
+        "scrollable": false,
+        "showAnimation": null,
+        "smsHost": "trshost",
+        "smsTaskbar": "Home",
+        "smsToolbar": "Menu",
+        "smsToolbarKeep": "none"
+    },
+    "designerId": "384ac4b4-0181-4921-a83c-51d4b6b7cb39",
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "smsTaskbar",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "smsHost",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "smsToolbar",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "smsToolbarKeep",
+            "type": "string"
+        }
+    ],
+    "cn": [
+        {
+            "type": "Ext.TitleBar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": "top",
+                "height": null,
+                "minHeight": null,
+                "title": "Main Menu"
+            },
+            "name": "MyTitleBar85",
+            "designerId": "4a069a31-d62e-4312-b65e-7ec339029429",
+            "cn": [
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "cls": [
+                            "sms-title-logout-btn"
+                        ],
+                        "height": null,
+                        "iconAlign": null,
+                        "iconCls": null,
+                        "itemId": "closeBtn",
+                        "margin": null,
+                        "text": null,
+                        "ui": null
+                    },
+                    "name": "MyButton323",
+                    "designerId": "a1a60b9b-c507-4c0d-9725-7ff4b2d94d24"
+                }
+            ]
+        },
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "margin": null,
+                "padding": "10 0 10 0"
+            },
+            "name": "MyContainer393",
+            "designerId": "e89030f7-e6f3-412f-a7d3-adc669266add",
+            "cn": [
+                {
+                    "type": "Ext.Container",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "container|pack": "center",
+                        "layout": "hbox",
+                        "margin": "0 0 5 0"
+                    },
+                    "name": "MyContainer394",
+                    "designerId": "c9c31c13-2820-4bfe-b1b2-81545d2b07b0",
+                    "cn": [
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "cls": [
+                                    "sms-start-btn-blue"
+                                ],
+                                "icon": "resources/images/ItmMenuTrs.png",
+                                "iconAlign": "right",
+                                "margin": "0 5 0 0",
+                                "smsExec": "jsWin=itminfo",
+                                "text": "Item<br>Review"
+                            },
+                            "name": "MyButton324",
+                            "designerId": "530e6042-ffdc-47ea-8c31-c24255730fed",
+                            "customConfigs": [
+                                {
+                                    "group": "(Custom Properties)",
+                                    "name": "smsExec",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "cls": [
+                                    "sms-start-btn-blue"
+                                ],
+                                "icon": "resources/images/InvMenuTrs.png",
+                                "iconAlign": "right",
+                                "margin": null,
+                                "smsExec": "jsFct=BuyCtrl.recDocOpen",
+                                "text": "Back Room<br>Stock Menu"
+                            },
+                            "name": "MyButton326",
+                            "designerId": "3dfa15dd-2a52-44ae-8540-66a9199ff540",
+                            "customConfigs": [
+                                {
+                                    "group": "(Custom Properties)",
+                                    "name": "smsExec",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

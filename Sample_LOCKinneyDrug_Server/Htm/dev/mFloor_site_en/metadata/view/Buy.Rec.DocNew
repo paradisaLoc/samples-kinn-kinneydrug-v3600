@@ -1,0 +1,186 @@
+{
+    "type": "Ext.form.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "buyrecdocnew",
+        "designer|userClassName": "Buy.Rec.DocNew",
+        "hideAnimation": null,
+        "itemId": null,
+        "layout": "fit",
+        "padding": null,
+        "scrollable": false,
+        "showAnimation": null,
+        "smsHost": "buyhost",
+        "smsToolbar": "New"
+    },
+    "designerId": "28ef0122-3052-4933-8b93-e5ef501ba645",
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "smsHost",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "smsToolbar",
+            "type": "string"
+        }
+    ],
+    "cn": [
+        {
+            "type": "Ext.TitleBar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": "top",
+                "height": null,
+                "minHeight": null,
+                "title": "New receiving"
+            },
+            "name": "MyTitleBar34",
+            "designerId": "5b46d426-7801-4b1d-b070-5617251839b1",
+            "cn": [
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "cls": [
+                            "sms-title-close-btn"
+                        ],
+                        "iconCls": null,
+                        "itemId": "closeBtn",
+                        "margin": null,
+                        "text": null,
+                        "ui": null
+                    },
+                    "name": "MyButton124",
+                    "designerId": "7ab03ebc-695a-4ba9-a5c5-fc2c16f20373"
+                }
+            ]
+        },
+        {
+            "type": "Ext.Toolbar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "sms-child-tool"
+                ],
+                "container|align": null,
+                "container|pack": "center",
+                "defaults": null,
+                "docked": "top",
+                "ui": null
+            },
+            "name": "MyToolbar16",
+            "designerId": "1fac499b-45c1-4b5a-bcdd-a060aafb381e",
+            "cn": [
+                {
+                    "type": "Ext.field.Search",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "label": null,
+                        "labelWidth": null,
+                        "layout|flex": 1,
+                        "name": "FindVendor",
+                        "placeHolder": "Filter by UPC, Vnd Id or name",
+                        "width": 290
+                    },
+                    "name": "MySearchField15",
+                    "designerId": "91c82ac8-b238-4d66-bbbc-bbee17b40448"
+                }
+            ]
+        },
+        {
+            "type": "Ext.Label",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "sms-result-info"
+                ],
+                "docked": "top",
+                "height": null,
+                "html": null,
+                "itemId": "resultHdrText"
+            },
+            "name": "MyLabel14",
+            "designerId": "5bba6eec-d279-4602-a62d-758d804f7556"
+        },
+        {
+            "type": "Ext.dataview.List",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "sms-result-grid"
+                ],
+                "itemId": "resultGrid",
+                "store": null
+            },
+            "name": "MyList10",
+            "designerId": "608930b0-1cb5-4b14-8c36-2abce8637de8",
+            "cn": [
+                {
+                    "type": "Ext.XTemplate",
+                    "reference": {
+                        "name": "itemTpl",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|displayName": "itemTpl",
+                        "implHandler": [
+                            "<table class=\"sms-doc-result-table\">",
+                            "\t<tr>",
+                            "        <td>",
+                            "            <table><tr><td class=\"sms-doc-result-desc\">{F334}</td></tr></table>",
+                            "            <table>",
+                            "            <tr>",
+                            "                <td class=\"sms-doc-result-title\">VendorId</td>",
+                            "                <td class=\"sms-doc-result-title\">&nbsp;</td>",
+                            "                <td class=\"sms-doc-result-title\">Vendor</td>",
+                            "            </tr>",
+                            "            <tr>",
+                            "                <td class=\"sms-doc-result-data\">{F27}</td>",
+                            "                <td class=\"sms-doc-result-data\">&nbsp;</td>",
+                            "                <td class=\"sms-doc-result-data\">{F90B}</td>",
+                            "            </tr>",
+                            "            </table>",
+                            "        </td>",
+                            "        <td class=\"sms-doc-result-arrow\"></td>",
+                            "\t</tr>",
+                            "</table>"
+                        ]
+                    },
+                    "name": "tpl10",
+                    "designerId": "66ee958e-e417-4260-ae6a-eb4b6b7b63b2"
+                }
+            ]
+        }
+    ]
+}

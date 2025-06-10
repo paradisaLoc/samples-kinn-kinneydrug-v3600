@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title></title>
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../Images/Link_McKesson.css" type="text/css" />
+  </head>
+<script>
+function HideBtnBack()
+{
+top.Btn.BTN_BACK.style.visibility='hidden';
+}
+
+
+function ClickOnRx(MCK_RXNO,MCK_REFILLNO,MCK_PARTIALFILLSEQ,MCK_PRICE,MCK_3RDPARTYAMT,MCK_SIGNATURE_RXACK,MCK_SIGNATURE_EASYCAP,MCK_SIGNATURE_HIPAA)
+{
+if('@dbhot(INI,LINK_MCKESSON.INI,GENERAL,NoClickAndSale,#)'!=='1')
+ document.location='http:/scripts/trs.exe?htt=Link_McKesson_RxRefillRsp&MCK_RXNO='+MCK_RXNO+'&MCK_REFILLNO='+MCK_REFILLNO+'&MCK_PARTIALFILLSEQ='+MCK_PARTIALFILLSEQ+'&MCK_PRICE='+MCK_PRICE+'&MCK_3RDPARTYAMT='+MCK_3RDPARTYAMT+'&MCK_SIGNATURE_RXACK='+MCK_SIGNATURE_RXACK+'&MCK_SIGNATURE_EASYCAP='+MCK_SIGNATURE_EASYCAP+'&MCK_SIGNATURE_HIPAA='+MCK_SIGNATURE_HIPAA;
+else
+ alert('Rx must be scanned');
+}
+</script>
+  <body onload="HideBtnBack()">
+
+@IF(@WIZGET(MCK_RXNO)&lt;&gt;)
+@DBHOT(HOT_WIZ,PARAMTOLINE,MCK_RxRefill);
+@WIZCLR(OUTPUT);
+
+@WIZINIT;
+@WIZMENU(MCK_RxType=Select item type,Rx=0,Pet med=1);
+@WIZDISPLAY;
+
+@WIZRPL(MCK_ITEM=@FMT(L@TOOLS(PARAM,:,2,@DBHOT(INI,Link_McKesson.ini,DECODE,PREFIX)),@FMT(!0:@TOOLS(PARAM,:,2,@DBHOT(INI,Link_McKesson.ini,DECODE,PREFIX)))));
+@WIZRPL(MCK_ITEM=@WIZGET(MCK_ITEM)@FMT(L@TOOLS(PARAM,:,2,@DBHOT(INI,Link_McKesson.ini,DECODE,RXNO)),@FMT(!0:@TOOLS(PARAM,:,2,@DBHOT(INI,Link_McKesson.ini,DECODE,RXNO)),@WIZGET(MCK_RXNO))));
+@WIZRPL(MCK_ITEM=@WIZGET(MCK_ITEM)@FMT(L@TOOLS(PARAM,:,2,@DBHOT(INI,Link_McKesson.ini,DECODE,REFILLNO)),@FMT(!0:@TOOLS(PARAM,:,2,@DBHOT(INI,Link_McKesson.ini,DECODE,REFILLNO)),@WIZGET(MCK_REFILLNO))));
+@WIZRPL(MCK_ITEM=@WIZGET(MCK_ITEM)@FMT(L@TOOLS(PARAM,:,2,@DBHOT(INI,Link_McKesson.ini,DECODE,PARTIALFILLSEQ)),@FMT(!0:@TOOLS(PARAM,:,2,@DBHOT(INI,Link_McKesson.ini,DECODE,PARTIALFILLSEQ)),@WIZGET(MCK_PARTIALFILLSEQ))));
+@WIZRPL(MCK_ITEM=@WIZGET(MCK_ITEM)@FMT(L@TOOLS(PARAM,:,2,@DBHOT(INI,Link_McKesson.ini,DECODE,COPAYAMNT)),@RPTTTL(@WIZGET(MCK_PRICE)*100,!0:@TOOLS(PARAM,:,2,@DBHOT(INI,Link_McKesson.ini,DECODE,COPAYAMNT)))));
+@WIZRPL(MCK_ITEM=@WIZGET(MCK_ITEM)@FMT(L@TOOLS(PARAM,:,2,@DBHOT(INI,Link_McKesson.ini,DECODE,3RDPARTYAMT)),@RPTTTL(@WIZGET(MCK_3RDPARTYAMT)*100,!0:@TOOLS(PARAM,:,2,@DBHOT(INI,Link_McKesson.ini,DECODE,3RDPARTYAMT)))));
+@WIZRPL(MCK_ITEM=@WIZGET(MCK_ITEM)@FMT(CMP,@WIZGET(MCK_SIGNATURE_RXACK)=TRUE,1,0));
+@WIZRPL(MCK_ITEM=@WIZGET(MCK_ITEM)@FMT(CMP,@WIZGET(MCK_SIGNATURE_EASYCAP)=TRUE,1,0));
+@WIZRPL(MCK_ITEM=@WIZGET(MCK_ITEM)@FMT(CMP,@WIZGET(MCK_SIGNATURE_HIPAA)=TRUE,1,0));
+@WIZRPL(MCK_ITEM=@WIZGET(MCK_ITEM)@WIZGET(MCK_RxType));
+
+@WIZRPL(LIVEENTRY=@WIZGET(MCK_ITEM));
+@WIZRPL(MCK_RxClicked=1)
+@EXEC(SQI=Link_McKesson_trs_pos_scan);
+
+@WIZRESET;
+@DBHOT(HOT_WIZ,LINETOPARAM,MCK_RxRefill);
+@DBHOT(HOT_WIZ,CLR,MCK_RxRefill);
+@ENDIF
+
+<table class="Frm">
+@rptclr(LINE)
+
+@FMT(CMP,"@DBHOT(HOT_WIZ,GET,MCK_RxPatientLup)@FMT(CMP,'@DBHOT(HOT_WIZ,GET,MCK_RxPatientID)=',0,1)=10","®WIZRPL(CREATE_RXTBL=1)")
+
+@IF(@WIZGET(CREATE_RXTBL)=1)
+  @MACSIL(CREATE TABLE TMP_MCKRX@MACSHORT(STORE)@MACSHORT(TER)S@DBHOT(CNCURRENT)_Patient (@DBDCT(F1401,F1411,F1402,F1403)));
+  @MACSIL(CREATE TABLE TMP_MCKRX@MACSHORT(STORE)@MACSHORT(TER)S@DBHOT(CNCURRENT)_Rx (@DBDCT(F1401,F1431,F1301,F1402,F1403,F1432,F1302,F1433,F1434,F1435)));
+  @WIZCLR(DIR)
+  @WIZRPL(FILE=@OFFICEDBT\MK@TER@DBHOT(CNCURRENT)_RxRefillRsp.XML)
+  @msgFILE(XML,Link_McKesson_RxRefillRsp)
+@ELSE
+  @DBTABLE(Q1,SELECT * FROM TMP_MCKRX@MACSHORT(STORE)@MACSHORT(TER)S@DBHOT(CNCURRENT)_Patient)
+  <dbtable>
+  <tr>
+    <td colspan="2">
+      <table id="@rptttl(1,,LINE)LINE@rptttl(LINE,#)" class="Header">
+        <tr>
+          <td class="LookRx">@DBROW(Q1,F1401)</td>
+          <td class="LookAmt">@DBROW(Q1,F1411,DSDD)</td>
+        </tr>
+        <tr>
+          <td class="LookDesc">@DBROW(Q1,F1402)</td>
+        </tr>	
+        <tr>
+          <td class="LookDesc">@DBROW(Q1,F1403)</td>
+        </tr>				  
+      </table>
+    </td>
+  </tr>
+  </dbtable>
+  @DBTABLE(Q1,SELECT RX.*,ISNULL(REG.F1101,0) AS MCK_LN FROM (SELECT *, CASE WHEN F1431=0 THEN '' ELSE CAST(F1431 AS VARCHAR(4)) END AS F1431_1 FROM TMP_MCKRX@MACSHORT(STORE)@MACSHORT(TER)S@DBHOT(CNCURRENT)_Rx) AS RX LEFT JOIN (SELECT F1101, F1081, F1069 FROM SAL_REG WHERE F1032=@FMT(#,@DBHOT(SAL_REG,F1032,#))) REG ON REG.F1081 LIKE '%MCK_RXNO='+RX.F1401+'%' AND REG.F1081 LIKE '%MCK_REFILLNO='+RX.F1431_1+'%' AND REG.F1069='0')
+  <dbtable>
+  <tr>
+    <td colspan="2">
+      <table id="@rptttl(1,,LINE)LINE@rptttl(LINE,#)" class="@FMT(CMP,@DBROW(Q1,MCK_LN,#)=0,Rx@DBROW(Q1,F1403),RxInTrs)" onclick="ClickOnRx('@DBROW(Q1,F1401)','@DBROW(Q1,F1431,#)','@DBROW(Q1,F1432,#)','@DBROW(Q1,F1301,#:2)','@DBROW(Q1,F1302,#)','@FMT(CMP,@DBROW(Q1,F1433,#)=1,true,false)','@FMT(CMP,@DBROW(Q1,F1434,#)=1,true,false)','@FMT(CMP,@DBROW(Q1,F1435,#)=1,true,false)')">
+        <tr>
+          <td class="LookRx">Rx/Fill @DBROW(Q1,F1401)/@DBROW(Q1,F1431,#)</td>
+          <td class="LookAmt">@FMT($:2,@DBROW(Q1,F1301,#:2))</td>
+        </tr>			 
+        <tr>
+          <td class="LookDesc">@DBROW(Q1,F1402)</td>
+          <td class="LookAmt">@DBROW(Q1,F1403)</td>
+        </tr>
+        <tr>
+          <td class="LookDesc"></td>
+          <td class="LookAmt">@DBROW(Q1,F1432,#)</td>
+        </tr>
+        <tr style="@FMT(CMP,@DBROW(Q1,MCK_LN,#)=0,display:none)">
+          <td class="RxInTrs">In current trs line #@DBROW(Q1,MCK_LN,#)</td>
+          <td class="LookAmt"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  </dbtable>
+  <input type="hidden" id="LINETTL" name="LINETTL" value="@rptttl(LINE,#)"/>
+@ENDIF
+
+</table>
+  </body>
+</html>
+
+@DBHOT(HOT_WIZ,CLR,MCK_RXDISPLAYED)
